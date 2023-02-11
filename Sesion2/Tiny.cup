@@ -1,0 +1,47 @@
+package asint;
+
+import java_cup.runtime.*;
+import alex.AnalizadorLexicoTiny;
+import alex.UnidadLexica;
+import errors.GestionErroresTiny;
+
+scan with {: return getScanner().next_token(); :};
+parser code {: 
+   private GestionErroresTiny errores;
+   public void syntax_error(Symbol unidadLexica) {
+     errores.errorSintactico((UnidadLexica)unidadLexica);
+   }
+:};
+init with {: 
+   errores = new GestionErroresTiny();
+   AnalizadorLexicoTiny alex = (AnalizadorLexicoTiny)getScanner();
+   alex.fijaGestionErrores(errores);
+:};
+
+
+terminal     DONDE, EVALUA, IDEN, ENT, REAL, MAS,
+             MENOS, POR, DIV, IGUAL, COMA, PAP, PCIERRE, CAP, CCIERRE, ALMOHADILLA, 
+             LREDUCE, LMAP, LFILTER, MAYOR, MENOR, IDOBLE, DISTINTO, PRINT;
+
+non terminal  S, Ds, LDs, D, E0, E1, E2, OP0, OP1, LIS, ELEMS, CONCAT, LRED, LM, LFIL, POSLIS, D2, OP2, PR;
+
+S   ::= EVALUA E0 Ds ;
+Ds  ::= DONDE LDs | ;
+LDs ::= LDs COMA D | D ;
+D   ::= IDEN IGUAL E0 ;
+E0  ::= E0 OP0 E1  | E1 ;
+E1  ::= E1 OP1 E2  | E2 ;
+E2  ::= ENT  | REAL  | IDEN  | PAP E0 PCIERRE ;  
+OP0 ::= MAS  | MENOS ;
+OP1 ::= POR | DIV ;
+OP2 ::= MAYOR | MENOR | IDOBLE | DISTINTO;
+D2 ::= IDEN IGUAL POSLIS;
+LIS ::= CAP CCIERRE | CAP ELEMS CCIERRE;
+ELEMS ::= ENT | LIS | ELEMS COMA ENT | ELEMS COMA LIS;
+POSLIS ::= CONCAT | LRED | LM | LFIL | IDEN;
+LRED ::= LREDUCE OP0 POSLIS | LREDUCE OP0 CAP POSLIS CCIERRE | LREDUCE OP1 POSLIS | LREDUCE OP1 CAP POSLIS CCIERRE;
+LM ::= LMAP OP0 ENT POSLIS | LMAP OP0 ENT CAP POSLIS CCIERRE | LMAP OP1 ENT POSLIS | LMAP OP1 ENT CAP POSLIS CCIERRE;
+LFIL ::= LFILTER OP2 ENT POSLIS | LFILTER OP2 ENT CAP POSLIS CCIERRE;
+CONCAT ::= LIS | LIS ALMOHADILLA CONCAT;
+PR ::= PRINT POSLIS;
+
