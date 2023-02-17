@@ -55,16 +55,20 @@ parentesisApertura = \(
 parentesisCierre = \)
 igual = \=
 igualDoble = \=\=
-distinto = !\=
-menor = <
-mayor = >
-almohadilla = #
+distinto = \!\=
+menor = \<
+mayor = \>
+almohadilla = \#
 coma  = ,
 %%
 {separador}               {}
 {comentario}              {}
 {evalua}                  {return ops.unidadEvalua();}
 {donde}                   {return ops.unidadDonde();}
+{print}			  {return ops.unidadPrint();}
+{lreduce}		  {return ops.unidadLReduce();}
+{lmap}			  {return ops.unidadLMap();}
+{lfilter}		  {return ops.unidadLFilter();}
 {identificador}           {return ops.unidadId();}
 {numeroEntero}            {return ops.unidadEnt();}
 {numeroReal}              {return ops.unidadReal();}
@@ -83,8 +87,4 @@ coma  = ,
 {mayor}                   {return ops.unidadMayor();} 
 {almohadilla}		  {return ops.unidadAlmohadilla();}
 {coma}                    {return ops.unidadComa();}
-{print}			  {return ops.unidadPrint();}
-{lreduce}		  {return ops.unidadLReduce();}
-{lmap}			  {return ops.unidadLMap();}
-{lfilter}		  {return ops.unidadLFilter();}
 [^]                       {errores.errorLexico(fila(),columna(),lexema());}  
