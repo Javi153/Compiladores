@@ -85,7 +85,7 @@ Para liberar la memoria reservada se usará la función free de la siguiente for
 
 Otra estructura importante y necesaria serán los arrays, posiciones sucesivas de memoria de un mismo tipo. Para definirlos usaremos el operador [] para reservar tamaño a la vez que para acceder a una posición específica.
 
-También se podrá inicializar el array usando llaves. Veámsolo como un ejemplo:
+También se podrá inicializar el array usando llaves. Veámoslo con un ejemplo:
 
 int num[6] = { 2, 6, 3, 2, 6, 3 };
 
@@ -95,7 +95,9 @@ Ahora hablaremos de los structs. Los structs contendrán una serie de atributos:
 
 struct iden {
   atributos;
-  metodos{}
+  metodos(){
+  
+  }
 }
 
 Para acceder a una parte del struct usaremos el operador ".". Por ejemplo:
@@ -108,7 +110,86 @@ struct Persona{
 Persona p;
 int carne = p.dni;
 
-(METEMOS CLASES??)
+(METEMOS CLASES?????=?)
 
 ## Conjuntos de instrucciones
-(AQUI METEMOS EL IF-THEN-ELSE, EL WHILE, QUIZA FOR SOLO ITERACIONES, EL SWITCH, LAS ASIGNACIONES, PRINT E INPUT) 
+Comenzamos con la instrucción de asignación, que tendrá la siguiente estructura:
+inden = exp;
+donde iden es un identificador y exp es otro identificador o una expresión aritmética o booleana. Las siguientes tres instrucciones son ejemplos de asignaciones:
+
+num = 2 + 9;
+aux = num;
+b = aux < 1;
+
+A continuación, añadimos las instrucciones condicionales (IF-THEN e IF-THEN-ELSE), con la sintaxis habitual:
+
+if (condición) {
+  // cuerpo del "then"
+}
+
+if (condición) {
+  // cuerpo del "then"
+}
+else {
+  // cuerpo del "else"
+}
+
+También será posible añadir tantas cláusulas "elsif" como se desee (con o sin cláusula "else" al final):
+
+if (condición 1) {
+  // cuerpo del "then"
+}
+elsif (condición 2) {
+  // cuerpo del "elsif"
+}
+...
+elsif (condición n) {
+  // cuerpo del "elsif"
+}
+else {
+   // cuerpo del "else"
+}
+
+Además, tendremos una instrucción para la distinción de casos:
+
+switch (iden) {
+  case 0: // cuerpo del case 0;
+  ...
+  case n: // cuerpo del case n;
+  default:
+}
+
+donde "iden" es el identificador de una variable de tipo entero. En cada caso se podrá incluir la instrucción "break;" de salida del bloque switch.
+
+En cuanto a los bucles, contaremos con un "while" y un "for". Este último estará restringido a bucles con un número definido de iteraciones.
+La sintaxis será la siguiente:
+
+while (condición) {
+  // cuerpo del while
+}
+
+for (int iden = inicio; fin; paso) {
+  // cuerpo del for
+}
+
+La variable iden podrá utilizarse dentro del bucle "for". El bucle terminará cuando esta tome un valor igual o superior al entero "fin" en el caso "inicio" menor o igual que "fin", y cuando tome un valor igual o inferior que "fin" en el caso "inicio" mayor que "fin". El paso será opcional y por defecto valdrá 1, de forma que se admitirá también la siguiente sintaxis:
+
+for (int iden = inicio; fin) {
+  // cuerpo del for
+}
+
+Un ejemplo (suma de los números naturales de 0 a 9):
+
+for (int i = 0; 10) {
+    suma = suma + i;
+}
+
+Para terminar, incluimos las instrucciones de entrada-salida:
+
+print(exp);
+
+donde exp es un identificador, una expresión aritmética o booleana o una cadena de caracteres constante entre comillas dobles.
+
+input(iden);
+
+donde iden es el identificador de una variable.
