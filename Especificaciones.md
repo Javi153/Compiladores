@@ -81,7 +81,9 @@ También se podrán añadir comentarios de más de una línea usando /* para abr
 
 Aparte de los tipos básicos, podremos también definir punteros usando el operador unario * mediante la sintaxis t* iden.
 
-Esto debe aunarse en general con una operación de reserva de memoria, en nuestro caso esta operación será memspace (HAY QUE DISCUTIRLO) t* iden = memspace(N);
+Esto debe aunarse en general con una operación de reserva de memoria, en nuestro caso esta operación será memspace t* iden = memspace(N);
+
+Para liberar la memoria reservada se usará la función free de la siguiente forma: free(iden);
 
 Otra estructura importante y necesaria serán los arrays, posiciones sucesivas de memoria de un mismo tipo. Para definirlos usaremos el operador [] para reservar tamaño a la vez que para acceder a una posición específica.
 
@@ -111,4 +113,4 @@ int carne = p.dni;
 (METEMOS CLASES??)
 
 ## Conjuntos de instrucciones
-(AQUI METEMOS EL IF-THEN-ELSE Y EL WHILE, LAS ASIGNACIONES, PRINT E INPUT) 
+(AQUI METEMOS EL IF-THEN-ELSE, EL WHILE, EL SWITCH, LAS ASIGNACIONES, PRINT E INPUT) 
