@@ -6,7 +6,7 @@ Nuestro lenguaje se basará en la claridad, siendo similar a lenguajes como C++ 
 Debe ser un lenguaje sencillo de aprender pero no por ello carente de expresividad.
 
 ## Tipos
-En primer lugar hablaremos de los tipos básicos de nuestro lenguaje. Constaremos de 4 tipos predefinidos: enteros, numeros en coma flotante, booleanos y caracteres.
+En primer lugar hablaremos de los tipos básicos de nuestro lenguaje. Constaremos de 3 tipos predefinidos: enteros, numeros en coma flotante y booleanos.
 El tipado será estático y no habrá casting automático entre tipos a la hora de hacer operaciones entre ellos o llamar a funciones.
 
 El tipo entero se representará mediante la palabra reservada int. Los operadores aritméticos para enteros serán binarios infijos y se corresponden con la suma (+), la resta (-),
@@ -40,8 +40,6 @@ Sus niveles de precedencia serán los siguientes:
 De nuevo, podremos variar la precedencia con paréntesis.
 
 La expresión a && b || ! c && d == v || ! d será equivalente a ((a && b) || ((! c) && d)) == (v || (! d)) 
-
-Por último tenemos el tipo caracter, cuya palabra reservada será char. Los únicos operadores que comprenderemos para los char serán los de igualdad y desigualdad en un único nivel (== /=)
 
 Para realizar una asignación cualquiera de una variable de tipo t usaremos la sintaxis
 
@@ -113,4 +111,4 @@ int carne = p.dni;
 (METEMOS CLASES??)
 
 ## Conjuntos de instrucciones
-(AQUI METEMOS EL IF-THEN-ELSE, EL WHILE, EL SWITCH, LAS ASIGNACIONES, PRINT E INPUT) 
+(AQUI METEMOS EL IF-THEN-ELSE, EL WHILE, QUIZA FOR SOLO ITERACIONES, EL SWITCH, LAS ASIGNACIONES, PRINT E INPUT) 
