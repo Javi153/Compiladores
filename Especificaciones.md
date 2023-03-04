@@ -186,10 +186,44 @@ for (int i = 0; 10) {
 
 Para terminar, incluimos las instrucciones de entrada-salida:
 
+En primer lugar tenemos la instrucción print de salida estándar
+
 print(exp);
 
 donde exp es un identificador, una expresión aritmética o booleana o una cadena de caracteres constante entre comillas dobles.
 
+Si quisiéramos incluir un salto de línea automático al final del texto usaríamos println.
+
+Por otro lado tenemos la instrucción de entrada estándar por teclado.
+
 input(iden);
 
 donde iden es el identificador de una variable.
+
+## Ejemplos
+Por último daremos algunos ejemplos de programas que pueden desarrollarse en este lenguaje con el objetivo de que el usuario se familiarice con el entorno.
+
+Un programa estilo hola mundo tendría la siguiente forma:
+
+int main(){
+  println("Hola mundo");
+  return 0;
+}
+
+También podemos incluir un programa que sume los elementos de un array:
+
+int main(){
+  int nums[10];
+  int suma = 0;
+  for(int i = 0; 10){
+    print("Inserte un valor entero: ");
+    input(nums[i]); //Recibimos cada uno de los valores por la entrada
+  }
+  for(int i = 0; 10){
+    suma = suma + nums[i];
+  }
+  println(suma); //Ahora suma contendrá la suma de los valores del array
+  return 0;
+}
+
+(EJEMPLOS CON IF, CON PUNTEROS, CON SWITCH Y CON ALGUN STRUCT)
