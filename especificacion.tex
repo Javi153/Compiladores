@@ -1,0 +1,530 @@
+\documentclass[10pt a4paper]{article}
+\usepackage[a4paper, total={210mm, 297mm}, includehead, includefoot,margin=2.5cm]{geometry}
+\geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ right=20mm,
+ top=10mm,
+ bottom=10mm,
+ }
+\usepackage{natbib} %Bibliography.
+\setcitestyle{numbers} %Cite as numbers or author-year.
+\bibliographystyle{vancouver} %Reference style.
+\usepackage{emoji}
+
+\usepackage{enumitem}
+\usepackage{commath}
+\usepackage{kantlipsum}
+\usepackage[spanish]{babel}
+\usepackage{comment}
+\usepackage[svgnames]{xcolor}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{float}
+\usepackage{amsthm}
+\usepackage{graphicx}
+\usepackage{ dsfont }
+\usepackage{fancyhdr}
+\usepackage[mathscr]{eucal}
+\usepackage{lastpage}
+\usepackage{minted}
+\usemintedstyle{colorful}
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+
+\usepackage{tikz,lipsum,lmodern}
+\usepackage[most]{tcolorbox}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.15}
+
+\usetikzlibrary{arrows}
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=black,filecolor=magenta,urlcolor=cyan}
+\urlstyle{same}
+
+\newcommand*{\QEDA}{\hfill\ensuremath{\blacksquare}}
+\newcounter{pic}[page]
+\newcounter{fig}[page]
+\numberwithin{equation}{section}
+\definecolor{HeadColor}{HTML}{376092}
+\usepackage{xcolor}
+\definecolor{LightGray}{gray}{0.9}
+\renewcommand{\footrulewidth}{0.4pt}
+\renewcommand{\baselinestretch}{1.5}
+\pagestyle{fancy}
+\fancyhead{}
+\fancyfoot{}
+\fancyhead[L]{}
+\fancyhead[R]{}
+%\fancyfoot[L]{Rafael José Fernández-Delgado Ruiz}
+\fancyfoot[R]{Página \thepage \hspace{1pt} de \pageref*{LastPage}}
+\renewcommand\qedsymbol{$\blacksquare$}
+
+%%Custom Commands
+\newcommand{\ft}[1]{\mathcal{F}\{#1\}}
+\newcommand{\Laplace}[1]{\ensuremath{\mathcal{L}{\left[#1\right]}}}
+\newcommand{\InvLap}[1]{\ensuremath{\mathcal{L}^{-1}{\left[#1\right]}}}
+\newcounter{NumberInTable}
+\newcommand{\LTNUM}{\stepcounter{NumberInTable}{(\theNumberInTable)}}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    filecolor=magenta,      
+    urlcolor=cyan,
+    pdftitle={Overleaf Example},
+    pdfpagemode=FullScreen,
+    }
+
+\definecolor{debianred}{rgb}{0.84, 0.04, 0.33}
+\definecolor{orangepeel}{rgb}{1.0, 0.62, 0.0}
+ 
+%%Title
+\title{Fourier Series New Command}
+\author{David Aspden}
+\date{\today}
+
+\newtcbtheorem[]{Ejercicio}%
+  {Ejercicio}{fonttitle=\bfseries\upshape, fontupper=\slshape,
+     arc=0mm, colback=blue!5!white,colframe=debianred}{Ejercicio}
+ \newtcbtheorem[]{Obs.}%
+  {Obs.}{fonttitle=\bfseries\upshape, fontupper=\slshape,
+     arc=0mm, colback=blue!5!white,colframe=orangepeel}{Obs.}
+
+\begin{document}
+\begin{titlepage} % Suppresses displaying the page number on the title page and the subsequent page counts as page 1
+	\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for horizontal lines, change thickness here
+	
+	\center % Centre everything on the page
+	
+	%------------------------------------------------
+	%	Headings
+	%------------------------------------------------
+	\includegraphics[scale=0.2]{UCM (1).jpg}\\[1cm]
+	
+	\textsc{\Large Procesadores de Lenguaje}\\[0.5cm] % Major heading such as course name
+	
+	\textsc{\large Curso 2022-2023}\\[0.5cm] % Minor heading such as course title
+	
+	%------------------------------------------------
+	%	Title
+	%------------------------------------------------
+	
+	\HRule\\[0.6cm]
+	
+	{\huge\bfseries Especificación del lenguaje \textit{SAJAX}}
+	\HRule\\[1.5cm]
+	
+	%------------------------------------------------
+	%	Author(s)
+	%------------------------------------------------
+	
+
+	
+	% If you don't want a supervisor, uncomment the two lines below and comment the code above
+\textsc{Javier Jiménez Arenas}\\
+\textsc{Sara Vicente Arroyo}\\
+{\large\textit{Doble Grado en Ingeniería Informática y Matemáticas}}
+% Your name
+	
+	%------------------------------------------------
+	%	Date
+	%------------------------------------------------
+	
+	\vfill\vfill\vfill % Position the date 3/4 down the remaining page
+	
+	{\large\today} % Date, change the \today to a set date if you want to be precise
+	
+	%------------------------------------------------
+	%	Logo
+	%------------------------------------------------
+	
+	\vfill\vfill
+ % Include a department/university logo - this will require the graphicx package
+	 
+	%----------------------------------------------------------------------------------------
+	
+	\vfill % Push the date up 1/4 of the remaining page
+	
+\end{titlepage}
+\newtheorem{definition}{Definición}[section]
+\newtheorem{theorem}{Teorema}[section]
+\newtheorem{corollary}{Corolario}[theorem]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{ejemplo}{Ejemplo}[section]
+\pagestyle{fancy}
+\parindent 0ex
+
+\section{Introducción}
+Nuestro trabajo consiste en el desarrollo del lenguaje de programación imperativo \textit{SAJAX}, cuya extensión de archivo de código fuente será \textit{.sjx}. Este se basará en la claridad, siendo similar a lenguajes como \textit{C++} o \textit{Java} con ligeras diferencias que no alterarán la intuición propia del programador. Deberá ser un lenguaje sencillo de aprender pero no por ello carente de expresividad.
+\newline
+\section{Tipos}
+En primer lugar presentaremos los tipos básicos de nuestro lenguaje, que serán tres: enteros, números en coma flotante y booleanos. El tipado será fuerte y estático y no habrá \textit{casting} automático entre tipos a la hora de realizar operaciones con ellos o llamadas a funciones.
+\subsection{Enteros}
+El tipo entero se representará mediante la palabra reservada \code{int}. Los operadores aritméticos para enteros serán binarios infijos y se corresponderán con la suma $(+)$, la resta $(-)$, la multiplicación $(*)$, la división entera $(/)$, el módulo de la división entera $(\%)$ y la potencia $(\wedge)$. Todos ellos asociarán por la izquierda, salvo el operador de potencia, que asociará por la derecha. \\
+\newline
+También incluiremos operadores binarios infijos entre enteros para operaciones de comparación: $==$ para la igualdad, $/=$ para la desigualdad, $\leq$ para \textit{menor o igual}, $\geq$ para \textit{mayor o igual}, $<$ para \textit{menor estricto} y $>$ para \textit{mayor estricto}. Todos ellos asociarán una vez más por la izquierda. \\
+\newline
+Los operadores tendrán distintos niveles de prioridad, siendo los del nivel 0 los de prioridad más alta y desde ahí en orden creciente hacia los de prioridad más baja. Para el caso de los mencionados operadores entre enteros existirán los siguientes niveles:
+\begin{itemize}
+    \item Nivel 0: $\wedge$
+    \item Nivel 1: $*$, $/$, $\%$
+    \item Nivel 2: $+$, $-$
+    \item Nivel 3: $\leq$, $\geq$, $<$, $>$
+    \item Nivel 4: $==$, $/=$
+\end{itemize}
+Este orden podrá ser modificado mediante el uso de paréntesis, que naturalmente tendrán prioridad sobre cualquier operador. \\
+\newline
+Con esto, la expresión
+\begin{equation*}
+    \code{3 + 4 / 8 $\wedge$ 9 $\wedge$ 4 - 5 * 7 < $\:\:$6}
+\end{equation*}
+será semánticamente equivalente a 
+\begin{equation*}
+    \code{((3 + (4 / (8 $\wedge$ (9 $\wedge$ 4))) - (5 * 7)) < $\:\:$6}.
+\end{equation*}
+\subsection{Coma flotante}
+Por otro lado, el tipo de los números en coma flotante vendrá representado por la palabra reservada \code{float}. Sus operadores serán los mismos que los operadores para enteros salvo por el módulo, que carece de sentido en números con decimales. Al escribir un número de forma explícita deberá añadirse .0 si este es un entero para que sea reconocido en su lugar como de tipo \code{float}. Esto se deberá tener en cuenta para evitar errores al comparar números de tipos \code{int} y \code{float}, pues no se realizará \textit{casting} entre ellos.
+
+\subsection{Booleanos}
+El tipo booleano tendrá como palabra reservada \code{bool}, y los valores \code{true} y \code{false}. Tendrá un operador unario \textit{not} $(!)$ prefijo y el resto serán operadores binarios infijos que asociarán por la izquierda. Estos serán la conjunción $(\&\&)$, la disyunción $(|\,|)$ y los operadores de comparación de igualdad $(==)$ y desigualdad $(/=)$. \\
+\newline
+Sus niveles de precedencia, que de nuevo podremos variar con paréntesis, serán los siguientes:
+\begin{itemize}
+    \item Nivel 0: $!$
+    \item Nivel 1: $\&\&$
+    \item Nivel 2: $|\,|$
+    \item Nivel 3: $==$, $/=$
+\end{itemize}
+La expresión
+\begin{equation*}
+    \code{a \&\& b || ! c \&\& d == v || ! d}
+\end{equation*}
+será equivalente a
+\begin{equation*}
+    \code{((a \&\& b) || ((! c) \&\& d)) == (v || (! d))}.
+\end{equation*}
+\newline
+\section{Sintaxis y estructuras básicas}
+\subsection{Declaraciones}
+Como mencionamos, el lenguaje será fuertemente tipado y tendrá tipado estático, por lo que para declarar cualquier función o variable será necesario especificar su tipo. \\
+\newline
+Para realizar una declaración cualquiera de una variable de tipo \textit{t} usaremos la sintaxis
+\begin{equation*}
+    \code{t iden;}
+\end{equation*}
+donde \textit{iden} es un identificador que debe comenzar por un caracter (mayúscula o minúscula) seguido de otros caracteres o números. Y, para su inicialización,
+\begin{equation*}
+    \code{iden = valor;}
+\end{equation*}
+\newline
+Para la declaración de funciones utilizaremos la sintaxis 
+\begin{equation*}
+    \code{t fun(t1 par1, t2 par2, ..., tn parn) \{ return; \}}.
+\end{equation*}
+donde \textit{fun} representa también cualquier identificador. Por ejemplo, si necesitamos una función \code{sum} que sume dos números enteros, podríamos crearla de la siguiente manera:
+
+\begin{minted}{cpp}
+    int sum(int a, int b) {
+        int c = 0;
+        c = a + b;
+        return c;
+    }
+\end{minted}
+
+Para los procedimientos sin valor de retorno existirá el tipo especial \code{void}. En funciones de este tipo no se exigirá el uso de \code{return}. \\
+\newline
+Además, a las funciones de forma predeterminada se les pasarán los parámetros por valor. Para pasarlos por referencia, deberemos usar el operador unario prefijo \code{\&}.
+
+\begin{minted}{c++}
+    int sum(int &a, int &b) {
+        int c = 0;
+        c = a + b;
+        return c;
+    }
+\end{minted}
+
+
+
+\subsection{Manejo de memoria y estructura de datos}
+Aparte de los tipos básicos, podremos también definir punteros mediante el operador \code{*}, con la sintaxis
+\begin{equation*}
+    \code{t* iden;}
+\end{equation*}
+Esto se aunará en general con la operación de reserva de memoria dinámica (palabra reservada \code{memspace}). La cual se apoyará en la instrucción sizeof que devolverá el tamaño en bytes de una estructura:
+\begin{equation*}
+    \code{t* iden = memspace(sizeof(t));}
+\end{equation*}
+Para liberar la memoria reservada, se utilizará la función \code{free} de la siguiente forma:
+\begin{equation*}
+    \code{free(iden);}
+\end{equation*}
+En caso de tener un puntero que no apunta a nada existirá la palabra reservada \code{NULL} para la asignación. \\
+\newline
+Otra estructura importante y necesaria serán los arrays, posiciones sucesivas de memoria de un mismo tipo. Para definirlos usaremos el operador $[\,]$ para reservar tamaño a la vez que para acceder a una posición específica.
+También se podrá inicializar el array utilizando llaves. Veámoslo con un ejemplo:
+\begin{equation*}
+    \code{int num$[$6$]$ = $\{$ 2, 6, 3, 2, 6, 3 $\}$;}
+\end{equation*}
+Es importante tener en cuenta que las posiciones de memoria serán indexadas comenzando desde el 0. \\
+\newline
+Ahora hablaremos de los registros o \textit{structs}. Estos contendrán una serie de atributos: variables, punteros o arrays que funcionarán como sus propiedades. También dentro del bloque podrán definirse métodos asociados al \textit{struct}. Se declararán con la sintaxis
+\begin{equation*}
+    \code{struct iden $\{$ atributos; métodos()$\{\dots\} \, \}$}
+\end{equation*}
+Obsérvese que, a diferencia de lo que ocurre en \textit{C++}, no se utilizará punto y coma de cierre. Para acceder a cada uno de los campos del \textit{struct}, usaremos el operador \code{.}, como se muestra en el siguiente ejemplo:
+\begin{minted}{c++}
+    struct Persona{
+        int dni;
+        int edad;
+    }
+
+    Persona p;
+    int carnet = p.dni;
+\end{minted}
+Para el caso de punteros a struct usaremos el operador \code{t->attrib} como azúcar sintáctico de \code{(*t).attrib}.
+
+
+\subsection{Comentarios}
+También se podrán añadir comentarios en cualquier parte del código. Para los comentarios de una línea se utilizará el operador \code{//}. Todo el texto situado entre dicho operador y el siguiente salto de línea será ignorado por el compilador.
+También se ignorarán los comentarios multilínea, entre el operador de apertura \code{/*} y el de cierre \code{*/}.
+
+\section{Conjuntos de instrucciones}
+\subsection{Asignación}
+Comenzamos con la instrucción de asignación, que tendrá la siguiente estructura:
+\begin{equation*}
+    \code{inden = exp;}
+\end{equation*}
+donde \textit{iden} es un identificador y \textit{exp} es otro identificador o una expresión aritmética o booleana. Las siguientes tres instrucciones son ejemplos de asignaciones:
+\begin{minted}{c++}
+    num = 2 + 9;    // Expresión aritmética
+    aux = num;      // Identificador de variable
+    b = aux < 1;    // Expresión boleana
+\end{minted}
+
+
+\newline
+\subsection{Condicionales}
+A continuación, añadimos las instrucciones condicionales (\textit{IF-THEN} e \textit{IF-THEN-ELSE}), con la sintaxis habitual:
+\begin{minted}{c++}
+    if (condición) {
+        // cuerpo del then
+    }
+
+    if (condición) {
+        // cuerpo del then
+    }
+    else {
+        // cuerpo del else
+    }
+\end{minted}
+También será posible añadir tantas cláusulas \textit{elsif} como se desee (con o sin cláusula \textit{else} al final):
+\begin{minted}[escapeinside=||]{c++}
+    if (condición |\textcolor{black}{1}|) {
+        // cuerpo del then
+    }
+    |\textcolor{Green}{elsif}| (condición |\textcolor{black}{2}|) {
+        // cuerpo del primer elsif
+    }
+    ...
+    |\textcolor{Green}{elsif}| (condición |\textcolor{black}{n}|) {
+        // cuerpo del último elsif
+    }
+    else {
+        // cuerpo del else
+    }
+\end{minted}
+Además, tendremos una instrucción para la distinción de casos:
+\begin{minted}{c++}
+    switch (iden) {
+        case 0:     // cuerpo del case 0
+        ...
+        case n:     // cuerpo del case n
+        default:    // cuerpo del default case
+    }
+\end{minted}
+donde \textit{iden} es el identificador de una variable de tipo entero. En cada caso se podrá incluir la instrucción \code{break;} de salida del bloque \code{switch}.
+\newline
+\subsection{Bucles}
+En cuanto a los bucles, contaremos con un \code{while} y un \code{for}. Este último estará restringido a bucles con un número definido de iteraciones. La sintaxis será la siguiente:
+\begin{minted}{c++}
+    while (condición) {
+        // cuerpo del while
+    }
+    
+    for (int iden = inicio; fin; paso) {
+        // cuerpo del for
+    }
+\end{minted}
+donde \textit{inicio}, \textit{fin} y \textit{paso} son expresiones de tipo entero. La variable con identificador \textit{iden} podrá utilizarse dentro del cuerpo del \code{for}. El bucle terminará cuando esta tome un valor igual o superior al entero \code{fin} en el caso \code{inicio $\leq$ fin}, y cuando tome un valor igual o inferior que \code{fin} en el caso \code{inicio > $\:\:$fin}. El paso será opcional y por defecto valdrá 1, de forma que se admitirá también la siguiente sintaxis:
+\begin{minted}{c++}
+    for (int iden = inicio; fin) {
+        // cuerpo del for
+    }
+\end{minted}
+Por tanto, el siguiente ejemplo muestra una forma de calcular la suma de los números naturales de 0 a 9 en la variable \code{suma}:
+\begin{minted}{c++}
+    for (int i = 0; 10) {
+        suma = suma + i;
+    }
+\end{minted}
+
+
+
+\subsection{Entrada-Salida}
+Para terminar, presentamos las instrucciones de entrada-salida.\\
+En primer lugar tendremos la instrucción \code{print} de salida estándar:
+\begin{equation*}
+    \code{print(exp);}
+\end{equation*}
+donde \textit{exp} es un identificador, una expresión aritmética o booleana o una cadena de caracteres constante entre comillas dobles. Existirá también una instrucción homóloga con salto de línea al final:
+\begin{equation*}
+    \code{println(exp);}
+\end{equation*}
+Del mismo modo, tendremos la instrucción de entrada estándar:
+\begin{equation*}
+    \code{input(iden);}
+\end{equation*}
+donde \textit{iden} es el identificador de una variable.
+\section{Más ejemplos de código}
+Por último daremos algunos ejemplos de programas que pueden desarrollarse en este lenguaje con el objetivo de que el usuario se familiarice con el entorno. \\
+\newline
+Un programa estilo \textit{hola mundo} tendría la siguiente forma:
+
+\begin{minted}{c++}
+    int main() {
+        println("Hola mundo");
+        return 0;
+    }
+\end{minted}
+
+También podemos incluir un programa que sume los elementos de las posiciones pares de un array:
+
+\begin{minted}{c++}
+    int main() {
+        int nums[10];
+        int suma = 0;
+        for (int i = 0; 10) { // El paso es 1 por defecto
+            print("Inserte un valor entero: ");
+            input(nums[i]); // Recibimos cada uno de los valores por la entrada
+        }
+        for (int i = 0; 10; 2) { // El paso en este caso es 2,
+            suma = suma + nums[i]; // para que solo se procesen las posiciones pares
+        }
+        println(suma); // Ahora suma contendrá la suma de los valores en posición par del array
+        return 0;
+    }
+\end{minted}
+
+O una \textit{cuenta atrás}, utilizando un paso negativo:
+
+\begin{minted}{c++}
+    int main() {
+        for (int i = 10; -1; -1) {
+            print("Despegue en ")
+            println(i);
+        }
+        /* El índice i tomará los valores del 10 (incluido) al -1 (sin incluir),
+        es decir, del 10 al 0. */
+        return 0;
+    }    
+\end{minted}
+
+El siguiente programa es un ejemplo de uso de la sentencia condicional \textit{IF-ELSIF-ELSE}. También se aprecia la diferencia entre \code{print} y \code{println}.
+
+\begin{minted}[escapeinside=||]{c++}
+    int main() {
+        int year;
+        input(year);
+        if (year % 4 /= 0) {
+            print("El año ");
+            print(year);
+            println(" obviamente no es bisiesto."):
+        }
+        |\textcolor{Green}{elsif}| (year % 100 == 0 && year % 400 /= 0) {
+            print("El año ");
+            print(year);
+            println(" no es bisiesto."):
+        }
+        else {
+            print("El año ");
+            print(year);
+            println(" es bisiesto."):
+        }
+        return 0;
+    }
+\end{minted}
+
+Como ejemplo de uso de la instrucción \code{switch}, mostramos un programa en el que se pide al usuario un entero entre 0 y 3 y se le imprime un punto cardinal en función del número introducido. Se utiliza el caso \code{default} si el entero se encuentra fuera del rango permitido.
+
+\begin{minted}{c++}
+    int main() {
+        int n = 5;
+        print("Inserte un número entero entre 0 y 3: ");
+        input(n);
+        while (n < 0 || n > 3) {
+            switch(n) {
+                case 0:
+                    println("Norte");
+                break;
+                case 1:
+                    println("Sur");
+                break;
+                case 2:
+                    println("Este");
+                break;
+                case 3:
+                    println("Oeste");
+                break;
+                default:
+                    println("Entrada inválida");
+                    input(n);
+                break;
+            }
+        }
+        return 0;
+    }
+\end{minted}
+
+Añadimos también un ejemplo sencillo de \code{struct}. Además, lo declaramos como puntero para mostrar el uso de \code{memspace}, \code{free} y el operador \code{->}.
+
+\begin{minted}{c++}
+    struct Persona {
+        int DNI;
+        int edad;
+        float altura;
+    }
+    
+    int main() {
+        Persona* p = memspace(sizeof(Persona));
+        p->DNI = 76284957;
+        p->edad = 18;
+        p->altura = 176.8;
+        println(p->DNI);
+        println(p->edad);
+        println(p->altura);
+        free(p);
+        return 0;
+    }
+\end{minted}
+
+Una forma de generalizar el código anterior usando una función auxiliar sería la siguiente:
+
+\begin{minted}{c++}
+    void fun(int a, int b, float c, Persona& p){ /* Nótese que el parámetro
+    p se modifica y por ello lo pasamos por referencia */
+        p->DNI = a;
+        p->edad = b;
+        p->altura = c;
+    }
+
+    int main() {
+        Persona p;
+        fun(76284957, 18, 176.8, p);
+        println(p->DNI);
+        println(p->edad);
+        println(p->altura);
+        return 0;
+    }
+\end{minted}
+\end{document}
