@@ -1,2 +1,2 @@
 # Compiladores
-Practica para crear un compilador ascendente para SAJAX
+Práctica para crear un compilador ascendente para SAJAX
