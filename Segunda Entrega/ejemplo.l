@@ -23,6 +23,27 @@ package Sajax;
   ops = new SajaxOperations(this);
 %init}
 
+struct = struct
+tipoEnt = int
+tipoDec = float
+tipoBool = bool
+print = print
+println = println
+input = input
+main = main
+return = return
+for = for
+while = while
+if = if
+elsif = elsif
+else = else
+switch = switch
+break = break
+case = case
+default = default
+memspace = memspace
+free = free
+sizeof = sizeof
 letra  = ([A-Z]|[a-z])
 digitoPositivo = [1-9]
 digito = ({digitoPositivo}|0)
@@ -42,8 +63,8 @@ operadorDivision = \/
 operadorModulo = %
 operadorExp = \^
 operadorY = &&
-operadorO = ||
-operadorNot = !
+operadorO = \|\|
+operadorNot = \!
 operadorMenor = <
 operadorMayor = >
 operadorMenorIg = <\=
@@ -54,6 +75,8 @@ parentesisApertura = \(
 parentesisCierre = \)
 llaveApertura = \{
 llaveCierre = \}
+corcheteApertura = \[
+corcheteCierre = \]
 igual = \=
 coma  = ,
 puntocoma = ;
@@ -62,6 +85,27 @@ flechita = ->
 {separador}               {}
 {comentario}              {}
 {comentarioLargo}         {}
+{struct}                  {return ops.unidadStruct();}
+{tipoEnt}                 {return ops.unidadInt();}
+{tipoDec}                 {return ops.unidadFloat();}
+{tipoBool}                {return ops.unidadBool();}
+{print}                   {return ops.unidadPrint();}
+{println}                 {return ops.unidadPrintln();}
+{input}                   {return ops.unidadInput();}
+{main}                    {return ops.unidadMain();}
+{return}                  {return ops.unidadReturn();}
+{for}                     {return ops.unidadFor();}
+{while}                   {return ops.unidadWhile();}
+{if}                      {return ops.unidadIf();}
+{elsif}                  {return ops.unidadElsif();}
+{else}                    {return ops.unidadElse();}
+{switch}                  {return ops.unidadSwitch();}
+{break}                   {return ops.unidadBreak();}
+{case}                    {return ops.unidadCase();}
+{default}                 {return ops.unidadDefault();}
+{memspace}                {return ops.unidadMemspace();}
+{free}                    {return ops.unidadFree();}
+{sizeof}                  {return ops.unidadSizeof();}
 {barraBaja}               {return ops.unidadBB();}
 {identificador}           {return ops.unidadId();}
 {numeroEntero}            {return ops.unidadEnt();}
@@ -83,10 +127,11 @@ flechita = ->
 {operadorDistinto}        {return ops.unidadDistinto();}
 {parentesisApertura}      {return ops.unidadPAp();}
 {parentesisCierre}        {return ops.unidadPCierre();} 
+{corcheteApertura}        {return ops.unidadCAp();}
+{corcheteCierre}          {return ops.unidadCCierre();}
 {llaveApertura}           {return ops.unidadLAp();}
 {llaveCierre}             {return ops.unidadLCierre();}
 {igual}                   {return ops.unidadIgual();} 
-{distinto}                {return ops.unidadDist();}
 {coma}                    {return ops.unidadComa();}
 {puntocoma}               {return ops.unidadPtoComa();}
 {flechita}                {return ops.unidadFl();}

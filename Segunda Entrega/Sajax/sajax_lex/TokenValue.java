@@ -1,4 +1,4 @@
-package Sajax;
+package alex;
 
 public class TokenValue {
     public String lexema;
