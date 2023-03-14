@@ -31,6 +31,7 @@ print = print
 println = println
 input = input
 main = main
+void = void
 return = return
 for = for
 while = while
@@ -93,11 +94,12 @@ flechita = ->
 {println}                 {return ops.unidadPrintln();}
 {input}                   {return ops.unidadInput();}
 {main}                    {return ops.unidadMain();}
+{void}                    {return ops.unidadVoid();}
 {return}                  {return ops.unidadReturn();}
 {for}                     {return ops.unidadFor();}
 {while}                   {return ops.unidadWhile();}
 {if}                      {return ops.unidadIf();}
-{elsif}                  {return ops.unidadElsif();}
+{elsif}                   {return ops.unidadElsif();}
 {else}                    {return ops.unidadElse();}
 {switch}                  {return ops.unidadSwitch();}
 {break}                   {return ops.unidadBreak();}
