@@ -1,8 +1,8 @@
  package asint;
 
 import java_cup.runtime.*;
-import alex.AnalizadorLexicoTiny;
-import alex.UnidadLexica;
+import sajax_lex.AnalizadorLexicoSajax;
+import sajax_lex.UnidadLexica;
 import errors.GestionErroresTiny;
 
 scan with {: return getScanner().next_token(); :};
@@ -14,8 +14,8 @@ parser code {:
 :};
 init with {:
    errores = new GestionErroresTiny();
-   AnalizadorLexicoTiny alex = (AnalizadorLexicoTiny)getScanner();
-   alex.fijaGestionErrores(errores);
+   AnalizadorLexicoSajax sajax = (AnalizadorLexicoSajax)getScanner();
+   sajax.fijaGestionErrores(errores);
 :};
 
 
