@@ -19,11 +19,16 @@ init with {:
 :};
 
 
-terminal     IDEN, ENT, REAL, MAS,
-             MENOS, POR, DIV, IGUAL, COMA, PAP, PCIERRE,
+terminal     IDEN, ENT, REAL, BOOL,
+             OR, AND, NOT,
+             MAS, MENOS, POR, DIV, POT, MOD,
+             IGDOBLE, DISTINTO, MENOR, MAYOR,
+             MENIGUAL, MAYIGUAL,
+             IGUAL, COMA, PAP, PCIERRE,
              WHILE, FOR, VOID;
 
-non terminal  S, E0, E1, E2, OP0, OP1, MAIN, M, INST, IFST, ELIF, BLOCK, WHILEST, FORST, SWITCHST, CASELST, ASIG, DEC;
+non terminal  S, E0, E1, E2, E3, E4, E5, OP0, OP1, OP2, OP3, B0, B1, B2, B3, B4, OPB0,
+              MAIN, M, INST, IFST, ELIF, BLOCK, WHILEST, FORST, SWITCHST, CASELST, ASIG, DEC;
 
 S	::= GLOBVAR | STRUCT | FUNDER | MAIN | S ;
 MAIN	::= INT MAIN PAP ARGS PCIERRE LLAP M LLCIERRE | VOID MAIN PAP ARGS PCIERRE LLAP M 			LLCIERRE ;
@@ -41,6 +46,17 @@ ASIG	::= IDEN IGUAL EXP PTOCOMA ;
 DEC	::= IDEN IDEN PTOCOMA | IDEN IDEN IGUAL EXP PTOCOMA ;
 E0  	::= E0 OP0 E1  | E1 ;
 E1  	::= E1 OP1 E2  | E2 ;
-E2  	::= ENT  | REAL  | IDEN  | PAP E0 PCIERRE ;
-OP0 	::= MAS  | MENOS ;
-OP1 	::= POR | DIV ;
+E2  	::= E2 OP2 E3  | E3 ;
+E3  	::= E3 OP3 E4  | E4 ;
+E4  	::= E5 POT E4  | E5 ;
+E5  	::= ENT  | REAL | IDEN  | PAP E0 PCIERRE ;
+OP0  ::= IGDOBLE | DISTINO ;
+OP1  ::= MENOR | MAYOR | MENIGUAL | MAYIGUAL ;
+OP2 	::= MAS  | MENOS ;
+OP3 	::= POR | DIV | MOD ;
+B0   ::= B0 OPB0 B1  | B1 ;
+B1  	::= B1 OR B2  | B2 ;
+B2  	::= B2 AND B3  | B3 ;
+B3  	::= NOT B4 | B4 ;
+B4   ::= BOOL | IDEN  | PAP B0 PCIERRE ;
+OPB0 ::= IGDOBLE | DISTINO ;
