@@ -44,7 +44,6 @@ case = case
 default = default
 memspace = memspace
 free = free
-sizeof = sizeof
 letra  = ([A-Z]|[a-z])
 digitoPositivo = [1-9]
 digito = ({digitoPositivo}|0)
@@ -107,7 +106,6 @@ flechita = ->
 {default}                 {return ops.unidadDefault();}
 {memspace}                {return ops.unidadMemspace();}
 {free}                    {return ops.unidadFree();}
-{sizeof}                  {return ops.unidadSizeof();}
 {barraBaja}               {return ops.unidadBB();}
 {identificador}           {return ops.unidadId();}
 {numeroEntero}            {return ops.unidadEnt();}
