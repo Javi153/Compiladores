@@ -1,4 +1,4 @@
-package alex;
+package sajax_lex;
 
 import java_cup.runtime.Symbol;
 

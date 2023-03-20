@@ -1,4 +1,4 @@
-package Sajax;
+package sajax_lex;
 
 %%
 %char
@@ -44,6 +44,9 @@ case = case
 default = default
 memspace = memspace
 free = free
+barraBaja = \_
+true = true
+false = false
 letra  = ([A-Z]|[a-z])
 digitoPositivo = [1-9]
 digito = ({digitoPositivo}|0)
@@ -52,7 +55,6 @@ parteDecimal = {digito}* {digitoPositivo}
 separador = [ \t\r\b\n]
 comentario = \/\/[^\n]*
 comentarioLargo = \/\*[^]*\*\/
-barraBaja = \_
 identificador = {letra}({letra}|{digito}|{barraBaja})*
 numeroEntero = [\+\-]?{parteEntera}
 numeroReal = [\+\-]?{parteEntera}\.{parteDecimal}
@@ -80,7 +82,7 @@ corcheteCierre = \]
 igual = \=
 coma  = ,
 puntocoma = ;
-flechita = ->
+flechita = \->
 %%
 {separador}               {}
 {comentario}              {}
@@ -107,9 +109,9 @@ flechita = ->
 {memspace}                {return ops.unidadMemspace();}
 {free}                    {return ops.unidadFree();}
 {barraBaja}               {return ops.unidadBB();}
+{true}			  {return ops.unidadTrue();}
+{false}			  {return ops.unidadFalse();}
 {identificador}           {return ops.unidadId();}
-{numeroEntero}            {return ops.unidadEnt();}
-{numeroReal}              {return ops.unidadReal();}
 {operadorSuma}            {return ops.unidadSuma();}
 {operadorResta}           {return ops.unidadResta();}
 {operadorMultiplicacion}  {return ops.unidadMul();}
@@ -125,6 +127,8 @@ flechita = ->
 {operadorMayorIg}         {return ops.unidadMayorIg();}
 {operadorIdentidad}       {return ops.unidadIdentidad();}
 {operadorDistinto}        {return ops.unidadDistinto();}
+{numeroEntero}		  {return ops.unidadEnt();}
+{numeroReal}		  {return ops.unidadReal();}
 {parentesisApertura}      {return ops.unidadPAp();}
 {parentesisCierre}        {return ops.unidadPCierre();} 
 {corcheteApertura}        {return ops.unidadCAp();}

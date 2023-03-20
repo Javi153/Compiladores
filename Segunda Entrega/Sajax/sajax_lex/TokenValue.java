@@ -1,4 +1,4 @@
-package alex;
+package sajax_lex;
 
 public class TokenValue {
     public String lexema;

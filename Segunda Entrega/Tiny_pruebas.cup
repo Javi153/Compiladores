@@ -1,8 +1,8 @@
- package asint;
+package asint;
 
 import java_cup.runtime.*;
-import alex.AnalizadorLexicoTiny;
-import alex.UnidadLexica;
+import sajax_lex.AnalizadorLexicoSajax;
+import sajax_lex.UnidadLexica;
 import errors.GestionErroresTiny;
 
 scan with {: return getScanner().next_token(); :};
@@ -14,22 +14,24 @@ parser code {:
 :};
 init with {:
    errores = new GestionErroresTiny();
-   AnalizadorLexicoTiny alex = (AnalizadorLexicoTiny)getScanner();
-   alex.fijaGestionErrores(errores);
+   AnalizadorLexicoSajax sajax = (AnalizadorLexicoSajax)getScanner();
+   sajax.fijaGestionErrores(errores);
 :};
 
 
-terminal     IDEN, ENT, REAL, BOOL, MAS,
-             MENOS, POR, DIV, MOD, IGUAL, COMA;
+terminal     IDEN, OR, AND, NOT,
+             MAS, MENOS, POR, DIV, POT, MOD,
+             IGDOBLE, DISTINTO, MENOR, MAYOR, MENIGUAL, MAYIGUAL,
+             IGUAL, COMA, PAP, PCIERRE, WHILE, FOR, VOID, RETURN,
+             STRUCT, LLAP, LLCIERRE, PTOCOMA, IF, ELSIF, ELSE,
+	     SWITCH, CASE, DEFAULT, BREAK, DOSPTOS, INT, FLOAT, 
+	     BOOL, PRINT, PRINTLN, INPUT, MAIN, MEMSPACE, FREE, BB;
 
-non terminal  S, E0, E1, E2, OP0, OP1, MAIN, M, INST, IFST, ELIF, BLOCK, WHILEST, FORST, SWITCHST, CASELST, ASIG, DEC;
+non terminal  S, E0, E1, E2, E3, E4, E5, OP0, OP1, OP2, OP3, B0, B1, B2, B3, B4,
+              MAINST, M, INST, IFST, ELIF, BLOCK, WHILEST, FORST, SWITCHST, CASELST, ASIG, DEC,
+              GLOBVAR, STRUCTST, FUNDER, ATRIBS, METODOS, PARAMS, ARGS, EXP, COND, BLCONTENT;
 
-S	::= E0 COMA S | E1 COMA S | ;
-E0  	::= E0 OP0 E1  | E1 ;
-E1  	::= E1 OP1 E2  | E2 ;
-E2  	::= ENT  | REAL  | IDEN  | PAP E0 PCIERRE ;
-OP0 	::= MAS  | MENOS ;
-OP1 	::= POR | DIV | MOD;
+S ::= IDEN;
 
 
 
