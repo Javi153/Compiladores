@@ -93,35 +93,125 @@ public class SajaxOperations {
     return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.IDEN,sjx.lexema());
   }
 
-  {numeroEntero}            {return ops.unidadEnt();}
-    {numeroReal}              {return ops.unidadReal();}
-    {operadorSuma}            {return ops.unidadSuma();}
-    {operadorResta}           {return ops.unidadResta();}
-    {operadorMultiplicacion}  {return ops.unidadMul();}
-    {operadorDivision}        {return ops.unidadDiv();}
-    {operadorModulo}          {return ops.unidadMod();}
-    {operadorExp}             {return ops.unidadExp();}
-    {operadorY}               {return ops.unidadY();}
-    {operadorO}               {return ops.unidadO();}
-    {operadorNot}             {return ops.unidadNot();}
-    {operadorMenor}           {return ops.unidadMenor();}
-    {operadorMayor}           {return ops.unidadMayor();}
-    {operadorMenorIg}         {return ops.unidadMenorIg();}
-    {operadorMayorIg}         {return ops.unidadMayorIg();}
-    {operadorIdentidad}       {return ops.unidadIdentidad();}
-    {operadorDistinto}        {return ops.unidadDistinto();}
-    {parentesisApertura}      {return ops.unidadPAp();}
-    {parentesisCierre}        {return ops.unidadPCierre();}
-    {corcheteApertura}        {return ops.unidadCAp();}
-    {corcheteCierre}          {return ops.unidadCCierre();}
-    {llaveApertura}           {return ops.unidadLAp();}
-    {llaveCierre}             {return ops.unidadLCierre();}
-    {igual}                   {return ops.unidadIgual();}
-    {coma}                    {return ops.unidadComa();}
-    {puntocoma}               {return ops.unidadPtoComa();}
-    {flechita}                {return ops.unidadFl();}
-[^]                       {ops.error();}
+  public UnidadLexica unidadEnt() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.ENT,sjx.lexema());
+  }
 
+  public UnidadLexica unidadReal() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.REAL,sjx.lexema());
+  }
+
+  public UnidadLexica unidadTrue() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.TRUE,sjx.lexema());
+  }
+
+  public UnidadLexica unidadFalse() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.FALSE,sjx.lexema());
+  }
+
+  public UnidadLexica unidadSuma() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.MAS,sjx.lexema());
+  }
+
+  public UnidadLexica unidadResta() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.MENOS,sjx.lexema());
+  }
+
+  public UnidadLexica unidadMul() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.POR,sjx.lexema());
+  }
+
+  public UnidadLexica unidadDiv() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.DIV,sjx.lexema());
+  }
+
+  public UnidadLexica unidadMod() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.MOD,sjx.lexema());
+  }
+
+  public UnidadLexica unidadExp() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.POT,sjx.lexema());
+  }
+
+  public UnidadLexica unidadY() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.AND,sjx.lexema());
+  }
+
+  public UnidadLexica unidadO() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.OR,sjx.lexema());
+  }
+
+  public UnidadLexica unidadNot() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.NOT,sjx.lexema());
+  }
+
+  public UnidadLexica unidadMenor() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.MENOR,sjx.lexema());
+  }
+
+  public UnidadLexica unidadMayor() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.MAYOR,sjx.lexema());
+  }
+
+  public UnidadLexica unidadMenorIg() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.MENIGUAL,sjx.lexema());
+  }
+
+  public UnidadLexica unidadMayorIg() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.MAYIGUAL,sjx.lexema());
+  }
+
+  public UnidadLexica unidadIgual() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.IGUAL,sjx.lexema());
+  }
+
+  public UnidadLexica unidadIdentidad() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.IGDOBLE,sjx.lexema());
+  }
+
+  public UnidadLexica unidadDistinto() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.DISTINTO,sjx.lexema());
+  }
+
+  public UnidadLexica unidadPAp() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.PAP,sjx.lexema());
+  }
+
+  public UnidadLexica unidadPCierre() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.PCIERRE,sjx.lexema());
+  }
+
+  public UnidadLexica unidadCAp() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.CAP,sjx.lexema());
+  }
+
+  public UnidadLexica unidadCCierre() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.CCIERRE,sjx.lexema());
+  }
+
+  public UnidadLexica unidadLAp() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.LLAP,sjx.lexema());
+  }
+
+  public UnidadLexica unidadLCierre() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.LLCIERRE,sjx.lexema());
+  }
+
+  public UnidadLexica unidadComa() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.COMA,sjx.lexema());
+  }
+
+  public UnidadLexica unidadPtoComa() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.PTOCOMA,sjx.lexema());
+  }
+
+  public UnidadLexica unidadFl() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.FLECHA,sjx.lexema());
+  }
+
+  public UnidadLexica unidadEof() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.EOF,sjx.lexema());
+  }
   public void error() {
     System.err.println("***"+sjx.fila()+", "+sjx.columna()+" Caracter inesperado: "+sjx.lexema());
   }
