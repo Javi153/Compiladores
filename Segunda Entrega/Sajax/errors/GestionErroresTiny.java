@@ -1,6 +1,6 @@
 package errors;
 
-import alex.UnidadLexica;
+import sajax_lex.UnidadLexica;
 
 public class GestionErroresTiny {
    public void errorLexico(int fila, int columna, String lexema) {

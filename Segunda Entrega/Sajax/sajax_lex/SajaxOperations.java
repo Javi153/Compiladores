@@ -1,5 +1,5 @@
 package sajax_lex;
-import asint.ClaseLexica;
+import constructorast.ClaseLexica;
 
 public class SajaxOperations {
   private AnalizadorLexicoSajax sjx;

@@ -1,10 +1,10 @@
 package constructorast;
 
 import java_cup.runtime.*;
-import alex.AnalizadorLexicoExp;
-import alex.UnidadLexica;
-import alex.TokenValue;
-import errors.GestionErroresExp;
+import sajax_lex.AnalizadorLexicoSajax;
+import sajax_lex.UnidadLexica;
+import sajax_lex.TokenValue;
+import errors.GestionErroresTiny;
 import ast.*;
 
 scan with {: return getScanner().next_token(); :};
@@ -12,33 +12,38 @@ scan with {: return getScanner().next_token(); :};
 //   ... add some code to declare and initialize e.g. variables used by the code embedded in the grammar
 //:};
 parser code {: 
-   private GestionErroresExp errores;
+   private GestionErroresTiny errores;
    public void syntax_error(Symbol unidadLexica) {
      errores.errorSintactico((UnidadLexica)unidadLexica);
    }
 :};
 init with {: 
-   errores = new GestionErroresExp();
-   AnalizadorLexicoExp alex = (AnalizadorLexicoExp)getScanner();
-   alex.fijaGestionErrores(errores);
+   errores = new GestionErroresTiny();
+   AnalizadorLexicoSajax sajax = (AnalizadorLexicoSajax)getScanner();
+   sajax.fijaGestionErrores(errores);
 :};
 
-
-terminal  MAS, POR, PAP, PCIERRE;
-terminal TokenValue NUM;
+terminal     IDEN, OR, AND, NOT, MAS, MENOS, POR, DIV, POT, MOD,
+             IGDOBLE, DISTINTO, MENOR, MAYOR, MENIGUAL, MAYIGUAL,
+             IGUAL, COMA, PAP, PCIERRE, WHILE, FOR, VOID, RETURN,
+             STRUCT, LLAP, LLCIERRE, PTOCOMA, IF, ELSIF, ELSE,
+	     SWITCH, CASE, DEFAULT, BREAK, DOSPTOS, MEMSPACE, FREE,
+	     INT, FLOAT, BOOL, PRINT, PRINTLN, INPUT, MAIN, BB,
+	     CAP, CCIERRE, FLECHA, TRUE, FALSE;
+terminal TokenValue ENT, REAL;
 
 non terminal  E Exp, Term, Fact;
 
-Exp ::= Exp: aDeexp1 MAS Term: aDeterm 
+Exp ::= Exp: aDeexp1 MAS Term: aDeterm
    {: RESULT= new Sum(aDeexp1,aDeterm); :};
 Exp ::= Term: aDeterm
    {: RESULT=aDeterm; :};
-Term ::= Term: aDeterm1 POR Fact: aDefact 
+Term ::= Term: aDeterm1 POR Fact: aDefact
    {: RESULT= new Mul(aDeterm1,aDefact); :};
 Term ::= Fact: aDefact
    {: RESULT=aDefact; :};   
-Fact ::= NUM: numValue           
-   {: RESULT = new Num(numValue.lexema); :};
+Fact ::= ENT: numValue
+   {: RESULT = new Ent(numValue.lexema); :};
 Fact ::= PAP Exp: aDeexp PCIERRE
    {: RESULT = aDeexp; :};
 
