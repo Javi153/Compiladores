@@ -1,5 +1,5 @@
 package ast;
 
 public enum KindE {
-  SUMA,MUL,ENT
+  SUMA,RESTA,MUL,DIV,MOD,POT,ENT,REAL,IDEN
 }

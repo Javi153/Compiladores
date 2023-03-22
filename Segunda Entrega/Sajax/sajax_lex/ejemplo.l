@@ -69,7 +69,7 @@ operadorSuma = \+
 operadorResta = \-
 operadorMultiplicacion = \*
 operadorDivision = \/
-operadorModulo = %
+operadorModulo = \%
 operadorExp = \^
 operadorY = &&
 operadorO = \|\|
@@ -134,8 +134,8 @@ flechita = \->
 {operadorMayorIg}         {return ops.unidadMayorIg();}
 {operadorIdentidad}       {return ops.unidadIdentidad();}
 {operadorDistinto}        {return ops.unidadDistinto();}
-{numeroEntero}		  {return ops.unidadEnt();}
 {numeroReal}		  {return ops.unidadReal();}
+{numeroEntero}		  {return ops.unidadEnt();}
 {parentesisApertura}      {return ops.unidadPAp();}
 {parentesisCierre}        {return ops.unidadPCierre();} 
 {corcheteApertura}        {return ops.unidadCAp();}
