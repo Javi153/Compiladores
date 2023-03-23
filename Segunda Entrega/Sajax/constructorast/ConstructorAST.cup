@@ -32,12 +32,15 @@ terminal     OR, AND, NOT, MAS, MENOS, POR, DIV, POT, MOD,
 	     CAP, CCIERRE, FLECHA, TRUE, FALSE;
 terminal TokenValue ENT, REAL, IDEN;
 
-non terminal  E S,EntLvl2, EntLvl1, EntLvl0, NumEnt, FloatLvl2, FloatLvl1, FloatLvl0, NumFloat;
+non terminal  E S,EntLvl2, EntLvl1, EntLvl0, NumEnt, FloatLvl2, FloatLvl1, FloatLvl0,
+              NumFloat, BoolLvl3, BoolLvl2, BoolLvl1, BoolLvl0, valBool;
 
 S ::= EntLvl2: aDeexp
    {: RESULT=aDeexp; :};
 S ::= FloatLvl2: floatexp
    {: RESULT=floatexp; :};
+S ::= BoolLvl3: boolexp
+   {: RESULT=boolexp; :};
 EntLvl2 ::= EntLvl2: aDeexp1 MAS EntLvl1: aDeterm
    {: RESULT= new EBin(aDeexp1,aDeterm,KindE.SUMA); :};
 EntLvl2 ::= EntLvl2: aDeexp1 MENOS EntLvl1: aDeterm
@@ -58,8 +61,6 @@ EntLvl0 ::= NumEnt: aDefact
    {: RESULT= aDefact; :};
 NumEnt ::= ENT: numValue
    {: RESULT = new Ent(numValue.lexema); :};
-NumEnt ::= IDEN: ident
-   {: RESULT = new Ident(ident.lexema); :};
 NumEnt ::= PAP EntLvl2: aDeexp PCIERRE
    {: RESULT = aDeexp; :};
 FloatLvl2 ::= FloatLvl2: floatexp1 MAS FloatLvl1: floatterm
@@ -80,7 +81,37 @@ FloatLvl0 ::= NumFloat: floatfact
    {: RESULT= floatfact; :};
 NumFloat ::= REAL: realValue
    {: RESULT = new Real(realValue.lexema); :};
-NumFloat ::= IDEN: ident
-   {: RESULT = new Ident(ident.lexema); :};
 NumFloat ::= PAP FloatLvl2: floatexp PCIERRE
    {: RESULT = floatexp; :};
+BoolLvl3 ::= BoolLvl2: boolterm1 IGDOBLE BoolLvl2: boolterm2
+   {: RESULT=new EBin(boolterm1, boolterm2,KindE.ID); :};
+BoolLvl3 ::= EntLvl2: boolterm1 IGDOBLE EntLvl2: boolterm2
+   {: RESULT=new EBin(boolterm1, boolterm2,KindE.ID); :};
+BoolLvl3 ::= FloatLvl2: boolterm1 IGDOBLE FloatLvl2: boolterm2
+   {: RESULT=new EBin(boolterm1, boolterm2,KindE.ID); :};
+BoolLvl3 ::= BoolLvl2: boolterm1 DISTINTO BoolLvl2: boolterm2
+   {: RESULT=new EBin(boolterm1, boolterm2,KindE.DISTINTO); :};
+BoolLvl3 ::= EntLvl2: boolterm1 DISTINTO EntLvl2: boolterm2
+   {: RESULT=new EBin(boolterm1, boolterm2,KindE.DISTINTO); :};
+BoolLvl3 ::= FloatLvl2: boolterm1 DISTINTO FloatLvl2: boolterm2
+   {: RESULT=new EBin(boolterm1, boolterm2,KindE.DISTINTO); :};
+BoolLvl3 ::= BoolLvl2: boolterm1
+   {: RESULT=boolterm1; :};
+BoolLvl2 ::= BoolLvl2: boolterm1 OR BoolLvl1: boolterm2
+   {: RESULT=new EBin(boolterm1, boolterm2, KindE.OR); :};
+BoolLvl2 ::= BoolLvl1: boolterm1
+   {: RESULT=boolterm1; :};
+BoolLvl1 ::= BoolLvl1: boolterm1 AND BoolLvl0: boolterm2
+   {: RESULT=new EBin(boolterm1, boolterm2, KindE.AND); :};
+BoolLvl1 ::= BoolLvl0: boolterm1
+   {: RESULT=boolterm1; :};
+BoolLvl0 ::= NOT BoolLvl0:boolVal
+   {: RESULT=new Not(boolVal); :};
+BoolLvl0 ::= valBool: boolVal
+   {: RESULT=boolVal; :};
+valBool ::= TRUE
+   {: RESULT=new True(); :};
+valBool ::= FALSE
+   {: RESULT=new False(); :};
+valBool ::= PAP BoolLvl3:boolterm PCIERRE
+   {: RESULT=boolterm; :};

@@ -44,6 +44,18 @@ public class EBin extends E {
             case POT:
                 s = "pot";
                 break;
+            case ID:
+                s = "identidad";
+                break;
+            case DISTINTO:
+                s = "distinto";
+                break;
+            case OR:
+                s = "or";
+                break;
+            case AND:
+                s = "and";
+                break;
         }
         return s+"(" + opnd1().toString() + "," + opnd2().toString() + ")";
     }
