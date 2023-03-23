@@ -56,6 +56,18 @@ public class EBin extends E {
             case AND:
                 s = "and";
                 break;
+            case MENOR:
+                s = "desigualdadMenor";
+                break;
+            case MAYOR:
+                s = "desigualdadMayor";
+                break;
+            case MENIGUAL:
+                s = "desigualdadMenigual";
+                break;
+            case MAYIGUAL:
+                s = "desigualdadMayigual";
+                break;
         }
         return s+"(" + opnd1().toString() + "," + opnd2().toString() + ")";
     }

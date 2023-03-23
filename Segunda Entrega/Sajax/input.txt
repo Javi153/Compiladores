@@ -1,1 +1,1 @@
-false == true
+int algo_3;

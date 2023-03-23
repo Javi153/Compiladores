@@ -27,91 +27,78 @@ terminal     OR, AND, NOT, MAS, MENOS, POR, DIV, POT, MOD,
              IGDOBLE, DISTINTO, MENOR, MAYOR, MENIGUAL, MAYIGUAL,
              IGUAL, COMA, PAP, PCIERRE, WHILE, FOR, VOID, RETURN,
              STRUCT, LLAP, LLCIERRE, PTOCOMA, IF, ELSIF, ELSE,
-	     SWITCH, CASE, DEFAULT, BREAK, DOSPTOS, MEMSPACE, FREE,
-	     INT, FLOAT, BOOL, PRINT, PRINTLN, INPUT, MAIN, BB,
-	     CAP, CCIERRE, FLECHA, TRUE, FALSE;
+	         SWITCH, CASE, DEFAULT, BREAK, DOSPTOS, MEMSPACE, FREE,
+	         INT, FLOAT, BOOL, PRINT, PRINTLN, INPUT, MAIN, BB,
+	         CAP, CCIERRE, FLECHA, TRUE, FALSE;
 terminal TokenValue ENT, REAL, IDEN;
 
-non terminal  E S,EntLvl2, EntLvl1, EntLvl0, NumEnt, FloatLvl2, FloatLvl1, FloatLvl0,
-              NumFloat, BoolLvl3, BoolLvl2, BoolLvl1, BoolLvl0, valBool;
+non terminal  Statement S, SAsign, SDec;
+non terminal  E SExp4, SExp3, SExp2, SExp1, SExp0, Exp;
+non terminal  TipoEnum Tipo;
 
-S ::= EntLvl2: aDeexp
+S ::= SAsign: aDeexp
    {: RESULT=aDeexp; :};
-S ::= FloatLvl2: floatexp
-   {: RESULT=floatexp; :};
-S ::= BoolLvl3: boolexp
-   {: RESULT=boolexp; :};
-EntLvl2 ::= EntLvl2: aDeexp1 MAS EntLvl1: aDeterm
-   {: RESULT= new EBin(aDeexp1,aDeterm,KindE.SUMA); :};
-EntLvl2 ::= EntLvl2: aDeexp1 MENOS EntLvl1: aDeterm
-   {: RESULT= new EBin(aDeexp1,aDeterm,KindE.RESTA); :};
-EntLvl2 ::= EntLvl1: aDeterm
-   {: RESULT=aDeterm; :};
-EntLvl1 ::= EntLvl1: aDeterm1 POR EntLvl0: aDefact
-   {: RESULT= new EBin(aDeterm1,aDefact, KindE.MUL); :};
-EntLvl1 ::= EntLvl1: aDeterm1 DIV EntLvl0: aDefact
-   {: RESULT= new EBin(aDeterm1,aDefact, KindE.DIV); :};
-EntLvl1 ::= EntLvl1: aDeterm1 MOD EntLvl0: aDefact
+S ::= SDec: aDeexp
+   {: RESULT=aDeexp; :};
+SDec ::= Tipo: tipoAsig IDEN:ident PTOCOMA
+   {: RESULT=new Dec(tipoAsig, ident.lexema); :};
+SAsign ::= Tipo: tipoAsig IDEN:ident IGUAL SExp4:expterm PTOCOMA
+   {: RESULT=new Asign(tipoAsig, ident.lexema, expterm); :};
+SExp4 ::= SExp3: expterm1 IGDOBLE SExp3: expterm2
+   {: RESULT=new EBin(expterm1, expterm2,KindE.ID); :};
+SExp4 ::= SExp3: expterm1 DISTINTO SExp3: expterm2
+   {: RESULT=new EBin(expterm1, expterm2,KindE.DISTINTO); :};
+SExp4 ::= SExp3: expterm1
+   {: RESULT=expterm1; :};
+SExp3 ::= SExp2: expterm1 MENOR SExp2: expterm2
+   {: RESULT=new EBin(expterm1, expterm2,KindE.MENOR); :};
+SExp3 ::= SExp2: expterm1 MAYOR SExp2: expterm2
+   {: RESULT=new EBin(expterm1, expterm2,KindE.MAYOR); :};
+SExp3 ::= SExp2: expterm1 MENIGUAL SExp2: expterm2
+   {: RESULT=new EBin(expterm1, expterm2,KindE.MENIGUAL); :};
+SExp3 ::= SExp2: expterm1 MAYIGUAL SExp2: expterm2
+   {: RESULT=new EBin(expterm1, expterm2,KindE.MAYIGUAL); :};
+SExp3 ::= SExp2: expterm1
+   {: RESULT=expterm1; :};
+SExp2 ::= SExp2: expterm1 OR SExp1: expterm2
+   {: RESULT=new EBin(expterm1, expterm2, KindE.OR); :};
+SExp2 ::= SExp2: floatexp1 MAS SExp1: expterm
+   {: RESULT= new EBin(floatexp1,expterm,KindE.SUMA); :};
+SExp2 ::= SExp2: floatexp1 MENOS SExp1: expterm
+   {: RESULT= new EBin(floatexp1,expterm,KindE.RESTA); :};
+SExp2 ::= SExp1: expterm1
+   {: RESULT=expterm1; :};
+SExp1 ::= SExp1: expterm1 AND SExp0: expterm2
+   {: RESULT=new EBin(expterm1, expterm2, KindE.AND); :};
+SExp1 ::= SExp1: expterm1 POR SExp0: expfact
+   {: RESULT= new EBin(expterm1,expfact, KindE.MUL); :};
+SExp1 ::= SExp1: expterm1 DIV SExp0: expfact
+   {: RESULT= new EBin(expterm1,expfact, KindE.DIV); :};
+SExp1 ::= SExp1: aDeterm1 MOD SExp0: aDefact
    {: RESULT= new EBin(aDeterm1,aDefact, KindE.MOD); :};
-EntLvl1 ::= EntLvl0: aDefact
-   {: RESULT=aDefact; :};
-EntLvl0 ::= NumEnt: aDefact POT EntLvl0: aDeterm2
-   {: RESULT= new EBin(aDefact,aDeterm2, KindE.POT); :};
-EntLvl0 ::= NumEnt: aDefact
-   {: RESULT= aDefact; :};
-NumEnt ::= ENT: numValue
-   {: RESULT = new Ent(numValue.lexema); :};
-NumEnt ::= PAP EntLvl2: aDeexp PCIERRE
-   {: RESULT = aDeexp; :};
-FloatLvl2 ::= FloatLvl2: floatexp1 MAS FloatLvl1: floatterm
-   {: RESULT= new EBin(floatexp1,floatterm,KindE.SUMA); :};
-FloatLvl2 ::= FloatLvl2: floatexp1 MENOS FloatLvl1: floatterm
-   {: RESULT= new EBin(floatexp1,floatterm,KindE.RESTA); :};
-FloatLvl2 ::= FloatLvl1: floatterm
-   {: RESULT=floatterm; :};
-FloatLvl1 ::= FloatLvl1: floatterm1 POR FloatLvl0: floatfact
-   {: RESULT= new EBin(floatterm1,floatfact, KindE.MUL); :};
-FloatLvl1 ::= FloatLvl1: floatterm1 DIV FloatLvl0: floatfact
-   {: RESULT= new EBin(floatterm1,floatfact, KindE.DIV); :};
-FloatLvl1 ::= FloatLvl0: floatfact
-   {: RESULT=floatfact; :};
-FloatLvl0 ::= NumFloat: floatfact POT FloatLvl0: floatterm2
-   {: RESULT= new EBin(floatfact,floatterm2, KindE.POT); :};
-FloatLvl0 ::= NumFloat: floatfact
-   {: RESULT= floatfact; :};
-NumFloat ::= REAL: realValue
-   {: RESULT = new Real(realValue.lexema); :};
-NumFloat ::= PAP FloatLvl2: floatexp PCIERRE
-   {: RESULT = floatexp; :};
-BoolLvl3 ::= BoolLvl2: boolterm1 IGDOBLE BoolLvl2: boolterm2
-   {: RESULT=new EBin(boolterm1, boolterm2,KindE.ID); :};
-BoolLvl3 ::= EntLvl2: boolterm1 IGDOBLE EntLvl2: boolterm2
-   {: RESULT=new EBin(boolterm1, boolterm2,KindE.ID); :};
-BoolLvl3 ::= FloatLvl2: boolterm1 IGDOBLE FloatLvl2: boolterm2
-   {: RESULT=new EBin(boolterm1, boolterm2,KindE.ID); :};
-BoolLvl3 ::= BoolLvl2: boolterm1 DISTINTO BoolLvl2: boolterm2
-   {: RESULT=new EBin(boolterm1, boolterm2,KindE.DISTINTO); :};
-BoolLvl3 ::= EntLvl2: boolterm1 DISTINTO EntLvl2: boolterm2
-   {: RESULT=new EBin(boolterm1, boolterm2,KindE.DISTINTO); :};
-BoolLvl3 ::= FloatLvl2: boolterm1 DISTINTO FloatLvl2: boolterm2
-   {: RESULT=new EBin(boolterm1, boolterm2,KindE.DISTINTO); :};
-BoolLvl3 ::= BoolLvl2: boolterm1
-   {: RESULT=boolterm1; :};
-BoolLvl2 ::= BoolLvl2: boolterm1 OR BoolLvl1: boolterm2
-   {: RESULT=new EBin(boolterm1, boolterm2, KindE.OR); :};
-BoolLvl2 ::= BoolLvl1: boolterm1
-   {: RESULT=boolterm1; :};
-BoolLvl1 ::= BoolLvl1: boolterm1 AND BoolLvl0: boolterm2
-   {: RESULT=new EBin(boolterm1, boolterm2, KindE.AND); :};
-BoolLvl1 ::= BoolLvl0: boolterm1
-   {: RESULT=boolterm1; :};
-BoolLvl0 ::= NOT BoolLvl0:boolVal
+SExp1 ::= SExp0: expterm1
+   {: RESULT=expterm1; :};
+SExp0 ::= Exp: expfact POT SExp0: expterm2
+   {: RESULT= new EBin(expfact,expterm2, KindE.POT); :};
+SExp0 ::= NOT SExp0:boolVal
    {: RESULT=new Not(boolVal); :};
-BoolLvl0 ::= valBool: boolVal
-   {: RESULT=boolVal; :};
-valBool ::= TRUE
+SExp0 ::= Exp: expterm1
+   {: RESULT=expterm1; :};
+Exp ::= ENT: numEnt
+   {: RESULT=new Ent(numEnt.lexema); :};
+Exp ::= REAL: numReal
+   {: RESULT=new Real(numReal.lexema); :};
+Exp ::= TRUE: trueterm
    {: RESULT=new True(); :};
-valBool ::= FALSE
+Exp ::= FALSE: falseterm
    {: RESULT=new False(); :};
-valBool ::= PAP BoolLvl3:boolterm PCIERRE
-   {: RESULT=boolterm; :};
+Exp ::= IDEN: ident
+   {: RESULT=new Ident(ident.lexema); :};
+Exp ::= PAP SExp4:expterm PCIERRE
+   {: RESULT=expterm; :};
+Tipo ::= BOOL
+   {: RESULT=TipoEnum.BOOL; :};
+Tipo ::= INT
+   {: RESULT=TipoEnum.INT; :};
+Tipo ::= FLOAT
+   {: RESULT=TipoEnum.FLOAT; :};

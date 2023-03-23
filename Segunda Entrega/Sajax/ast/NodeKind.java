@@ -1,5 +1,5 @@
 package ast;
 
 public enum NodeKind {
-  EXPRESSION
+  EXPRESSION, ASIGN, DEC
 }
