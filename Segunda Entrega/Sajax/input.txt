@@ -1,1 +1,19 @@
-int a = 3-4;
+while(true){
+if(3 - mitula_5 + 7 / 4 == false){
+	if(false){
+		int a = 78.9367;
+	}
+	else{
+		break;
+	}
+}
+elsif(true){
+	memspace(klasjfl);
+}
+elsif(verga){
+	println(comida);
+}
+else{
+	free(lksm_987);
+}
+}

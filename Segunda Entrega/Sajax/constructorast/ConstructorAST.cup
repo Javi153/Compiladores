@@ -6,6 +6,7 @@ import sajax_lex.UnidadLexica;
 import sajax_lex.TokenValue;
 import errors.GestionErroresTiny;
 import ast.*;
+import java.util.ArrayList;
 
 scan with {: return getScanner().next_token(); :};
 //action code {:
@@ -32,9 +33,10 @@ terminal     OR, AND, NOT, MAS, MENOS, POR, DIV, POT, MOD,
 	         CAP, CCIERRE, FLECHA, TRUE, FALSE;
 terminal TokenValue ENT, REAL, IDEN;
 
-non terminal  Statement S, SAsign, SDec, SIO, SIf;
+non terminal  Statement S, SAsign, SDec, SIO, SIf, SWhile, SBreak, SMemspace, SFree;
 non terminal  E SExp4, SExp3, SExp2, SExp1, SExp0, Exp;
 non terminal  TipoEnum Tipo;
+non terminal  ArrayList<Elsif> SElsif;
 
 S ::= SAsign: aDeexp
    {: RESULT=aDeexp; :};
@@ -44,20 +46,40 @@ S ::= SIO:aDeexp
    {: RESULT=aDeexp; :};
 S ::= SIf: aDeexp
    {: RESULT=aDeexp; :};
-SIf ::= IF PAP SExp4:cond PCIERRE LLAP S:St LLCIERRE
-   {: RESULT=new IfElse(cond, St); :};
-SIf ::= IF PAP SExp4:cond PCIERRE LLAP S:St1 LLCIERRE SElsif: ELSE LLAP S:St2 LLCIERRE
-   {: RESULT=new IfElse(cond, St1, St2); :};
+S ::= SWhile: aDeexp
+   {: RESULT=aDeexp; :};
+S ::= SBreak: aDeexp
+   {: RESULT=aDeexp; :};
+S ::= SMemspace: aDeexp
+   {: RESULT=aDeexp; :};
+S ::= SFree: aDeexp
+   {: RESULT=aDeexp; :};
+SMemspace ::= MEMSPACE SExp4:arg1 PTOCOMA
+   {: RESULT=new Memspace(arg1); :};
+SFree ::= FREE SExp4: arg1 PTOCOMA
+   {: RESULT=new Free(arg1); :};
+SBreak ::= BREAK PTOCOMA
+   {: RESULT=new Break(); :};
+SIf ::= IF PAP SExp4:cond1 PCIERRE LLAP S:St LLCIERRE SElsif:arrayelsifs
+   {: RESULT=new IfElse(cond1, St, arrayelsifs); :};
+SIf ::= IF PAP SExp4:cond2 PCIERRE LLAP S:St1 LLCIERRE SElsif:arrayelsifs ELSE LLAP S:St2 LLCIERRE
+   {: RESULT=new IfElse(cond2, St1, arrayelsifs, St2); :};
+SElsif ::= ELSIF PAP SExp4:cond3 PCIERRE LLAP S:St3 LLCIERRE SElsif:arrayelsifs
+   {: arrayelsifs.add(new Elsif(cond3, St3)); RESULT=arrayelsifs; :};
+SElsif ::=
+   {: RESULT=new ArrayList<Elsif>(); :};
 SIO ::= PRINT PAP SExp4:expresion PCIERRE PTOCOMA
    {: RESULT=new Print(expresion, false); :};
 SIO ::= PRINTLN PAP SExp4:expresion PCIERRE PTOCOMA
    {: RESULT=new Print(expresion, true); :};
-SIO ::= INPUT PAP SExp4:expresion PCIERRE
+SIO ::= INPUT PAP SExp4:expresion PCIERRE PTOCOMA
    {: RESULT=new Input(expresion); :};
 SDec ::= Tipo: tipoAsig IDEN:ident PTOCOMA
    {: RESULT=new Dec(tipoAsig, ident.lexema); :};
 SAsign ::= Tipo: tipoAsig IDEN:ident IGUAL SExp4:expterm PTOCOMA
    {: RESULT=new Asign(tipoAsig, ident.lexema, expterm); :};
+SWhile ::= WHILE PAP SExp4:cond PCIERRE LLAP S:instrucciones LLCIERRE
+   {: RESULT=new While(cond, instrucciones); :};
 SExp4 ::= SExp3: expterm1 IGDOBLE SExp3: expterm2
    {: RESULT=new EBin(expterm1, expterm2,KindE.ID); :};
 SExp4 ::= SExp3: expterm1 DISTINTO SExp3: expterm2

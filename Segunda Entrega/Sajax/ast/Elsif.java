@@ -4,8 +4,9 @@ public class Elsif extends Statement implements ASTNode{
     private E cond;
     private Statement St;
 
-    public Elsif(E cond, Statement S){
-        this.cond = ;
+    public Elsif(E cond, Statement St){
+        this.cond = cond;
+        this.St = St;
     }
     @Override
     public NodeKind nodeKind() {
@@ -13,6 +14,6 @@ public class Elsif extends Statement implements ASTNode{
     }
 
     public String toString(){
-
+        return "elsif("+cond.toString()+","+St.toString()+")";
     }
 }
