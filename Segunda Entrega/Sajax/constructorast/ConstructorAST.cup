@@ -32,7 +32,7 @@ terminal     OR, AND, NOT, MAS, MENOS, POR, DIV, POT, MOD,
 	         CAP, CCIERRE, FLECHA, TRUE, FALSE;
 terminal TokenValue ENT, REAL, IDEN;
 
-non terminal  Statement S, SAsign, SDec;
+non terminal  Statement S, SAsign, SDec, SIO, SIf;
 non terminal  E SExp4, SExp3, SExp2, SExp1, SExp0, Exp;
 non terminal  TipoEnum Tipo;
 
@@ -40,6 +40,20 @@ S ::= SAsign: aDeexp
    {: RESULT=aDeexp; :};
 S ::= SDec: aDeexp
    {: RESULT=aDeexp; :};
+S ::= SIO:aDeexp
+   {: RESULT=aDeexp; :};
+S ::= SIf: aDeexp
+   {: RESULT=aDeexp; :};
+SIf ::= IF PAP SExp4:cond PCIERRE LLAP S:St LLCIERRE
+   {: RESULT=new IfElse(cond, St); :};
+SIf ::= IF PAP SExp4:cond PCIERRE LLAP S:St1 LLCIERRE SElsif: ELSE LLAP S:St2 LLCIERRE
+   {: RESULT=new IfElse(cond, St1, St2); :};
+SIO ::= PRINT PAP SExp4:expresion PCIERRE PTOCOMA
+   {: RESULT=new Print(expresion, false); :};
+SIO ::= PRINTLN PAP SExp4:expresion PCIERRE PTOCOMA
+   {: RESULT=new Print(expresion, true); :};
+SIO ::= INPUT PAP SExp4:expresion PCIERRE
+   {: RESULT=new Input(expresion); :};
 SDec ::= Tipo: tipoAsig IDEN:ident PTOCOMA
    {: RESULT=new Dec(tipoAsig, ident.lexema); :};
 SAsign ::= Tipo: tipoAsig IDEN:ident IGUAL SExp4:expterm PTOCOMA
