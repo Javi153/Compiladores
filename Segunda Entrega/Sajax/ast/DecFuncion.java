@@ -7,12 +7,14 @@ public class DecFuncion extends Statement implements ASTNode{
     private String name;
     private ArrayList<Parametro> parlist;
     private Bloque cuerpo;
+    private Return ret;
 
-    public DecFuncion(Tipo tipo, String name, ArrayList<Parametro> parlist, Bloque cuerpo){
+    public DecFuncion(Tipo tipo, String name, ArrayList<Parametro> parlist, Bloque cuerpo, Return ret){
         this.tipo = tipo;
         this.name = name;
         this.parlist = parlist;
         this.cuerpo = cuerpo;
+        this.ret = ret;
     }
 
     @Override
@@ -34,7 +36,13 @@ public class DecFuncion extends Statement implements ASTNode{
             for (Parametro p : parlist) {
                 s = s.concat("," + p.toString());
             }
-            s = s.concat(","+cuerpo.toString()+")");
+            s = s.concat(","+cuerpo.toString());
+            if(ret != null){
+                s= s.concat(","+ret.toString()+")");
+            }
+            else{
+                s=s.concat(")");
+            }
         }
         return s;
     }

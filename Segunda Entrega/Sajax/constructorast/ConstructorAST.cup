@@ -29,18 +29,19 @@ terminal     OR, AND, NOT, MAS, MENOS, POR, DIV, POT, MOD,
              IGDOBLE, DISTINTO, MENOR, MAYOR, MENIGUAL, MAYIGUAL,
              IGUAL, COMA, PAP, PCIERRE, WHILE, FOR, VOID, RETURN,
              STRUCT, LLAP, LLCIERRE, PTOCOMA, IF, ELSIF, ELSE,
-	         SWITCH, CASE, DEFAULT, BREAK, DOSPTOS, MEMSPACE, FREE,
+	         SWITCH, CASE, DEFAULT, BREAK, MEMSPACE, FREE,
 	         INT, FLOAT, BOOL, PRINT, PRINTLN, INPUT, MAIN, BB,
 	         CAP, CCIERRE, FLECHA, TRUE, FALSE;
 terminal TokenValue ENT, REAL, IDEN;
 
 non terminal Bloque S;
-non terminal ArrayList<Statement> BloqueGeneral;
-non terminal  Statement SAsign, SDec, SIf, SWhile, SBreak, SCallFun, SFor;
+non terminal ArrayList<Statement> BloqueGeneral, AtribStruct;
+non terminal Return SReturn;
+non terminal Statement SAsign, SDec, SIf, SWhile, SBreak, SCallFun, SFor, SStruct;
 non terminal DecFuncion SDecFuncion, SDecFuncionInline;
-non terminal  E SExp4, SExp3, SExp2, SExp1, SExp0, Exp, CallFun;
-non terminal  Tipo TipoBas, TipoStruct, Tipos, TipoVoid;
-non terminal  ArrayList<Elsif> SElsif;
+non terminal E SExp4, SExp3, SExp2, SExp1, SExp0, Exp, CallFun, IdenOps;
+non terminal Tipo TipoBas, TipoStruct, Tipos, TipoVoid;
+non terminal ArrayList<Elsif> SElsif;
 non terminal ArrayList<Parametro> SParams, SParamsNoVacio;
 non terminal ArrayList<E> SParExp, SParExp1;
 
@@ -64,7 +65,19 @@ BloqueGeneral ::= BloqueGeneral:genBlock SDecFuncion: aDeexp
    {: genBlock.add(aDeexp); RESULT=genBlock; :};
 BloqueGeneral ::= BloqueGeneral:genBlock SCallFun: aDeexp
    {: genBlock.add(aDeexp); RESULT=genBlock; :};
+BloqueGeneral ::= BloqueGeneral:genBlock SStruct: aDeexp
+   {: genBlock.add(aDeexp); RESULT=genBlock; :};
 BloqueGeneral ::=
+   {: RESULT=new ArrayList<Statement>(); :};
+SStruct ::= STRUCT IDEN:name LLAP AtribStruct:atributos LLCIERRE
+   {: RESULT=new Struct(name.lexema, new Bloque(atributos)); :};
+AtribStruct ::= AtribStruct:bloqueatr SAsign: asign
+   {: bloqueatr.add(asign); RESULT=bloqueatr; :};
+AtribStruct ::= AtribStruct:bloqueatr SDec: dec
+   {: bloqueatr.add(dec); RESULT=bloqueatr; :};
+AtribStruct ::= AtribStruct:bloqueatr SDecFuncion: dec
+   {: bloqueatr.add(dec); RESULT=bloqueatr; :};
+AtribStruct ::=
    {: RESULT=new ArrayList<Statement>(); :};
 SBreak ::= BREAK PTOCOMA
    {: RESULT=new Break(); :};
@@ -87,13 +100,15 @@ SFor ::= FOR PAP SExp4:inicio PTOCOMA SExp4:fin PTOCOMA SExp4:paso PCIERRE LLAP 
 SWhile ::= WHILE PAP SExp4:cond PCIERRE LLAP S:instrucciones LLCIERRE
    {: RESULT=new While(cond, instrucciones); :};
 SDecFuncionInline ::= Tipos:tipo IDEN:name PAP SParams:params PCIERRE PTOCOMA
-   {: RESULT=new DecFuncion(tipo, name.lexema, params, null); :};
-SDecFuncion ::= Tipos:tipo IDEN:name PAP SParams:params PCIERRE LLAP S:block LLCIERRE
-   {: RESULT=new DecFuncion(tipo, name.lexema, params, block); :};
+   {: RESULT=new DecFuncion(tipo, name.lexema, params, null, null); :};
 SDecFuncionInline ::= TipoVoid:tipo IDEN:name PAP SParams:params PCIERRE PTOCOMA
-   {: RESULT=new DecFuncion(tipo, name.lexema, params, null); :};
+   {: RESULT=new DecFuncion(tipo, name.lexema, params, null, null); :};
+SDecFuncion ::= Tipos:tipo IDEN:name PAP SParams:params PCIERRE LLAP S:block SReturn:ret LLCIERRE
+   {: RESULT=new DecFuncion(tipo, name.lexema, params, block, ret); :};
 SDecFuncion ::= TipoVoid:tipo IDEN:name PAP SParams:params PCIERRE LLAP S:block LLCIERRE
-   {: RESULT=new DecFuncion(tipo, name.lexema, params, block); :};
+   {: RESULT=new DecFuncion(tipo, name.lexema, params, block, null); :};
+SReturn ::= RETURN SExp4:expresion PTOCOMA
+   {: RESULT=new Return(expresion); :};
 SCallFun ::= PRINT PAP SExp4:expresion PCIERRE PTOCOMA
    {: RESULT=new Print(expresion, false); :};
 SCallFun ::= PRINTLN PAP SExp4:expresion PCIERRE PTOCOMA
@@ -178,10 +193,16 @@ Exp ::= FALSE: falseterm
    {: RESULT=new False(); :};
 Exp ::= IDEN: ident
    {: RESULT=new Ident(ident.lexema); :};
+Exp ::= IdenOps:idenops
+   {: RESULT=idenops; :};
 Exp ::= PAP SExp4:expterm PCIERRE
    {: RESULT=expterm; :};
 Exp ::= CallFun:callfun
    {: RESULT=callfun; :};
+IdenOps ::= POR IDEN:iden
+   {::};
+IdenOps ::= IDEN:iden FLECHA IdenOps:idenops
+   {::};
 TipoVoid ::= TipoVoid:tipo POR
    {: RESULT=new Puntero(tipo); :};
 TipoVoid ::= VOID

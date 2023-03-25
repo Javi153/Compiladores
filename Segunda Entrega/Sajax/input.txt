@@ -1,3 +1,14 @@
+struct Persona{
+string DNI;
+int edad;
+Sexo sexo;
+
+int getDni(){
+int a = b;
+return a;
+}
+}
+
 void** fun(int cosa, algo terf_4);
 
 bool fun2(){
@@ -5,8 +16,9 @@ if(a){
 break;
 }
 else{
-input(3);
+input(you);
 }
+return true;
 }
 while(true){
 if(3 - mitula_5 + 7 / 4 == false){
@@ -31,6 +43,7 @@ else{
 pito* coso = 7 - false;
 
 break;
-
+carterista(luis, paco, 7-5, 8 + 5 == -7);
+int b = carterista(luis, paco, 7-5, 8 + 5 == -7);
 println(barriguita);
 
