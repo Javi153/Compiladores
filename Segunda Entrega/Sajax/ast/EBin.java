@@ -24,51 +24,6 @@ public class EBin extends E {
     }
 
     public String toString() {
-        String s = new String();
-        switch(k){
-            case SUMA:
-                s = "suma";
-                break;
-            case RESTA:
-                s = "resta";
-                break;
-            case MUL:
-                s = "mult";
-                break;
-            case DIV:
-                s = "div";
-                break;
-            case MOD:
-                s = "mod";
-                break;
-            case POT:
-                s = "pot";
-                break;
-            case ID:
-                s = "identidad";
-                break;
-            case DISTINTO:
-                s = "distinto";
-                break;
-            case OR:
-                s = "or";
-                break;
-            case AND:
-                s = "and";
-                break;
-            case MENOR:
-                s = "desigualdadMenor";
-                break;
-            case MAYOR:
-                s = "desigualdadMayor";
-                break;
-            case MENIGUAL:
-                s = "desigualdadMenigual";
-                break;
-            case MAYIGUAL:
-                s = "desigualdadMayigual";
-                break;
-        }
-        return s+"(" + opnd1().toString() + "," + opnd2().toString() + ")";
+        return k.toString()+"(" + opnd1().toString() + "," + opnd2().toString() + ")";
     }
 }

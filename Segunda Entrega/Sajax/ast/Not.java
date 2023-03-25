@@ -9,5 +9,5 @@ public class Not extends E{
         return KindE.NOT;
     }
     public E opnd1() {return opnd1;}
-    public String toString() {return "not("+opnd1().toString()+")";}
+    public String toString() {return kind().toString()+"("+opnd1().toString()+")";}
 }

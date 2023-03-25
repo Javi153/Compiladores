@@ -1,7 +1,7 @@
 while(true){
 if(3 - mitula_5 + 7 / 4 == false){
 	if(false){
-		int a = 78.9367;
+		int** a = 78.9367;
 	}
 	else{
 		break;

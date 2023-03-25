@@ -1,6 +1,16 @@
 package ast;
 
 public enum KindE {
-  SUMA,RESTA,MUL,DIV,MOD,POT,ENT,REAL,IDEN,ID,DISTINTO,OR,AND,NOT,
-  MENOR,MAYOR,MENIGUAL, MAYIGUAL,TRUE,FALSE
+  SUMA("suma"),RESTA("resta"),MUL("mult"),DIV("div"),MOD("mod"),POT("pot"),ENT("ent"),REAL("real"),
+  IDEN("iden"),ID("igualdad"),DISTINTO("desigualdad"),OR("or"),AND("and"),NOT("not"), MENOR("menor"),
+  MAYOR("mayor"),MENIGUAL("menorOIgual"), MAYIGUAL("mayorOIgual"),TRUE("true"),FALSE("false");
+
+  private String name;
+  KindE(String s){
+    name = s;
+  }
+
+  public String toString(){
+    return name;
+  }
 }

@@ -33,9 +33,9 @@ terminal     OR, AND, NOT, MAS, MENOS, POR, DIV, POT, MOD,
 	         CAP, CCIERRE, FLECHA, TRUE, FALSE;
 terminal TokenValue ENT, REAL, IDEN;
 
-non terminal  Statement S, SAsign, SDec, SIO, SIf, SWhile, SBreak, SMemspace, SFree;
+non terminal  Statement S, SAsign, SDec, SIO, SIf, SWhile, SBreak, SMemspace, SFree, SFor;
 non terminal  E SExp4, SExp3, SExp2, SExp1, SExp0, Exp;
-non terminal  TipoEnum Tipo;
+non terminal  Tipo TipoBas, TipoStruct, Tipos;
 non terminal  ArrayList<Elsif> SElsif;
 
 S ::= SAsign: aDeexp
@@ -45,6 +45,8 @@ S ::= SDec: aDeexp
 S ::= SIO:aDeexp
    {: RESULT=aDeexp; :};
 S ::= SIf: aDeexp
+   {: RESULT=aDeexp; :};
+S ::= SFor: aDeexp
    {: RESULT=aDeexp; :};
 S ::= SWhile: aDeexp
    {: RESULT=aDeexp; :};
@@ -74,10 +76,14 @@ SIO ::= PRINTLN PAP SExp4:expresion PCIERRE PTOCOMA
    {: RESULT=new Print(expresion, true); :};
 SIO ::= INPUT PAP SExp4:expresion PCIERRE PTOCOMA
    {: RESULT=new Input(expresion); :};
-SDec ::= Tipo: tipoAsig IDEN:ident PTOCOMA
+SDec ::= Tipos: tipoAsig IDEN:ident PTOCOMA
    {: RESULT=new Dec(tipoAsig, ident.lexema); :};
-SAsign ::= Tipo: tipoAsig IDEN:ident IGUAL SExp4:expterm PTOCOMA
+SAsign ::= Tipos: tipoAsig IDEN:ident IGUAL SExp4:expterm PTOCOMA
    {: RESULT=new Asign(tipoAsig, ident.lexema, expterm); :};
+SFor ::= FOR PAP SExp4:inicio PTOCOMA SExp4:fin PCIERRE LLAP S:statement LLCIERRE
+   {: RESULT=new For(inicio, fin, statement); :};
+SFor ::= FOR PAP SExp4:inicio PTOCOMA SExp4:fin PTOCOMA SExp4:paso PCIERRE LLAP S:statement LLCIERRE
+   {: RESULT=new For(inicio, fin, paso, statement); :};
 SWhile ::= WHILE PAP SExp4:cond PCIERRE LLAP S:instrucciones LLCIERRE
    {: RESULT=new While(cond, instrucciones); :};
 SExp4 ::= SExp3: expterm1 IGDOBLE SExp3: expterm2
@@ -122,8 +128,12 @@ SExp0 ::= Exp: expterm1
    {: RESULT=expterm1; :};
 Exp ::= ENT: numEnt
    {: RESULT=new Ent(numEnt.lexema); :};
+Exp ::= MENOS ENT: numEnt
+   {: RESULT=new Ent("-" + numEnt.lexema); :};
 Exp ::= REAL: numReal
    {: RESULT=new Real(numReal.lexema); :};
+Exp ::= MENOS REAL: numReal
+   {: RESULT=new Real("-" + numReal.lexema); :};
 Exp ::= TRUE: trueterm
    {: RESULT=new True(); :};
 Exp ::= FALSE: falseterm
@@ -132,9 +142,19 @@ Exp ::= IDEN: ident
    {: RESULT=new Ident(ident.lexema); :};
 Exp ::= PAP SExp4:expterm PCIERRE
    {: RESULT=expterm; :};
-Tipo ::= BOOL
-   {: RESULT=TipoEnum.BOOL; :};
-Tipo ::= INT
-   {: RESULT=TipoEnum.INT; :};
-Tipo ::= FLOAT
-   {: RESULT=TipoEnum.FLOAT; :};
+Tipos ::= TipoBas: tipobas
+   {: RESULT=tipobas; :};
+Tipos ::= TipoStruct: tipostruct
+   {: RESULT=tipostruct; :};
+TipoBas ::= BOOL
+   {: RESULT=new Tipo(TipoEnum.BOOL); :};
+TipoBas ::= INT
+   {: RESULT=new Tipo(TipoEnum.INT); :};
+TipoBas ::= FLOAT
+   {: RESULT=new Tipo(TipoEnum.FLOAT); :};
+TipoBas ::= TipoBas: tipobas POR
+   {: RESULT=new Puntero(tipobas); :};
+TipoStruct ::= IDEN:ident
+   {: RESULT=new TipoStruct(ident.lexema); :};
+TipoStruct ::= TipoStruct:ident POR
+   {: RESULT=new Puntero(ident); :};
