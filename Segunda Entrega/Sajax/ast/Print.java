@@ -1,10 +1,14 @@
 package ast;
 
-public class Print extends Statement implements ASTNode{
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Print extends LlamadaFuncion implements ASTNode{
     private E expresion;
     private boolean ln;
 
     public Print(E expresion, boolean ln){
+        super("print", new ArrayList<E>(Arrays.asList(expresion)));
         this.expresion = expresion;
         this.ln = ln;
     }

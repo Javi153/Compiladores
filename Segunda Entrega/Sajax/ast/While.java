@@ -2,9 +2,9 @@ package ast;
 
 public class While extends Statement implements ASTNode{
     private E cond;
-    private Statement st;
+    private Bloque st;
 
-    public While(E cond, Statement st){
+    public While(E cond, Bloque st){
         this.cond = cond;
         this.st = st;
     }

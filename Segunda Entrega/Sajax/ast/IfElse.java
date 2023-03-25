@@ -4,11 +4,11 @@ import java.util.ArrayList;
 
 public class IfElse extends Statement implements ASTNode{
     private E cond;
-    private Statement S1, S2;
+    private Bloque S1, S2;
     private ArrayList<Elsif> Elsifs;
     private boolean hayelse;
 
-    public IfElse(E cond, Statement S1, ArrayList<Elsif> Elsifs){
+    public IfElse(E cond, Bloque S1, ArrayList<Elsif> Elsifs){
         this.cond = cond;
         this.S1 = S1;
         hayelse = false;
@@ -16,7 +16,7 @@ public class IfElse extends Statement implements ASTNode{
         this.S2 = null;
     }
 
-    public IfElse(E cond, Statement S1, ArrayList<Elsif> Elsifs, Statement S2){
+    public IfElse(E cond, Bloque S1, ArrayList<Elsif> Elsifs, Bloque S2){
         this.cond = cond;
         this.S1 = S1;
         this.S2 = S2;

@@ -1,9 +1,13 @@
 package ast;
 
-public class Memspace extends Statement implements ASTNode{
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class Memspace extends LlamadaFuncion implements ASTNode{
     private E arg;
 
     public Memspace(E arg){
+        super("memspace", new ArrayList<E>(Arrays.asList(arg)));
         this.arg = arg;
     }
 
