@@ -45,6 +45,9 @@ non terminal ArrayList<Elsif> SElsif;
 non terminal ArrayList<Parametro> SParams, SParamsNoVacio;
 non terminal ArrayList<E> SParExp, SParExp1;
 
+//Cosas que faltan: añadir simbolo dos puntos(:) al lexico, switch-case-default, operadores de identificadores(*,.,->,[], &), main
+//Cosas opcionales: Typedef, for, if y while de una linea
+
 S ::= BloqueGeneral:block
    {: RESULT=new Bloque(block); :};
 BloqueGeneral ::= BloqueGeneral:genBlock SAsign: aDeexp
@@ -103,7 +106,7 @@ SDecFuncionInline ::= Tipos:tipo IDEN:name PAP SParams:params PCIERRE PTOCOMA
    {: RESULT=new DecFuncion(tipo, name.lexema, params, null, null); :};
 SDecFuncionInline ::= TipoVoid:tipo IDEN:name PAP SParams:params PCIERRE PTOCOMA
    {: RESULT=new DecFuncion(tipo, name.lexema, params, null, null); :};
-SDecFuncion ::= Tipos:tipo IDEN:name PAP SParams:params PCIERRE LLAP S:block SReturn:ret LLCIERRE
+SDecFuncion ::= Tipos:tipo IDEN:name PAP SParams:params PCIERRE LLAP S:block SRetuwrn:ret LLCIERRE
    {: RESULT=new DecFuncion(tipo, name.lexema, params, block, ret); :};
 SDecFuncion ::= TipoVoid:tipo IDEN:name PAP SParams:params PCIERRE LLAP S:block LLCIERRE
    {: RESULT=new DecFuncion(tipo, name.lexema, params, block, null); :};
@@ -121,9 +124,9 @@ SCallFun ::= FREE PAP IDEN: arg1 PCIERRE PTOCOMA
    {: RESULT=new Free(new Ident(arg1.lexema)); :};
 SCallFun ::= CallFun:llamada PTOCOMA
    {: RESULT=llamada; :};
-CallFun ::= IDEN:ident PAP SParExp:parexp PCIERRE
+CallFun ::= IDEN:ident PAP SParExp:parexp PCIERRE //SparExp son parametros de funcion
    {: RESULT=new LlamadaFuncion(ident.lexema, parexp); :};
-SParExp ::= SParExp1:sparexp1
+SParExp ::= SParExp1:sparexp1 //Llamo a otra gramatica porq puede o no ser vaio y por tanto llevar comas
    {: RESULT=sparexp1; :};
 SParExp ::=
    {: RESULT=new ArrayList<E>(); :};
@@ -131,7 +134,7 @@ SParExp1 ::= SParExp1: parlist COMA SExp4:expr
    {: parlist.add(expr); RESULT=parlist; :};
 SParExp1 ::= SExp4:expr
    {: RESULT=new ArrayList<E>(Arrays.asList(expr)); :};
-SParams ::= SParamsNoVacio: params
+SParams ::= SParamsNoVacio: params //Estos parametros son para declaracion de funciones e incluyen tipos
    {: RESULT=params; :};
 SParams ::=
    {: RESULT=new ArrayList<Parametro>(); :};
@@ -199,7 +202,7 @@ Exp ::= PAP SExp4:expterm PCIERRE
    {: RESULT=expterm; :};
 Exp ::= CallFun:callfun
    {: RESULT=callfun; :};
-IdenOps ::= POR IDEN:iden
+IdenOps ::= POR IDEN:iden //Esto es lo que queda aqui [], ->, ., *iden
    {::};
 IdenOps ::= IDEN:iden FLECHA IdenOps:idenops
    {::};
@@ -219,7 +222,7 @@ TipoBas ::= INT
    {: RESULT=new Tipo(TipoEnum.INT); :};
 TipoBas ::= FLOAT
    {: RESULT=new Tipo(TipoEnum.FLOAT); :};
-TipoStruct ::= TipoStruct:ident POR
+TipoStruct ::= TipoStruct:ident POR //Tipos definidos por usuario posiblemente con asterisco para puntero
    {: RESULT=new Puntero(ident); :};
 TipoStruct ::= IDEN:ident
    {: RESULT=new TipoStruct(ident.lexema); :};
