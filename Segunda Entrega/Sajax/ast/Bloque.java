@@ -2,7 +2,7 @@ package ast;
 
 import java.util.ArrayList;
 
-public class Bloque implements ASTNode{
+public class Bloque implements ASTNode {
     private ArrayList<Statement> stlist;
 
     public Bloque(ArrayList<Statement> stlist){
