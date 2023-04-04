@@ -205,6 +205,14 @@ public class SajaxOperations {
     return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.PTOCOMA,sjx.lexema());
   }
 
+  public UnidadLexica unidadPto() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.PUNTO,sjx.lexema());
+  }
+
+  public UnidadLexica unidadDosPtos() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.DOSPTOS,sjx.lexema());
+  }
+
   public UnidadLexica unidadFl() {
     return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.FLECHA,sjx.lexema());
   }

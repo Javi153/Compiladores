@@ -31,13 +31,15 @@ terminal     OR, AND, NOT, MAS, MENOS, POR, DIV, POT, MOD,
              STRUCT, LLAP, LLCIERRE, PTOCOMA, IF, ELSIF, ELSE,
 	         SWITCH, CASE, DEFAULT, BREAK, MEMSPACE, FREE,
 	         INT, FLOAT, BOOL, PRINT, PRINTLN, INPUT, MAIN, BB,
-	         CAP, CCIERRE, FLECHA, PUNTO, TRUE, FALSE;
+	         CAP, CCIERRE, FLECHA, PUNTO, DOSPTOS, TRUE, FALSE;
 terminal TokenValue ENT, REAL, IDEN;
 
 non terminal Bloque S;
 non terminal ArrayList<Statement> BloqueGeneral, AtribStruct;
+non terminal ArrayList<Case> Cases;
 non terminal Return SReturn;
-non terminal Statement SAsign, SDec, SIf, SWhile, SBreak, SCallFun, SFor, SStruct;
+non terminal Statement SAsign, SDec, SIf, SWhile, SSwitch, SBreak, SCallFun, SFor, SStruct;
+non terminal DefaultCase Default;
 non terminal DecFuncion SDecFuncion, SDecFuncionInline;
 non terminal E SExp4, SExp3, SExp2, SExp1, SExp0, Exp, CallFun, IdenOps, IdenOps0, IdenOps1;
 non terminal Tipo TipoBas, TipoStruct, Tipos, TipoVoid;
@@ -59,6 +61,8 @@ BloqueGeneral ::= BloqueGeneral:genBlock SIf: aDeexp
 BloqueGeneral ::= BloqueGeneral:genBlock SFor: aDeexp
    {: genBlock.add(aDeexp); RESULT=genBlock; :};
 BloqueGeneral ::= BloqueGeneral:genBlock SWhile: aDeexp
+   {: genBlock.add(aDeexp); RESULT=genBlock; :};
+BloqueGeneral ::= BloqueGeneral:genBlock SSwitch: aDeexp
    {: genBlock.add(aDeexp); RESULT=genBlock; :};
 BloqueGeneral ::= BloqueGeneral:genBlock SBreak: aDeexp
    {: genBlock.add(aDeexp); RESULT=genBlock; :};
@@ -96,12 +100,24 @@ SDec ::= Tipos: tipoAsig IDEN:ident PTOCOMA
    {: RESULT=new Dec(tipoAsig, ident.lexema); :};
 SAsign ::= Tipos: tipoAsig IDEN:ident IGUAL SExp4:expterm PTOCOMA
    {: RESULT=new Asign(tipoAsig, ident.lexema, expterm); :};
+SAsign ::= IDEN:ident IGUAL SExp4:expterm PTOCOMA
+   {: RESULT=new Asign(ident.lexema, expterm); :};
 SFor ::= FOR PAP SExp4:inicio PTOCOMA SExp4:fin PCIERRE LLAP S:statement LLCIERRE
    {: RESULT=new For(inicio, fin, statement); :};
 SFor ::= FOR PAP SExp4:inicio PTOCOMA SExp4:fin PTOCOMA SExp4:paso PCIERRE LLAP S:statement LLCIERRE
    {: RESULT=new For(inicio, fin, paso, statement); :};
 SWhile ::= WHILE PAP SExp4:cond PCIERRE LLAP S:instrucciones LLCIERRE
    {: RESULT=new While(cond, instrucciones); :};
+SSwitch ::= SWITCH PAP SExp4:exp PCIERRE LLAP Cases:cases LLCIERRE
+   {: RESULT=new Switch(exp, cases); :};
+SSwitch ::= SWITCH PAP SExp4:exp PCIERRE LLAP Cases:cases Default:defCase LLCIERRE
+   {: RESULT=new Switch(exp, cases, defCase); :};
+Cases ::=
+   {: RESULT=new ArrayList<Case>(); :};
+Cases ::= Cases:cases CASE ENT:ent DOSPTOS LLAP BloqueGeneral:bloqGen LLCIERRE // El break puede ser un statement dentro del bloque
+   {: cases.add(new Case(new Ent(ent.lexema), bloqGen)); RESULT=cases; :};                     // En C++ no es exactamente así, preguntar
+Default ::= DEFAULT DOSPTOS LLAP BloqueGeneral:bloqGen LLCIERRE
+   {: RESULT=new DefaultCase(bloqGen); :};
 SDecFuncionInline ::= Tipos:tipo IDEN:name PAP SParams:params PCIERRE PTOCOMA
    {: RESULT=new DecFuncion(tipo, name.lexema, params, null, null); :};
 SDecFuncionInline ::= TipoVoid:tipo IDEN:name PAP SParams:params PCIERRE PTOCOMA
@@ -202,6 +218,7 @@ Exp ::= PAP SExp4:expterm PCIERRE
    {: RESULT=expterm; :};
 Exp ::= CallFun:callfun
    {: RESULT=callfun; :};
+/*
 IdenOps1 ::= POR IdenOps1:idenOps // Esto es lo que queda aqui [], ->, ., *iden
    {::};
 IdenOps1 ::= IdenOps0:idenOps
@@ -220,6 +237,7 @@ IdenOps ::= PAP IdenOps1:idenOps PCIERRE
    {::};
 IdenOps ::= IDEN:iden
    {: return new Ident(iden.lexema); :}; // Esto es ambiguo con Exp casi seguro
+*/
 TipoVoid ::= TipoVoid:tipo POR
    {: RESULT=new Puntero(tipo); :};
 TipoVoid ::= VOID

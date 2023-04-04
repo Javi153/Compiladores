@@ -25,6 +25,21 @@ return true;
 de varias lineas
 */
 
+switch(tonto) {
+	case 0: {
+	javi = tonto;
+	javi = javi - 7;
+}
+case 1: {}
+default: {break;}
+}
+
+switch(otro) {
+default : {
+	if (1 == 0) {}
+}
+}
+
 while(true){
 if(3 - mitula_5 + 7 / 4 == false){
 	if(false){

@@ -89,8 +89,9 @@ corcheteCierre = \]
 igual = \=
 coma  = ,
 puntocoma = ;
+dospuntos = \:
 flechita = \->
-punto = \.
+punto = .
 %%
 {separador}               {}
 {comentario}              {}
@@ -146,6 +147,7 @@ punto = \.
 {igual}                   {return ops.unidadIgual();} 
 {coma}                    {return ops.unidadComa();}
 {puntocoma}               {return ops.unidadPtoComa();}
+{dospuntos}               {return ops.unidadDosPtos();}
 {flechita}                {return ops.unidadFl();}
 {punto}                   {return ops.unidadPto();}
 [^]                       {ops.error();}  

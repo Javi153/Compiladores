@@ -3,7 +3,8 @@ package ast;
 import java.util.ArrayList;
 
 public class Bloque implements ASTNode {
-    private ArrayList<Statement> stlist;
+    protected ArrayList<Statement> stlist;
+    protected String tipoBloque = "bloque";
 
     public Bloque(ArrayList<Statement> stlist){
         this.stlist = stlist;
@@ -14,12 +15,12 @@ public class Bloque implements ASTNode {
         return NodeKind.BLOQUE;
     }
 
-    public String toString(){
-        if(stlist.size() == 0){
-            return "bloque()";
+    public String toString() {
+        if(stlist.size() == 0) {
+            return tipoBloque + "()";
         }
         else {
-            String s = "bloque(";
+            String s = tipoBloque + "(";
             for (int i = 0; i < stlist.size() - 1; ++i) {
                 s = s.concat(stlist.get(i).toString() + ",");
             }
