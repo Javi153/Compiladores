@@ -10,7 +10,12 @@ public class Main {
      Reader input = new InputStreamReader(new FileInputStream(args[0]));
 	 AnalizadorLexicoSajax sajax = new AnalizadorLexicoSajax(input);
 	 ConstructorASTExp constructorast = new ConstructorASTExp(sajax);
-	 System.out.println(constructorast.parse().value);
- }
+     try {
+         System.out.println(constructorast.parse().value);
+     }
+     catch (Exception e) {
+         System.out.println("Error de parseo.");
+     }
+   }
 }   
    
