@@ -9,7 +9,7 @@ return a;
 }
 }
 
-void** fun(int cosa, algo terf_4);
+void** fun(int cosa, algo terf_4); // comentario
 
 bool fun2(){
 if(a){
@@ -20,6 +20,11 @@ input(you);
 }
 return true;
 }
+
+/* aqui meto un comentario
+de varias lineas
+*/
+
 while(true){
 if(3 - mitula_5 + 7 / 4 == false){
 	if(false){

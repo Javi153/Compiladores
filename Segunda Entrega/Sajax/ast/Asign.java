@@ -1,6 +1,6 @@
 package ast;
 
-public class Asign extends Statement implements ASTNode{
+public class Asign extends Statement implements ASTNode {
     private Tipo tipo;
     private Ident iden;
     private E expresion;

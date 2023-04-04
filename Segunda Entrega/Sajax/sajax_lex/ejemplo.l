@@ -90,6 +90,7 @@ igual = \=
 coma  = ,
 puntocoma = ;
 flechita = \->
+punto = \.
 %%
 {separador}               {}
 {comentario}              {}
@@ -116,8 +117,8 @@ flechita = \->
 {memspace}                {return ops.unidadMemspace();}
 {free}                    {return ops.unidadFree();}
 {barraBaja}               {return ops.unidadBB();}
-{true}			  {return ops.unidadTrue();}
-{false}			  {return ops.unidadFalse();}
+{true}			          {return ops.unidadTrue();}
+{false}			          {return ops.unidadFalse();}
 {identificador}           {return ops.unidadId();}
 {operadorSuma}            {return ops.unidadSuma();}
 {operadorResta}           {return ops.unidadResta();}
@@ -134,8 +135,8 @@ flechita = \->
 {operadorMayorIg}         {return ops.unidadMayorIg();}
 {operadorIdentidad}       {return ops.unidadIdentidad();}
 {operadorDistinto}        {return ops.unidadDistinto();}
-{numeroReal}		  {return ops.unidadReal();}
-{numeroEntero}		  {return ops.unidadEnt();}
+{numeroReal}		      {return ops.unidadReal();}
+{numeroEntero}		      {return ops.unidadEnt();}
 {parentesisApertura}      {return ops.unidadPAp();}
 {parentesisCierre}        {return ops.unidadPCierre();} 
 {corcheteApertura}        {return ops.unidadCAp();}
@@ -146,4 +147,5 @@ flechita = \->
 {coma}                    {return ops.unidadComa();}
 {puntocoma}               {return ops.unidadPtoComa();}
 {flechita}                {return ops.unidadFl();}
+{punto}                   {return ops.unidadPto();}
 [^]                       {ops.error();}  
