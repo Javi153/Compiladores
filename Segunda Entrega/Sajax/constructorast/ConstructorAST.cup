@@ -38,7 +38,8 @@ non terminal Bloque S;
 non terminal ArrayList<Statement> BloqueGeneral, AtribStruct;
 non terminal ArrayList<Case> Cases;
 non terminal Return SReturn;
-non terminal Statement SAsign, SDec, SIf, SWhile, SSwitch, SBreak, SCallFun, SFor, SStruct;
+non terminal Statement SAsign, SDec, SDecArray, SIf, SWhile, SSwitch, SBreak, SCallFun, SFor, SStruct;
+non terminal ArrayList<Ent> Dims;
 non terminal DefaultCase Default;
 non terminal DecFuncion SDecFuncion, SDecFuncionInline;
 non terminal E SExp4, SExp3, SExp2, SExp1, SExp0, Exp, CallFun, IdenOps, IdenOps0, IdenOps1;
@@ -100,8 +101,6 @@ SDec ::= Tipos:tipoAsig IDEN:ident PTOCOMA
    {: RESULT=new Dec(tipoAsig, ident.lexema); :};
 SAsign ::= Tipos: tipoAsig IDEN:ident IGUAL SExp4:expterm PTOCOMA
    {: RESULT=new Asign(tipoAsig, new Ident(ident.lexema), expterm); :};
-/*SAsign ::= IDEN:ident IGUAL SExp4:expterm PTOCOMA
-   {: RESULT=new Asign(ident.lexema, expterm); :}; */
 SAsign ::= IdenOps1:designador IGUAL SExp4:expterm PTOCOMA
    {: RESULT=new Asign(designador, expterm); :};
 SFor ::= FOR PAP SExp4:inicio PTOCOMA SExp4:fin PCIERRE LLAP S:statement LLCIERRE
@@ -128,10 +127,12 @@ SDecFuncion ::= Tipos:tipo IDEN:name PAP SParams:params PCIERRE LLAP S:block SRe
    {: RESULT=new DecFuncion(tipo, name.lexema, params, block, ret); :};
 SDecFuncion ::= TipoVoid:tipo IDEN:name PAP SParams:params PCIERRE LLAP S:block LLCIERRE
    {: RESULT=new DecFuncion(tipo, name.lexema, params, block, null); :};
-SDecArray ::= Tipos:tipo IDEN:iden CAP SExp4:tam CCIERRE PTOCOMA
-   {: RESULT=new DecArray(tipo, tam); :};
-SDecArray ::= Tipos:tipo IDEN:iden CAP SExp4:tam CCIERRE IGUAL IdenOps1:designador
-   {: RESULT=new DecArray(tipo)
+SDecArray ::= Tipos:tipo IDEN:iden Dims:dims PTOCOMA
+   {: RESULT=new DecArray(tipo, iden.lexema, dims); :};
+Dims ::= Dims:dims CAP SExp4:tam CCIERRE
+   {: dims.add(tam); RESULT=dims; :};
+Dims ::= CAP SExp4:tam CCIERRE
+   {: RESULT=new ArrayList<Ent>(Arrays.asList(tam)); :};
 SReturn ::= RETURN SExp4:expresion PTOCOMA
    {: RESULT=new Return(expresion); :};
 SCallFun ::= PRINT PAP SExp4:expresion PCIERRE PTOCOMA
