@@ -118,7 +118,6 @@ punto = .
 {default}                 {return ops.unidadDefault();}
 {memspace}                {return ops.unidadMemspace();}
 {free}                    {return ops.unidadFree();}
-{barraBaja}               {return ops.unidadBB();}
 {true}			          {return ops.unidadTrue();}
 {false}			          {return ops.unidadFalse();}
 {identificador}           {return ops.unidadId();}
