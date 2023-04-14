@@ -63,4 +63,6 @@ pito* coso = 7 - false;
 break;
 int b = sara[879][9879].luego->javi;
 
+persona->dni = a[0];
+
 b[0] = 1 + 8;

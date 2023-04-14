@@ -2,17 +2,17 @@ package ast;
 
 public class Asign extends Statement implements ASTNode {
     private Tipo tipo = null;
-    private Ident iden;
+    private E designador;
     private E expresion;
 
-    public Asign(String iden, E expresion) {
-        this.iden = new Ident(iden);
+    public Asign(E designador, E expresion) {
+        this.designador = designador;
         this.expresion = expresion;
     }
 
-    public Asign(Tipo tipo, String iden, E expresion){
+    public Asign(Tipo tipo, E designador, E expresion){
         this.tipo = tipo;
-        this.iden = new Ident(iden);
+        this.designador = designador;
         this.expresion = expresion;
     }
 
@@ -24,8 +24,8 @@ public class Asign extends Statement implements ASTNode {
     @Override
     public String toString() {
         if (tipo == null)
-            return "asign("+iden.toString()+","+expresion.toString()+")";
+            return "asign("+designador.toString()+","+expresion.toString()+")";
         else
-            return "asign("+tipo.toString()+","+iden.toString()+","+expresion.toString()+")";
+            return "asign("+tipo.toString()+","+designador.toString()+","+expresion.toString()+")";
     }
 }
