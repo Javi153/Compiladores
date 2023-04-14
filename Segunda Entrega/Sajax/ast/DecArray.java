@@ -7,9 +7,9 @@ public class DecArray extends Statement implements ASTNode {
 
     Tipo tipo;
     String iden;
-    ArrayList<Ent> dims;
+    ArrayList<E> dims;
 
-    public DecArray(Tipo tipo, String iden, ArrayList<Ent> dims) {
+    public DecArray(Tipo tipo, String iden, ArrayList<E> dims) {
         this.tipo = tipo;
         this.iden = iden;
         this.dims = dims;
@@ -22,8 +22,8 @@ public class DecArray extends Statement implements ASTNode {
 
     @Override
     public String toString() {
-        return "decArray("+tipo.toString()+",dimensiones" +
-                dims.stream().map(Ent::toString).collect(Collectors.joining(",", "(", ")")) + ")";
+        return "decArray("+tipo.toString()+","+iden.toString()+",dimensiones" +
+                dims.stream().map(E::toString).collect(Collectors.joining(",", "(", ")")) + ")";
     }
 
 }

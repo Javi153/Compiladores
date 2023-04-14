@@ -39,7 +39,7 @@ non terminal ArrayList<Statement> BloqueGeneral, AtribStruct;
 non terminal ArrayList<Case> Cases;
 non terminal Return SReturn;
 non terminal Statement SAsign, SDec, SDecArray, SIf, SWhile, SSwitch, SBreak, SCallFun, SFor, SStruct;
-non terminal ArrayList<Ent> Dims;
+non terminal ArrayList<E> Dims;
 non terminal DefaultCase Default;
 non terminal DecFuncion SDecFuncion, SDecFuncionInline;
 non terminal E SExp4, SExp3, SExp2, SExp1, SExp0, Exp, CallFun, IdenOps, IdenOps0, IdenOps1;
@@ -56,6 +56,8 @@ S ::= BloqueGeneral:block
 BloqueGeneral ::= BloqueGeneral:genBlock SAsign: aDeexp
    {: genBlock.add(aDeexp); RESULT=genBlock; :};
 BloqueGeneral ::= BloqueGeneral:genBlock SDec: aDeexp
+   {: genBlock.add(aDeexp); RESULT=genBlock; :};
+BloqueGeneral ::= BloqueGeneral:genBlock SDecArray: aDeexp
    {: genBlock.add(aDeexp); RESULT=genBlock; :};
 BloqueGeneral ::= BloqueGeneral:genBlock SIf: aDeexp
    {: genBlock.add(aDeexp); RESULT=genBlock; :};
@@ -77,6 +79,8 @@ BloqueGeneral ::= BloqueGeneral:genBlock SStruct: aDeexp
    {: genBlock.add(aDeexp); RESULT=genBlock; :};
 BloqueGeneral ::=
    {: RESULT=new ArrayList<Statement>(); :};
+Main ::= INT MAIN PAP ArgsMain:args PCIERRE CAP BloqueGeneral RETURN 0 PTOCOMA CCIERRE
+   {: RESULT=new MainFun(args); :};
 SStruct ::= STRUCT IDEN:name LLAP AtribStruct:atributos LLCIERRE
    {: RESULT=new Struct(name.lexema, new Bloque(atributos)); :};
 AtribStruct ::= AtribStruct:bloqueatr SAsign: asign
@@ -132,7 +136,7 @@ SDecArray ::= Tipos:tipo IDEN:iden Dims:dims PTOCOMA
 Dims ::= Dims:dims CAP SExp4:tam CCIERRE
    {: dims.add(tam); RESULT=dims; :};
 Dims ::= CAP SExp4:tam CCIERRE
-   {: RESULT=new ArrayList<Ent>(Arrays.asList(tam)); :};
+   {: RESULT=new ArrayList<E>(Arrays.asList(tam)); :};
 SReturn ::= RETURN SExp4:expresion PTOCOMA
    {: RESULT=new Return(expresion); :};
 SCallFun ::= PRINT PAP SExp4:expresion PCIERRE PTOCOMA

@@ -62,5 +62,5 @@ pito* coso = 7 - false;
 
 break;
 int b = sara[879][9879].luego->javi;
-
+bool arr[3][8];
 int a = true + true;
