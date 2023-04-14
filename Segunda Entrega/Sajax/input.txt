@@ -9,7 +9,7 @@ return a;
 }
 }
 
-void** fun(int cosa, algo terf_4); // comentario
+void** fun(int & cosa, algo terf_4); // comentario
 
 bool fun2(){
 if(a){
@@ -61,7 +61,6 @@ else{
 pito* coso = 7 - false;
 
 break;
-carterista(luis, paco, 7-5, 8 + 5 == -7);
-int b = carterista(luis, paco, 7-5, 8 + 5 == -7);
-println(barriguita);
+int b = sara[879][9879].luego->javi;
 
+b[0] = 1 + 8;
