@@ -30,8 +30,8 @@ terminal     OR, AND, NOT, MAS, MENOS, POR, DIV, POT, MOD,
              IGUAL, COMA, PAP, PCIERRE, WHILE, FOR, VOID, RETURN,
              STRUCT, LLAP, LLCIERRE, PTOCOMA, IF, ELSIF, ELSE,
 	         SWITCH, CASE, DEFAULT, BREAK, MEMSPACE, FREE,
-	         INT, FLOAT, BOOL, PRINT, PRINTLN, INPUT, MAIN, BB,
-	         CAP, CCIERRE, FLECHA, PUNTO, DOSPTOS, TRUE, FALSE;
+	         INT, FLOAT, BOOL, PRINT, PRINTLN, INPUT, MAIN,
+	         CAP, CCIERRE, FLECHA, PUNTO, DOSPTOS, TRUE, FALSE, OPREF;
 terminal TokenValue ENT, REAL, IDEN;
 
 non terminal Bloque S;
@@ -114,9 +114,9 @@ SSwitch ::= SWITCH PAP SExp4:exp PCIERRE LLAP Cases:cases Default:defCase LLCIER
    {: RESULT=new Switch(exp, cases, defCase); :};
 Cases ::=
    {: RESULT=new ArrayList<Case>(); :};
-Cases ::= Cases:cases CASE ENT:ent DOSPTOS LLAP BloqueGeneral:bloqGen LLCIERRE // El break puede ser un statement dentro del bloque
+Cases ::= Cases:cases CASE ENT:ent DOSPTOS BloqueGeneral:bloqGen // El break puede ser un statement dentro del bloque
    {: cases.add(new Case(new Ent(ent.lexema), bloqGen)); RESULT=cases; :};                     // En C++ no es exactamente así, preguntar
-Default ::= DEFAULT DOSPTOS LLAP BloqueGeneral:bloqGen LLCIERRE
+Default ::= DEFAULT DOSPTOS BloqueGeneral:bloqGen
    {: RESULT=new DefaultCase(bloqGen); :};
 SDecFuncionInline ::= Tipos:tipo IDEN:name PAP SParams:params PCIERRE PTOCOMA
    {: RESULT=new DecFuncion(tipo, name.lexema, params, null, null); :};
@@ -154,10 +154,14 @@ SParams ::= SParamsNoVacio: params //Estos parametros son para declaracion de fu
    {: RESULT=params; :};
 SParams ::=
    {: RESULT=new ArrayList<Parametro>(); :};
+SParamsNoVacio ::= SParamsNoVacio: params COMA Tipos:tipo OPREF IDEN:name
+   {: params.add(new Parametro(tipo, true, name.lexema)); RESULT=params; :};
 SParamsNoVacio ::= SParamsNoVacio: params COMA Tipos:tipo IDEN:name
-   {: params.add(new Parametro(tipo, name.lexema)); RESULT=params; :};
+   {: params.add(new Parametro(tipo, false, name.lexema)); RESULT=params; :};
+SParamsNoVacio ::= Tipos:tipo OPREF IDEN:name
+   {: RESULT=new ArrayList<Parametro>(Arrays.asList(new Parametro(tipo, true, name.lexema))); :};
 SParamsNoVacio ::= Tipos:tipo IDEN:name
-   {: RESULT=new ArrayList<Parametro>(Arrays.asList(new Parametro(tipo, name.lexema))); :};
+   {: RESULT=new ArrayList<Parametro>(Arrays.asList(new Parametro(tipo, false, name.lexema))); :};
 SExp4 ::= SExp3: expterm1 IGDOBLE SExp3: expterm2
    {: RESULT=new EBin(expterm1, expterm2,KindE.ID); :};
 SExp4 ::= SExp3: expterm1 DISTINTO SExp3: expterm2
@@ -195,7 +199,7 @@ SExp1 ::= SExp0: expterm1
 SExp0 ::= Exp: expfact POT SExp0: expterm2
    {: RESULT= new EBin(expfact,expterm2, KindE.POT); :};
 SExp0 ::= NOT SExp0:boolVal
-   {: RESULT=new Not(boolVal); :};
+   {: RESULT=new EUnar(boolVal, KindE.NOT); :};
 SExp0 ::= Exp: expterm1
    {: RESULT=expterm1; :};
 Exp ::= ENT: numEnt
@@ -210,34 +214,32 @@ Exp ::= TRUE: trueterm
    {: RESULT=new True(); :};
 Exp ::= FALSE: falseterm
    {: RESULT=new False(); :};
-Exp ::= IDEN: ident
-   {: RESULT=new Ident(ident.lexema); :};
-Exp ::= IdenOps:idenops
-   {: RESULT=idenops; :};
+/*Exp ::= IDEN: ident
+   {: RESULT=new Ident(ident.lexema); :}; */  // Dejamos el de IdenOps
 Exp ::= PAP SExp4:expterm PCIERRE
    {: RESULT=expterm; :};
+Exp ::= IdenOps1:idenops
+   {: RESULT=idenops; :};
 Exp ::= CallFun:callfun
    {: RESULT=callfun; :};
-/*
 IdenOps1 ::= POR IdenOps1:idenOps // Esto es lo que queda aqui [], ->, ., *iden
-   {::};
+   {:RESULT = new EUnar(idenOps, KindE.ASTERISCO); :};
 IdenOps1 ::= IdenOps0:idenOps
-   {::};
+   {: RESULT = idenOps; :};
 IdenOps0 ::= IdenOps0:idenOps0 PUNTO IdenOps:idenOps // . y -> asocian de izquierda a derecha segun cpp reference
-   {: RESULT=new EBin(idenOps, idenOps.toString(), KindE.PUNTO); :};
+   {: RESULT=new EBin(idenOps0, idenOps, KindE.PUNTO); :};
    // {: RESULT=new EBin(idenOps, new Ident(iden.lexema), KindE.PUNTO); :};
    // {: RESULT=new AccesoCampo(idenOps0.toString(), idenOps.toString()); :};
 IdenOps0 ::= IdenOps0:idenOps0 FLECHA IdenOps:idenOps
-   {: RESULT=new EBin(idenOps, idenOps, KindE.FLECHA); :};
+   {: RESULT=new EBin(idenOps0, idenOps, KindE.FLECHA); :};
 IdenOps0 ::= IdenOps0:idenOps0 CAP Exp:exp CCIERRE
-   {::};
-IdenOps0 ::= IdenOps
-   {::};
-IdenOps ::= PAP IdenOps1:idenOps PCIERRE
-   {::};
+   {: RESULT = new EBin(idenOps0, exp, KindE.CORCHETES); :};
+IdenOps0 ::= IdenOps:idenOps
+   {: RESULT = idenOps; :};
+/* IdenOps ::= PAP IdenOps1:idenOps PCIERRE
+   {: RESULT = idenOps; :}; */
 IdenOps ::= IDEN:iden
-   {: return new Ident(iden.lexema); :}; // Esto es ambiguo con Exp casi seguro
-*/
+   {: RESULT =  new Ident(iden.lexema); :}; // Esto es ambiguo con Exp casi seguro
 TipoVoid ::= TipoVoid:tipo POR
    {: RESULT=new Puntero(tipo); :};
 TipoVoid ::= VOID

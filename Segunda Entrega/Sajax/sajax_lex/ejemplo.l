@@ -72,6 +72,7 @@ operadorDivision = \/
 operadorModulo = \%
 operadorExp = \^
 operadorY = &&
+operadorReferencia = &
 operadorO = \|\|
 operadorNot = \!
 operadorMenor = <
@@ -128,6 +129,7 @@ punto = .
 {operadorModulo}          {return ops.unidadMod();}
 {operadorExp}             {return ops.unidadExp();}
 {operadorY}               {return ops.unidadY();}
+{operadorReferencia}      {return ops.unidadReferencia();}
 {operadorO}               {return ops.unidadO();}
 {operadorNot}             {return ops.unidadNot();}
 {operadorMenor}           {return ops.unidadMenor();}

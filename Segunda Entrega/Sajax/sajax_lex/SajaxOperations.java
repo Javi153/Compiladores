@@ -137,6 +137,10 @@ public class SajaxOperations {
     return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.AND,sjx.lexema());
   }
 
+  public UnidadLexica unidadReferencia() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.OPREF,sjx.lexema());
+  }
+
   public UnidadLexica unidadO() {
     return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.OR,sjx.lexema());
   }
