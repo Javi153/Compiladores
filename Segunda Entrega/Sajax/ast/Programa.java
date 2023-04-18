@@ -3,10 +3,12 @@ package ast;
 import java.util.ArrayList;
 
 public class Programa implements ASTNode{
-    private ArrayList<Bloque> bloques;
+    private BloqueDef defs;
+    private MainFun main;
     
-    public Programa(ArrayList<Bloque> bloques){
-        this.bloques = bloques;
+    public Programa(BloqueDef defs, MainFun main){
+        this.defs = defs;
+        this.main = main;
     }
 
     public NodeKind nodeKind(){
@@ -14,11 +16,6 @@ public class Programa implements ASTNode{
     }
     
     public String toString(){
-        String s = "programa(" + bloques.get(0).toString();
-        for(int i = 1; i < bloques.size(); ++i){
-            s = s.concat(","+bloques.get(i).toString());
-        }
-        s = s.concat(")");
-        return s;
+        return "programa(" + defs.toString() + "," + main.toString() + ")";
     }
 }

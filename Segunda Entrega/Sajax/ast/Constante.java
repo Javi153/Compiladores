@@ -1,6 +1,6 @@
 package ast;
 
-public class Constante extends Definiciones implements ASTNode{
+public class Constante extends Definicion implements ASTNode{
     private Tipo tipo;
     private Ident iden;
     private E valor;

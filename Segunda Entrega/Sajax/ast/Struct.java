@@ -1,6 +1,6 @@
 package ast;
 
-public class Struct extends Definiciones implements ASTNode{
+public class Struct extends Definicion implements ASTNode{
     private String name;
     private Bloque atributos;
 

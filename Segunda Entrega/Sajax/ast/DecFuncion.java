@@ -2,7 +2,7 @@ package ast;
 
 import java.util.ArrayList;
 
-public class DecFuncion extends Definiciones implements ASTNode{
+public class DecFuncion extends Definicion implements ASTNode{
     private Tipo tipo;
     private String name;
     private ArrayList<Parametro> parlist;
