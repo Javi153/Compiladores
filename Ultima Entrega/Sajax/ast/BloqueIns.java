@@ -7,4 +7,13 @@ public class BloqueIns extends Bloque<Statement> implements ASTNode{
         super(stlist);
         super.tipoBloque = "bloqueInstrucciones";
     }
+
+    @Override
+    public boolean bind(){
+        boolean aux = true;
+        for(Statement s : stlist){
+            aux = aux && s.bind();
+        }
+        return aux;
+    }
 }

@@ -1,6 +1,8 @@
 package ast;
 
-public class Dec extends Statement implements ASTNode, StructAtt{
+import java.util.HashMap;
+
+public class Dec extends Statement implements ASTNode{
     private Tipo tipo;
     private Ident iden;
     private E exp;
@@ -31,7 +33,16 @@ public class Dec extends Statement implements ASTNode, StructAtt{
     }
 
     @Override
-    public String idName() {
-        return iden.num();
+    public boolean bind() {
+        boolean aux = exp.isBound();
+        HashMap<String, ASTNode> m = s.peek();
+        if(m.containsKey(iden.toString())){
+            System.out.println("Error: variable "+iden.num()+" ya declarada");
+            return false;
+        }
+        else{
+            m.put(iden.toString(), this);
+            return aux;
+        }
     }
 }

@@ -7,4 +7,13 @@ public class BloqueDef extends Bloque<Definicion> implements ASTNode{
         super(stlist);
         super.tipoBloque = "bloqueDefs";
     }
+
+    @Override
+    public boolean bind(){
+        boolean aux = true;
+        for(Definicion d : stlist){
+            aux = aux && d.bind();
+        }
+        return aux;
+    }
 }

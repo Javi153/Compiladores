@@ -1,21 +1,27 @@
 package ast;
 
 public class For extends Statement implements ASTNode{
-    private E inicio, fin, paso;
-    private Bloque st;
+    private Dec inicio;
+    private E fin, paso;
+    private BloqueIns st;
 
-    public For(E inicio, E fin, Bloque st){
+    public For(Dec inicio, E fin, BloqueIns st){
         this.inicio = inicio;
         this.fin = fin;
         this.paso = null;
         this.st = st;
     }
 
-    public For(E inicio, E fin, E paso, Bloque st){
+    public For(Dec inicio, E fin, E paso, BloqueIns st){
         this.inicio = inicio;
         this.fin = fin;
         this.paso = paso;
         this.st = st;
+    }
+
+    @Override
+    public boolean bind() {
+        return false;
     }
 
     @Override

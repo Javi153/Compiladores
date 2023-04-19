@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class DecArray extends Statement implements ASTNode {
@@ -22,8 +23,21 @@ public class DecArray extends Statement implements ASTNode {
 
     @Override
     public String toString() {
-        return "decArray("+tipo.toString()+","+iden.toString()+",dimensiones" +
+        return "decArray("+tipo.toString()+","+iden+",dimensiones" +
                 dims.stream().map(E::toString).collect(Collectors.joining(",", "(", ")")) + ")";
     }
 
+    @Override
+    public boolean bind() {
+        boolean aux = true;
+        HashMap<String, ASTNode> m = s.peek();
+        if(m.containsKey(iden)){
+            System.out.println("Error: variable "+iden+" ya declarada");
+            aux = false;
+        }
+        else{
+            m.put(iden, this);
+        }
+        return aux && dims.stream().allMatch(E::isBound);
+    }
 }

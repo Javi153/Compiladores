@@ -32,4 +32,13 @@ public class Case extends Bloque<Statement> implements ASTNode {
         }
     }
 
+    @Override
+    public boolean bind() {
+        boolean aux = true;
+        for(Statement s : stlist){
+            aux = aux && s.bind();
+        }
+        return aux;
+    }
+
 }

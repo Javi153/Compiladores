@@ -1,20 +1,44 @@
 package ast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class DecFuncion extends Definicion implements ASTNode, StructAtt{
+public class DecFuncion extends Definicion implements ASTNode{
     private Tipo tipo;
     private String name;
     private ArrayList<Parametro> parlist;
-    private Bloque cuerpo;
+    private BloqueIns cuerpo;
     private Return ret;
 
-    public DecFuncion(Tipo tipo, String name, ArrayList<Parametro> parlist, Bloque cuerpo, Return ret){
+    public DecFuncion(Tipo tipo, String name, ArrayList<Parametro> parlist, BloqueIns cuerpo, Return ret){
         this.tipo = tipo;
         this.name = name;
         this.parlist = parlist;
         this.cuerpo = cuerpo;
         this.ret = ret;
+    }
+
+    @Override
+    public boolean bind() {
+        if(cuerpo == null){
+            HashMap<String, ASTNode> m = s.peek();
+            if(m.containsKey(name)){
+                return false;
+            }
+            else{
+                boolean aux = true;
+                m.put(name, this);
+                s.push(new HashMap<>());
+                for(Parametro p : parlist){
+                    aux = aux && p.bind();
+                }
+                s.pop();
+                return aux;
+            }
+        }
+        else{
+            
+        }
     }
 
     @Override
@@ -45,10 +69,5 @@ public class DecFuncion extends Definicion implements ASTNode, StructAtt{
             }
         }
         return s;
-    }
-
-    @Override
-    public String idName() {
-        return 
     }
 }
