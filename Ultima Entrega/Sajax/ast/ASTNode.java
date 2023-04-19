@@ -1,20 +1,11 @@
 package ast;
 
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Stack;
 
 public interface ASTNode {
     public static Stack<HashMap<String, ASTNode>> s = new Stack<>();
-
-    public default void abreBloque(){
-        s.add(new HashMap<>());
-    }
-
-    public default void cierraBloque(){
-        if(!s.empty()){
-            s.pop();
-        }
-    }
 
     public default void insertaId(String id, ASTNode nodo){
         if(!s.empty()){

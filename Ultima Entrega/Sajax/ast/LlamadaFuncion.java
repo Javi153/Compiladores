@@ -21,10 +21,10 @@ public class LlamadaFuncion extends E implements ASTNode{
         boolean res = true;
         if(buscaId(name) == null){
             res = false;
-            System.out.println("La función " + name + " no está definida");
+            System.out.println("Error: Función " + name + " no está definida");
         }
         for(E elem : parlist){
-            res = res && elem.isBound();
+            res = res & elem.isBound();
         }
         return res;
     }

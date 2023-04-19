@@ -34,7 +34,8 @@ public class Dec extends Statement implements ASTNode{
 
     @Override
     public boolean bind() {
-        boolean aux = exp.isBound();
+        boolean aux = true;
+        if(exp != null) { aux = exp.isBound(); }
         HashMap<String, ASTNode> m = s.peek();
         if(m.containsKey(iden.toString())){
             System.out.println("Error: variable "+iden.num()+" ya declarada");

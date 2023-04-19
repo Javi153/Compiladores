@@ -12,6 +12,16 @@ public class Tipo implements ASTNode{
     }
 
     @Override
+    public boolean bind() {
+        if(t == TipoEnum.STRUCT){
+            return buscaId(((TipoStruct)this).getId()) != null;
+        }
+        else{
+            return true;
+        }
+    }
+
+    @Override
     public NodeKind nodeKind() {
         return NodeKind.TIPO;
     }

@@ -21,6 +21,18 @@ public class Switch extends Statement implements ASTNode {
     }
 
     @Override
+    public boolean bind() {
+        boolean aux = exp.isBound();
+        for (Case c : cases) {
+            aux = aux & c.bind();
+        }
+        if (defaultCase != null) {
+            aux = aux & defaultCase.bind();
+        }
+        return aux;
+    }
+
+    @Override
     public NodeKind nodeKind() {
         return NodeKind.SWITCH;
     }

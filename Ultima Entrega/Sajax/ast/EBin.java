@@ -25,12 +25,12 @@ public class EBin extends E {
 
     @Override
     public boolean isBound() {
-        return opnd1.isBound() && opnd2.isBound();
+        return opnd1.isBound() & opnd2.isBound();
     }
 
     @Override
     public boolean bind() {
-        return opnd1.bind() && opnd2.bind();
+        return opnd1.bind() & opnd2.bind();
     }
 
     public String toString() {

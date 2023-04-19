@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Programa implements ASTNode{
     private BloqueDef defs;
@@ -13,11 +14,17 @@ public class Programa implements ASTNode{
 
     @Override
     public boolean bind() {
-        if(!(defs.bind() && main.bind())){
+        s.push(new HashMap<>());
+        if(!(defs.bind() & main.bind())){
+            s.pop();
             System.out.println("La vinculación falló. Compilación abortada");
             return false;
         }
-        return true;
+        else{
+            s.pop();
+            System.out.println("La vinculación fue exitosa");
+            return true;
+        }
     }
 
     public NodeKind nodeKind(){

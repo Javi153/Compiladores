@@ -12,7 +12,7 @@ public class BloqueDef extends Bloque<Definicion> implements ASTNode{
     public boolean bind(){
         boolean aux = true;
         for(Definicion d : stlist){
-            aux = aux && d.bind();
+            aux = aux & d.bind();
         }
         return aux;
     }

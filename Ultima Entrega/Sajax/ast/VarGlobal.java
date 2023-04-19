@@ -8,6 +8,11 @@ public class VarGlobal extends Definicion implements ASTNode{
     }
 
     @Override
+    public boolean bind() {
+        return var.bind();
+    }
+
+    @Override
     public NodeKind nodeKind() {
         return NodeKind.GLOBVAR;
     }

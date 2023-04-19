@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.HashMap;
+
 public class Elsif extends Statement implements ASTNode{
     private E cond;
     private BloqueIns St;
@@ -11,7 +13,11 @@ public class Elsif extends Statement implements ASTNode{
 
     @Override
     public boolean bind() {
-        return cond.isBound() && St.bind();
+        boolean aux = cond.isBound();
+        s.push(new HashMap<>());
+        aux = aux & St.bind();
+        s.pop();
+        return aux;
     }
 
     @Override

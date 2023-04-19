@@ -12,7 +12,7 @@ public class BloqueIns extends Bloque<Statement> implements ASTNode{
     public boolean bind(){
         boolean aux = true;
         for(Statement s : stlist){
-            aux = aux && s.bind();
+            aux = aux & s.bind();
         }
         return aux;
     }

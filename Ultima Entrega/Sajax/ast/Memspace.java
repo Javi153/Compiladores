@@ -12,6 +12,11 @@ public class Memspace extends LlamadaFuncion implements ASTNode{
     }
 
     @Override
+    public boolean bind() {
+        return arg.isBound();
+    }
+
+    @Override
     public NodeKind nodeKind() {
         return NodeKind.MEMSPACE;
     }

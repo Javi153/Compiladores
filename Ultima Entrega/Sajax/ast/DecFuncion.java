@@ -18,26 +18,64 @@ public class DecFuncion extends Definicion implements ASTNode{
         this.ret = ret;
     }
 
+    public boolean sinCuerpo(){
+        return cuerpo == null;
+    }
+
     @Override
     public boolean bind() {
-        if(cuerpo == null){
+        if(cuerpo == null) {
             HashMap<String, ASTNode> m = s.peek();
-            if(m.containsKey(name)){
+            if (m.containsKey(name)) {
                 return false;
-            }
-            else{
+            } else {
                 boolean aux = true;
                 m.put(name, this);
                 s.push(new HashMap<>());
-                for(Parametro p : parlist){
-                    aux = aux && p.bind();
+                for (Parametro p : parlist) {
+                    aux = aux & p.bind();
                 }
                 s.pop();
                 return aux;
             }
         }
         else{
-            
+            HashMap<String, ASTNode> m = s.peek();
+            if(m.containsKey(name)){
+                ASTNode original = m.get(name);
+                if(original.nodeKind() == NodeKind.FUNCIONDEC && ((DecFuncion)original).sinCuerpo()){
+                    boolean aux = true;
+                    m.replace(name, this);
+                    s.push(new HashMap<>());
+                    for(Parametro p : parlist){
+                        aux = aux & p.bind();
+                    }
+                    aux = aux & cuerpo.bind();
+                    if(ret != null){
+                        aux = aux & ret.bind();
+                    }
+                    s.pop();
+                    return aux;
+                }
+                else{
+                    System.out.println("Error: Funcion " + name + " ya declarada");
+                    return false;
+                }
+            }
+            else{
+                boolean aux = true;
+                m.put(name, this);
+                s.push(new HashMap<>());
+                for(Parametro p : parlist){
+                    aux = aux & p.bind();
+                }
+                aux = aux & cuerpo.bind();
+                if(ret != null){
+                    aux = aux & ret.bind();
+                }
+                s.pop();
+                return aux;
+            }
         }
     }
 

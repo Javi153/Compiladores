@@ -6,11 +6,11 @@ public class MainFun implements ASTNode {
 
     // private ArrayList<Parametro> args;
     // En principio el main no tiene argumentos no?
-    private Bloque bloque;
+    private BloqueIns bloque;
 
     private Return ret;
 
-    public MainFun(/*ArrayList<Parametro> args, */ Bloque bloque, Return ret) {
+    public MainFun(/*ArrayList<Parametro> args, */ BloqueIns bloque, Return ret) {
         //this.args = args;
         this.bloque = bloque;
         this.ret = ret;

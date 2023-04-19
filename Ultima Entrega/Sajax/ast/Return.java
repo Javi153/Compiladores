@@ -8,6 +8,11 @@ public class Return extends Statement implements ASTNode{
     }
 
     @Override
+    public boolean bind() {
+        return ret.isBound();
+    }
+
+    @Override
     public NodeKind nodeKind() {
         return NodeKind.RETURN;
     }

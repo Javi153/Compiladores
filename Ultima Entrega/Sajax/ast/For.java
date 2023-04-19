@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.HashMap;
+
 public class For extends Statement implements ASTNode{
     private Dec inicio;
     private E fin, paso;
@@ -21,7 +23,11 @@ public class For extends Statement implements ASTNode{
 
     @Override
     public boolean bind() {
-        return false;
+        boolean aux = true;
+        s.push(new HashMap<>());
+        aux = aux & inicio.bind() & fin.isBound() & paso.isBound() & st.bind();
+        s.pop();
+        return aux;
     }
 
     @Override

@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Case extends Bloque<Statement> implements ASTNode {
 
@@ -35,9 +36,11 @@ public class Case extends Bloque<Statement> implements ASTNode {
     @Override
     public boolean bind() {
         boolean aux = true;
+        s.push(new HashMap<>());
         for(Statement s : stlist){
-            aux = aux && s.bind();
+            aux = aux & s.bind();
         }
+        s.pop();
         return aux;
     }
 

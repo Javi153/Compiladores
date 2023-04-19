@@ -13,12 +13,11 @@ public class Bloque<T extends ASTNode> implements ASTNode {
 
     @Override
     public boolean bind() {
-        /*boolean aux = true;
+        boolean aux = true;
         for(T elem : stlist){
-            aux = aux && elem.bind();
+            aux = aux & elem.bind();
         }
-        return aux;*/
-        return true; //Revisar porque este solo se usa para structs o eso pensaba yo...
+        return aux;
     }
 
     @Override

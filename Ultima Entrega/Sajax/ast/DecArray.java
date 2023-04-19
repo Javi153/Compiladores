@@ -38,6 +38,9 @@ public class DecArray extends Statement implements ASTNode {
         else{
             m.put(iden, this);
         }
-        return aux && dims.stream().allMatch(E::isBound);
+        for(E e : dims){
+            aux = aux & e.isBound();
+        }
+        return aux;
     }
 }

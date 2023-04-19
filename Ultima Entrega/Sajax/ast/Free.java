@@ -12,6 +12,11 @@ public class Free extends LlamadaFuncion implements ASTNode{
     }
 
     @Override
+    public boolean bind() {
+        return arg.isBound();
+    }
+
+    @Override
     public NodeKind nodeKind() {
         return NodeKind.FREE;
     }
