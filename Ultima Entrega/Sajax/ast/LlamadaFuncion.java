@@ -19,9 +19,18 @@ public class LlamadaFuncion extends E implements ASTNode{
     @Override
     public boolean isBound() {
         boolean res = true;
-        if(buscaId(name) == null){
+        ASTNode aux = buscaId(name);
+        if(aux == null){
             res = false;
             System.out.println("Error: Función " + name + " no está definida");
+        }
+        else if(aux.nodeKind() != NodeKind.FUNCIONDEC){
+            res = false;
+            System.out.println("Error: " + name + " no es una función");
+        }
+        else if(((DecFuncion)aux).numParams() != parlist.size()){
+            res = false;
+            System.out.println("Error: Función " + name + " no tiene el número de parámetros correcto");
         }
         for(E elem : parlist){
             res = res & elem.isBound();

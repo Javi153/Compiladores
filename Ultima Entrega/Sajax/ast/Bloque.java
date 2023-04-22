@@ -38,4 +38,8 @@ public class Bloque<T extends ASTNode> implements ASTNode {
             return s;
         }
     }
+
+    public ArrayList<T> getList(){
+        return stlist;
+    }
 }

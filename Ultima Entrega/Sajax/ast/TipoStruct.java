@@ -14,7 +14,18 @@ public class TipoStruct extends Tipo implements ASTNode{
 
     @Override
     public boolean bind() {
-        return buscaId(id) != null;
+        ASTNode aux = buscaId(id);
+        if(aux == null){
+            System.out.println("Error: tipo "+id+" no declarado");
+            return false;
+        }
+        else if(aux.nodeKind() != NodeKind.STRUCT){
+            System.out.println("Error: tipo "+id+" no es un struct");
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     public TipoEnum getTipo(){

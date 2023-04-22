@@ -10,12 +10,7 @@ public class Puntero extends Tipo implements ASTNode{
 
     @Override
     public boolean bind() {
-        if(t.getTipo() == TipoEnum.STRUCT){
-            return buscaId(((TipoStruct)t).getId()) != null;
-        }
-        else{
-            return true;
-        }
+        return t.bind();
     }
 
     public String toString(){

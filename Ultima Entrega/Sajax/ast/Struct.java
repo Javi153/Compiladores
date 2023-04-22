@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 public class Struct extends Definicion implements ASTNode{
     private String name;
-    private Bloque atributos;
+    private Bloque<ASTNode> atributos;
 
-    public Struct(String name, Bloque atributos){
+    public Struct(String name, Bloque<ASTNode> atributos){
         this.name = name;
         this.atributos = atributos;
     }
@@ -22,6 +22,16 @@ public class Struct extends Definicion implements ASTNode{
             s.push(new HashMap<>());
             boolean aux = atributos.bind();
             s.pop();
+            for(ASTNode a : atributos.getList()){
+                if(a.nodeKind() == NodeKind.DEC){
+                    Dec d = (Dec)a;
+                    insertaId("." + d.getName(), d);
+                }
+                else{
+                    DecFuncion df = (DecFuncion)a;
+                    insertaId("." + df.getName(), df);
+                }
+            }
             return aux;
         }
     }
@@ -33,5 +43,9 @@ public class Struct extends Definicion implements ASTNode{
 
     public String toString(){
         return "struct("+name+","+atributos.toString()+")";
+    }
+
+    public Bloque<ASTNode> getAtt(){
+        return atributos;
     }
 }

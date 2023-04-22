@@ -108,4 +108,12 @@ public class DecFuncion extends Definicion implements ASTNode{
         }
         return s;
     }
+
+    public int numParams(){
+        return parlist.size();
+    }
+
+    public String getName(){
+        return name;
+    }
 }

@@ -34,7 +34,7 @@ public class Dec extends Statement implements ASTNode{
 
     @Override
     public boolean bind() {
-        boolean aux = true;
+        boolean aux = tipo.bind();
         if(exp != null) { aux = exp.isBound(); }
         HashMap<String, ASTNode> m = s.peek();
         if(m.containsKey(iden.toString())){
@@ -45,5 +45,9 @@ public class Dec extends Statement implements ASTNode{
             m.put(iden.toString(), this);
             return aux;
         }
+    }
+
+    public String getName(){
+        return iden.num();
     }
 }

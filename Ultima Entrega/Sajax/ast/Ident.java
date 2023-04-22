@@ -11,7 +11,7 @@ public class Ident extends E {
     @Override
     public boolean isBound() {
         if(buscaId(v) == null){
-            System.out.println("El identificador " + v + " no está definido");
+            System.out.println("Error: el identificador " + v + " no está definido");
             return false;
         }
         else{
@@ -22,7 +22,7 @@ public class Ident extends E {
     @Override
     public boolean bind() {
         if(s.peek().containsKey(v)){
-            System.out.println("El identificador " + v + " ya está definido en este ámbito");
+            System.out.println("Error: el identificador " + v + " ya está definido en este ámbito");
             return false;
         }
         else{
