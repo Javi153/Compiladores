@@ -1,0 +1,15 @@
+bool persona(bool algo){
+int a = b->c[6];
+return a;
+}
+
+int persona(){
+return 0;
+}
+
+int main(){
+persona cesto;
+cesto.a.c.d = 9;
+cesto.b = 8;
+return cesto.b;
+}

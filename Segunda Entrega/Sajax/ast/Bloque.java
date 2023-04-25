@@ -2,12 +2,13 @@ package ast;
 
 import java.util.ArrayList;
 
-public class Bloque implements ASTNode {
-    protected ArrayList<Statement> stlist;
-    protected String tipoBloque = "bloque";
+public class Bloque<T> implements ASTNode {
+    protected ArrayList<T> stlist;
+    protected String tipoBloque;
 
-    public Bloque(ArrayList<Statement> stlist){
+    public Bloque(ArrayList<T> stlist){
         this.stlist = stlist;
+        this.tipoBloque = "bloque";
     }
 
     @Override
