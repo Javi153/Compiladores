@@ -90,20 +90,20 @@ public class EBin extends E {
             case SUMA, RESTA, MUL, DIV, MOD, POT -> {
                 aux = opnd1.isType().getTipo() == TipoEnum.INT && opnd2.isType().getTipo() == TipoEnum.INT;
                 if(!aux){
-                    System.out.println("Error: se esperaba tipo int pero se ha recibido tipo " + opnd1.isType().toString() + " y tipo " + opnd2.isType().toString());
+                    System.out.println("Error: se esperaba tipo int en "+ this.num() + " pero se ha recibido tipo " + opnd1.isType().toString() + " y tipo " + opnd2.isType().toString());
                 }
                 return new Tipo(TipoEnum.INT);
             }
             case OR, AND -> {
                 aux = opnd1.isType().getTipo() == TipoEnum.BOOL && opnd2.isType().getTipo() == TipoEnum.BOOL;
                 if(!aux){
-                    System.out.println("Error: se esperaba tipo bool pero se ha recibido tipo " + opnd1.isType().toString() + " y tipo " + opnd2.isType().toString());
+                    System.out.println("Error: se esperaba tipo bool en la expresion" + this.num() + " pero se ha recibido tipo " + opnd1.isType().toString() + " y tipo " + opnd2.isType().toString());
                 }
             }
             case MENOR, MAYOR, MENIGUAL, MAYIGUAL, ID, DISTINTO -> {
                 aux = opnd1.isType().getTipo() == TipoEnum.INT && opnd2.isType().getTipo() == TipoEnum.INT || opnd1.isType().getTipo() == TipoEnum.BOOL && opnd2.isType().getTipo() == TipoEnum.BOOL;
                 if(!aux){
-                    System.out.println("Error: los tipos de los operandos" + opnd1.toString() + " y " + opnd2.toString() + " no son compatibles");
+                    System.out.println("Error: los tipos de los operandos" + opnd1.num() + " y " + opnd2.num() + " no son compatibles");
                 }
             }
             //TODO AUN NO ESTA TERMINADO, REVISAR TIPOS PARA STRUCTS

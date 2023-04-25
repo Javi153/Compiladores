@@ -39,6 +39,29 @@ public class LlamadaFuncion extends E implements ASTNode{
     }
 
     @Override
+    public Tipo isType() {
+        return buscaTipo(name);
+    }
+
+    @Override
+    public boolean type() {
+        boolean aux = buscaTipo(name) != null;
+        if(!aux){
+            System.out.println("Error: Función " + name + " no está definida");
+        }
+        else{
+            for(int i = 0; i < parlist.size(); i++){
+                boolean paraux = parlist.get(i).isType().getTipo().equals(buscaTipo(name + "." + i).getTipo());
+                if(!paraux){
+                    System.out.println("Error: se esperaba tipo " + buscaTipo(name + "." + i).getTipo().toString() + " pero se ha recibido tipo " + parlist.get(i).isType().getTipo().toString() + " en el parámetro " + parlist.get(i).num() + " de la función " + name);
+                }
+                aux = aux & paraux;
+            }
+        }
+        return aux;
+    }
+
+    @Override
     public boolean bind() {
         return true;
     }

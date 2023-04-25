@@ -37,6 +37,16 @@ public class EUnar extends E {
     }
 
     @Override
+    public Tipo isType() {
+        return opnd.isType();
+    }
+
+    @Override
+    public boolean type() {
+        return opnd.type();
+    }
+
+    @Override
     public boolean bind() {
         return opnd.bind();
     }

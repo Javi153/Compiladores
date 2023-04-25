@@ -12,8 +12,18 @@ public class Input extends LlamadaFuncion implements ASTNode{
     }
 
     @Override
+    public boolean type() { //No veo como tipar esto sin strings
+        return true;
+    }
+
+    @Override
     public boolean bind() {
         return expresion.isBound();
+    }
+
+    @Override
+    public Tipo isType() { //No veo como tipar esto sin strings
+        return null;
     }
 
     @Override

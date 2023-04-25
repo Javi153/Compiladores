@@ -16,6 +16,16 @@ public class True extends E{
     }
 
     @Override
+    public Tipo isType() {
+        return new Tipo(TipoEnum.BOOL);
+    }
+
+    @Override
+    public boolean type() {
+        return true;
+    }
+
+    @Override
     public boolean bind() {
         return true;
     }

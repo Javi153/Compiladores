@@ -12,8 +12,24 @@ public class Free extends LlamadaFuncion implements ASTNode{
     }
 
     @Override
+    public boolean type() {
+        if(arg.isType().getTipo() == TipoEnum.PUNTERO){
+            return true;
+        }
+        else{
+            System.out.println("Error: se esperaba un puntero en free " + arg.num());
+            return false;
+        }
+    }
+
+    @Override
     public boolean bind() {
         return arg.isBound();
+    }
+
+    @Override
+    public Tipo isType() {
+        return new Tipo(TipoEnum.VOID);
     }
 
     @Override

@@ -24,6 +24,16 @@ public class Print extends LlamadaFuncion implements ASTNode{
     }
 
     @Override
+    public boolean type() {
+        return true;
+    }
+
+    @Override
+    public Tipo isType() {
+        return new Tipo(TipoEnum.VOID);
+    }
+
+    @Override
     public String toString() {
         if(ln){
             return "println("+expresion.toString()+")";

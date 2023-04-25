@@ -51,8 +51,8 @@ public class Dec extends Statement implements ASTNode{
     public boolean type() {
         sTipo.peek().put(iden.toString(), tipo);
         if(exp != null) {
-            if(!tipo.equals(exp.isType()) || exp.isType().getTipo() == TipoEnum.NULL && !buscaTipo(iden.num()).isPointer()){
-                System.out.println("Error: se esperaba tipo "+tipo.toString()+" pero se ha recibido tipo "+exp.isType().toString());
+            if(!tipo.equals(exp.isType()) || exp.isType().equals((new Null()).isType()) && !buscaTipo(iden.num()).isPointer()){
+                System.out.println("Error: se esperaba tipo "+tipo.getTipo().toString()+" pero se ha recibido tipo "+exp.isType().getTipo().toString());
                 return false;
             }
         }

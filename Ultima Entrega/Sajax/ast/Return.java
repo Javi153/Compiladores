@@ -8,6 +8,15 @@ public class Return extends Statement implements ASTNode{
     }
 
     @Override
+    public boolean type() {
+        return true;
+    }
+
+    public Tipo getTipo(){
+        return ret.isType();
+    }
+
+    @Override
     public boolean bind() {
         return ret.isBound();
     }

@@ -21,6 +21,21 @@ public class Switch extends Statement implements ASTNode {
     }
 
     @Override
+    public boolean type() {
+        boolean aux = exp.isType().getTipo().equals(TipoEnum.INT);
+        if(!aux){
+            System.out.println("Error: la expresion del switch " + exp.num() + " no es de tipo entero");
+        }
+        for (Case c : cases) {
+            aux = aux & c.type();
+        }
+        if (defaultCase != null) {
+            aux = aux & defaultCase.type();
+        }
+        return aux;
+    }
+
+    @Override
     public boolean bind() {
         boolean aux = exp.isBound();
         for (Case c : cases) {

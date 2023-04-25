@@ -51,7 +51,7 @@ public class DecArray extends Statement implements ASTNode {
         for(E e : dims){
             aux = aux & e.isType().equals(new Tipo(TipoEnum.INT));
             if(!aux){
-                System.out.println("Error: la dimensión de un array debe ser de tipo entero");
+                System.out.println("Error: la dimensión de un array debe ser de tipo entero en el array "+e.num());
             }
         }
         return aux;

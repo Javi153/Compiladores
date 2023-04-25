@@ -20,6 +20,11 @@ public class Parametro implements ASTNode{
     }
 
     @Override
+    public boolean type() {
+        return true;
+    }
+
+    @Override
     public boolean bind() {
         if(s.peek().containsKey(name)){
             System.out.println("Nombre de parámetro duplicado: " + name);

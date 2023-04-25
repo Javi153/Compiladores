@@ -18,6 +18,11 @@ public class Tipo implements ASTNode{
     }
 
     @Override
+    public boolean type() {
+        return true;
+    }
+
+    @Override
     public boolean bind() {
         return true;
     }

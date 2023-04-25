@@ -1,5 +1,7 @@
 package ast;
 
+import java.util.HashMap;
+
 public class Ident extends E {
     private String v;
     public Ident(String v) {
@@ -17,6 +19,16 @@ public class Ident extends E {
         else{
             return true;
         }
+    }
+
+    @Override
+    public Tipo isType() { //En teoria nunca se llamará a este método, sino que se verá en la tabla cual es el tipo
+        return null;
+    }
+
+    @Override
+    public boolean type() { //Si t0d0 sale bien, se deberían guardar los identificadores en sus definicoines
+        return true;
     }
 
     @Override

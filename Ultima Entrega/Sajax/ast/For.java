@@ -25,7 +25,11 @@ public class For extends Statement implements ASTNode{
     public boolean bind() {
         boolean aux = true;
         s.push(new HashMap<>());
-        aux = aux & inicio.bind() & fin.isBound() & paso.isBound() & st.bind();
+        aux = aux & inicio.bind() & fin.isBound();
+        if(paso != null){
+            aux = aux & paso.isBound();
+        }
+        aux = aux & st.bind();
         s.pop();
         return aux;
     }

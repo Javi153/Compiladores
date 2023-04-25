@@ -14,6 +14,16 @@ public class Ent extends E {
   }
 
   @Override
+  public Tipo isType() {
+    return new Tipo(TipoEnum.INT);
+  }
+
+  @Override
+  public boolean type() {
+    return true;
+  }
+
+  @Override
   public boolean bind() {
     return true;
   }

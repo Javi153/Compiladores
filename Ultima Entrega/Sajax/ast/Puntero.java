@@ -1,6 +1,6 @@
 package ast;
 
-public class Puntero extends Tipo implements ASTNode{
+public class Puntero extends Tipo implements ASTNode{ //Igual hay que rehacerlo
     private Tipo t;
 
     public Puntero(Tipo t){
@@ -9,8 +9,13 @@ public class Puntero extends Tipo implements ASTNode{
         isPointer = true;
     }
 
-    public Tipo getPointer(){
+    public Tipo getTipoPointer(){
         return t;
+    }
+
+    @Override
+    public TipoEnum getTipo(){
+        return TipoEnum.PUNTERO;
     }
 
     @Override
