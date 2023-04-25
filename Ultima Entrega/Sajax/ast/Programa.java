@@ -30,13 +30,19 @@ public class Programa implements ASTNode{
     @Override
     public boolean bind() {
         s.push(new HashMap<>());
-        if(!(defs.bind() & main.bind())){
-            s.pop();
+        boolean aux = defs.bind() & main.bind();
+        for(String name : s.peek().keySet()){
+            if(s.peek().get(name).nodeKind() == NodeKind.FUNCIONDEC && ((DecFuncion)s.peek().get(name)).sinCuerpo()){
+                System.out.println("Funcion declarada pero cuerpo no definido: " + name);
+                aux = false;
+            }
+        }
+        s.pop();
+        if(!aux){
             System.out.println("La vinculación falló. Compilación abortada");
             return false;
         }
         else{
-            s.pop();
             System.out.println("La vinculación fue exitosa");
             return true;
         }

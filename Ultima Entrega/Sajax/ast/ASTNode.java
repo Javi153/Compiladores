@@ -34,6 +34,25 @@ public interface ASTNode {
     }
 
     public boolean type(); // for the future
+
+    public default Tipo buscaTipo(String id) {
+        boolean encontrado = false;
+        Tipo result = null;
+        Stack<HashMap<String, Tipo>> saux = new Stack<>();
+        while(!encontrado && !sTipo.empty()){
+            if(sTipo.peek().containsKey(id)){
+                encontrado = true;
+                result = sTipo.peek().get(id);
+            }
+            else{
+                saux.add(sTipo.pop());
+            }
+        }
+        while(!saux.empty()){
+            sTipo.add(saux.pop());
+        }
+        return result;
+    }
     public boolean bind();  // for the future
     // public ?? generateCode() // for the future
     public NodeKind nodeKind();

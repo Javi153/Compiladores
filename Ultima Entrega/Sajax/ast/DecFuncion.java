@@ -24,9 +24,37 @@ public class DecFuncion extends Definicion implements ASTNode{
 
     @Override
     public boolean type() {
-        /*Javi del futuro este es el plan. Si no tiene cuerpo guarda el nombre de la funcion y el tipo.
-        Ademas, guarda cada parametro como nombre.1, nombre.2 etc y guarda su tipo
-        Cuando venga el que tiene cuerpo que compruebe las que ya estaban y tambien compruebe que los tipos del cuerpo estan bien*/
+        boolean aux = true;
+        if(cuerpo != null && sTipo.peek().get(name) != null){
+            if(!sTipo.peek().get(name).equals(tipo)){
+                aux = false;
+                System.out.println("El tipo de la funcion " + name + " no coincide con el tipo de la declaracion");
+            }
+            int count = 1;
+            for(Parametro p : parlist){
+                if(!sTipo.peek().get(name + "." + count).equals(p.getTipo())){
+                    aux = false;
+                    System.out.println("El tipo del parametro " + p.getName() + " en " + name + " no coincide con el tipo de la declaracion");
+                }
+            }
+        }
+        else {
+            sTipo.peek().put(name, tipo);
+            int count = 1;
+            for (Parametro p : parlist) {
+                sTipo.peek().put(name + "." + count, p.getTipo());
+                count++;
+            }
+        }
+        if(cuerpo != null){
+            sTipo.push(new HashMap<>());
+            for(Parametro p : parlist){
+                sTipo.peek().put(p.getName(), p.getTipo());
+                aux = cuerpo.bind();
+            }
+            sTipo.pop();
+        }
+        return aux;
     }
 
     @Override

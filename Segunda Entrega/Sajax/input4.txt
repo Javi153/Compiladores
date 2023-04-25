@@ -1,0 +1,14 @@
+struct Coche{
+int matricula;
+int km_recorridos;
+
+void aumentar_km(){
+ km_recorridos = km_recorridos + 1;
+}
+}
+
+int main(){
+Coche c;
+c.aumentar_km();
+return 0;
+}

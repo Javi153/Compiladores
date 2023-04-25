@@ -24,6 +24,46 @@ public class EBin extends E {
     }
 
     @Override
+    public boolean type(){
+        return opnd1.type() & opnd2.type();
+    }
+
+    @Override
+    public Tipo isType(){
+        boolean aux = true;
+        switch(k){
+            case SUMA, RESTA, MUL, DIV, MOD, POT -> {
+                aux = opnd1.isType().getTipo() == TipoEnum.INT && opnd2.isType().getTipo() == TipoEnum.INT;
+                if(!aux){
+                    System.out.println("Error: se esperaba tipo int pero se ha recibido tipo " + opnd1.isType().toString() + " y tipo " + opnd2.isType().toString());
+                }
+                return new Tipo(TipoEnum.INT);
+            }
+            case DISTINTO, OR, AND -> {
+                aux = opnd1.isType().getTipo() == TipoEnum.BOOL && opnd2.isType().getTipo() == TipoEnum.BOOL;
+                if(!aux){
+                    System.out.println("Error: se esperaba tipo bool pero se ha recibido tipo " + opnd1.isType().toString() + " y tipo " + opnd2.isType().toString());
+                }
+            }
+            case MENOR, MAYOR, MENIGUAL, MAYIGUAL -> {
+                aux = opnd1.isType().getTipo() == TipoEnum.INT && opnd2.isType().getTipo() == TipoEnum.INT || opnd1.isType().getTipo() == TipoEnum.BOOL && opnd2.isType().getTipo() == TipoEnum.BOOL;
+                if(!aux){
+                    System.out.println("Error: los tipos de los operandos" + opnd1.toString() + " y " + opnd2.toString() + " no son compatibles");
+                }
+            }
+            case PUNTO -> {
+                Tipo t = opnd1.isType();
+            }
+            case FLECHA -> {
+            }
+            case ASTERISCO -> {
+            }
+            case CORCHETES -> {
+            }
+        }
+    }
+
+    @Override
     public boolean isBound() {
         switch(k){
             case PUNTO, FLECHA -> {

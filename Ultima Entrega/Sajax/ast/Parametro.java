@@ -11,6 +11,14 @@ public class Parametro implements ASTNode{
         this.ref = ref;
     }
 
+    public String getName(){
+        return name;
+    }
+
+    public Tipo getTipo(){
+        return tipo;
+    }
+
     @Override
     public boolean bind() {
         if(s.peek().containsKey(name)){

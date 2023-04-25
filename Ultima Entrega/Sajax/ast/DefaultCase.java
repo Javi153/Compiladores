@@ -11,6 +11,17 @@ public class DefaultCase extends Bloque<Statement> implements ASTNode {
     }
 
     @Override
+    public boolean type(){
+        boolean aux = true;
+        s.push(new HashMap<>());
+        for(Statement s : stlist){
+            aux = aux & s.type();
+        }
+        s.pop();
+        return aux;
+    }
+
+    @Override
     public boolean bind() {
         boolean aux = true;
         s.push(new HashMap<>());

@@ -1,6 +1,7 @@
 package ast;
 
 public abstract class E extends Statement implements ASTNode {
+    private Tipo tipo;
     public abstract KindE kind();
     public abstract boolean isBound();
 
