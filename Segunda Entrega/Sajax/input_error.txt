@@ -1,0 +1,38 @@
+struct Persona {
+	int dni;
+	int edad;
+}
+
+
+int main() {
+
+
+	if (8 == 9 {
+		b = 23;
+	}
+	
+	b = 89;
+	int f = 0
+	g = 12;
+	num = 1 + 8;
+
+	if (8 == 9 {
+		b = 23;
+	}
+	elsif (a /= 9) {
+		num = num[0];
+	}
+	else {
+		x = 0;
+		break
+		x = 7;
+	}
+	
+	b2 = 89;
+	int f2 = 0
+	g2 = 12;
+	num2 = 1 + 8;
+
+	return 0;
+
+}
