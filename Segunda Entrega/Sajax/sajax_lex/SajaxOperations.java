@@ -84,6 +84,11 @@ public class SajaxOperations {
   public UnidadLexica unidadFree() {
     return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.FREE,sjx.lexema());
   }
+
+  public UnidadLexica unidadNull() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.NULL,sjx.lexema());
+  }
+
   public UnidadLexica unidadId() {
     return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.IDEN,sjx.lexema());
   }

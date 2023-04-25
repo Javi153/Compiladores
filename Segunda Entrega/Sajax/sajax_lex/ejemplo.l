@@ -51,6 +51,7 @@ case = case
 default = default
 memspace = memspace
 free = free
+null = null
 barraBaja = \_
 true = true
 false = false
@@ -118,6 +119,7 @@ punto = .
 {default}                 {return ops.unidadDefault();}
 {memspace}                {return ops.unidadMemspace();}
 {free}                    {return ops.unidadFree();}
+{null}                    {return ops.unidadNull();}
 {true}			          {return ops.unidadTrue();}
 {false}			          {return ops.unidadFalse();}
 {identificador}           {return ops.unidadId();}

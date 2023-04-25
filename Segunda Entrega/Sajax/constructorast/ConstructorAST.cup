@@ -29,7 +29,7 @@ terminal     OR, AND, NOT, MAS, MENOS, POR, DIV, POT, MOD,
              IGDOBLE, DISTINTO, MENOR, MAYOR, MENIGUAL, MAYIGUAL,
              IGUAL, COMA, PAP, PCIERRE, WHILE, FOR, VOID, RETURN,
              STRUCT, LLAP, LLCIERRE, PTOCOMA, IF, ELSIF, ELSE,
-	         SWITCH, CASE, DEFAULT, BREAK, MEMSPACE, FREE,
+	         SWITCH, CASE, DEFAULT, BREAK, MEMSPACE, FREE, NULL,
 	         INT, FLOAT, BOOL, PRINT, PRINTLN, INPUT, MAIN,
 	         CAP, CCIERRE, FLECHA, PUNTO, DOSPTOS, TRUE, FALSE, OPREF;
 terminal TokenValue ENT, REAL, IDEN;
@@ -252,6 +252,8 @@ Exp ::= TRUE: trueterm
    {: RESULT=new True(); :};
 Exp ::= FALSE: falseterm
    {: RESULT=new False(); :};
+Exp ::= NULL
+   {: RESULT=new Null(); :};
 /*Exp ::= IDEN: ident
    {: RESULT=new Ident(ident.lexema); :}; */  // Dejamos el de IdenOps
 /*Exp ::= PAP SExp4:expterm PCIERRE
