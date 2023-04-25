@@ -57,4 +57,13 @@ public class LlamadaFuncion extends E implements ASTNode{
         s = s.concat(")");
         return s;
     }
+
+    public String num(){
+        String s = name + "(";
+        for (int i = 0; i < parlist.size() - 1; i++) {
+            s = s.concat(parlist.get(i).num() + ",");
+        }
+        s = s.concat(parlist.get(parlist.size() - 1).num() + ")");
+        return s;
+    }
 }

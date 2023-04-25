@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DefaultCase extends Bloque<Statement> implements ASTNode {
+    protected boolean breakPresence;
 
-    public DefaultCase(ArrayList<Statement> stlist) {
+    public DefaultCase(ArrayList<Statement> stlist, boolean breakPresence){
         super(stlist);
         tipoBloque = "defaultCase";
+	    this.breakPresence = breakPresence;
     }
 
     @Override
@@ -35,5 +37,15 @@ public class DefaultCase extends Bloque<Statement> implements ASTNode {
     @Override
     public NodeKind nodeKind() {
         return NodeKind.DEFCASE;
+    }
+
+    @Override
+    public String toString() {
+        String s = tipoBloque + "(";
+        for (int i = 0; i < stlist.size() ; ++i) {
+            s = s.concat(stlist.get(i).toString() + ",");
+        }
+        s = s.concat(breakPresence + ")");
+        return s;
     }
 }

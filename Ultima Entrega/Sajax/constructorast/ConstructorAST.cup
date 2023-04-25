@@ -29,7 +29,7 @@ terminal     OR, AND, NOT, MAS, MENOS, POR, DIV, POT, MOD,
              IGDOBLE, DISTINTO, MENOR, MAYOR, MENIGUAL, MAYIGUAL,
              IGUAL, COMA, PAP, PCIERRE, WHILE, FOR, VOID, RETURN,
              STRUCT, LLAP, LLCIERRE, PTOCOMA, IF, ELSIF, ELSE,
-	         SWITCH, CASE, DEFAULT, BREAK, MEMSPACE, FREE,
+	         SWITCH, CASE, DEFAULT, BREAK, MEMSPACE, FREE, NULL,
 	         INT, FLOAT, BOOL, PRINT, PRINTLN, INPUT, MAIN,
 	         CAP, CCIERRE, FLECHA, PUNTO, DOSPTOS, TRUE, FALSE, OPREF;
 terminal TokenValue ENT, REAL, IDEN;
@@ -43,7 +43,7 @@ non terminal Statement SAsign, SDec, SDecArray, SIf, SWhile, SSwitch, SBreak, SF
 non terminal Definicion SStruct, SDecFuncion, SDecFuncionInline;
 non terminal ArrayList<E> Dims;
 non terminal DefaultCase Default;
-non terminal E SExp4, SExp3, SExp2, SExp1, SExp0, Exp, CallFun, IdenOps, IdenOps0, IdenOps1, IdenOps2;
+non terminal E SExp4, SExp3, SExp2, SExp1, SExp0, Exp, CallFun, IdenOps, IdenOps0, IdenOps1;
 non terminal Tipo TipoBas, TipoStruct, Tipos, TipoVoid;
 non terminal ArrayList<Elsif> SElsif;
 non terminal ArrayList<Parametro> SParams, SParamsNoVacio;
@@ -51,8 +51,6 @@ non terminal ArrayList<E> SParExp, SParExp1;
 non terminal ArrayList<Definicion> GrupoDefs;
 non terminal MainFun Main;
 
-//Cosas que faltan: añadir simbolo dos puntos(:) al lexico, switch-case-default, operadores de identificadores(*,.,->,[], &), main
-//Cosas opcionales: Typedef, for, if y while de una linea
 
 S ::= GrupoDefs:defs Main:main
    {: RESULT=new Programa(new BloqueDef(defs), main); :};
@@ -92,28 +90,40 @@ BloqueGeneral ::=
    {: RESULT=new ArrayList<Statement>(); :};
 SStruct ::= STRUCT IDEN:name LLAP AtribStruct:atributos LLCIERRE
    {: RESULT=new Struct(name.lexema, new Bloque(atributos)); :};
+SStruct ::= STRUCT IDEN:name LLAP AtribStruct:atributos error
+   {: System.out.println("Se esperaba \"}\""); RESULT=null; :};
+AtribStruct ::= AtribStruct:bloqueatr SAsign: asign
+   {: bloqueatr.add(asign); RESULT=bloqueatr; :};
 AtribStruct ::= AtribStruct:bloqueatr SDec: dec
    {: bloqueatr.add(dec); RESULT=bloqueatr; :};
 AtribStruct ::= AtribStruct:bloqueatr SDecFuncion: dec
    {: bloqueatr.add(dec); RESULT=bloqueatr; :};
 AtribStruct ::=
    {: RESULT=new ArrayList<ASTNode>(); :};
-SBreak ::= BREAK PTOCOMA
-   {: RESULT=new Break(); :};
 SIf ::= IF PAP SExp4:cond1 PCIERRE LLAP BloqueGeneral:St LLCIERRE SElsif:arrayelsifs
    {: RESULT=new IfElse(cond1, new BloqueIns(St), arrayelsifs); :};
 SIf ::= IF PAP SExp4:cond2 PCIERRE LLAP BloqueGeneral:St1 LLCIERRE SElsif:arrayelsifs ELSE LLAP BloqueGeneral:St2 LLCIERRE
    {: RESULT=new IfElse(cond2, new BloqueIns(St1), arrayelsifs, new BloqueIns(St2)); :};
+SIf ::= IF PAP error LLCIERRE SElsif:arrayelsifs ELSE LLAP BloqueGeneral:St2 LLCIERRE
+   {: System.out.println("Se esperaba \")\""); RESULT=null; :};
+SIf ::= IF PAP error LLCIERRE
+   {: System.out.println("Se esperaba \")\""); RESULT=null; :};
+SIf ::= IF error LLCIERRE
+   {: System.out.println("Se esperaba \"(\""); RESULT=null; :};
 SElsif ::= SElsif:arrayelsifs ELSIF PAP SExp4:cond3 PCIERRE LLAP BloqueGeneral:St3 LLCIERRE
    {: arrayelsifs.add(new Elsif(cond3, new BloqueIns(St3))); RESULT=arrayelsifs; :};
 SElsif ::=
    {: RESULT=new ArrayList<Elsif>(); :};
 SDec ::= Tipos:tipoAsig IDEN:ident PTOCOMA
    {: RESULT=new Dec(tipoAsig, ident.lexema); :};
+SDec ::= Tipos:tipoAsig error
+   {: System.out.println("Se esperaba \";\""); RESULT=null; :};
 SDec ::= Tipos: tipoAsig IDEN:ident IGUAL SExp4:expterm PTOCOMA
    {: RESULT=new Dec(tipoAsig, ident.lexema, expterm); :};
 SAsign ::= IdenOps1:designador IGUAL SExp4:expterm PTOCOMA
    {: RESULT=new Asign(designador, expterm); :};
+SAsign ::= IdenOps1:designador IGUAL error
+   {: System.out.println("Se esperaba ;"); RESULT=null; :};
 SFor ::= FOR PAP INT IDEN:iden IGUAL SExp4:inicio PTOCOMA SExp4:fin PCIERRE LLAP BloqueGeneral:statement LLCIERRE
    {: RESULT=new For(new Dec(new Tipo(TipoEnum.INT),iden.lexema,inicio), fin, new BloqueIns(statement)); :};
 SFor ::= FOR PAP INT IDEN:iden IGUAL SExp4:inicio PTOCOMA SExp4:fin PTOCOMA SExp4:paso PCIERRE LLAP BloqueGeneral:statement LLCIERRE
@@ -126,10 +136,14 @@ SSwitch ::= SWITCH PAP SExp4:exp PCIERRE LLAP Cases:cases Default:defCase LLCIER
    {: RESULT=new Switch(exp, cases, defCase); :};
 Cases ::=
    {: RESULT=new ArrayList<Case>(); :};
-Cases ::= Cases:cases CASE ENT:ent DOSPTOS BloqueGeneral:bloqGen // El break puede ser un statement dentro del bloque
-   {: cases.add(new Case(new Ent(ent.lexema), bloqGen)); RESULT=cases; :};                     // En C++ no es exactamente así, preguntar
+Cases ::= Cases:cases CASE ENT:ent DOSPTOS BloqueGeneral:bloqGen
+   {: cases.add(new Case(new Ent(ent.lexema), bloqGen, false)); RESULT=cases; :};
+Cases ::= Cases:cases CASE ENT:ent DOSPTOS BloqueGeneral:bloqGen BREAK PTOCOMA
+   {: cases.add(new Case(new Ent(ent.lexema), bloqGen, true)); RESULT=cases; :};
 Default ::= DEFAULT DOSPTOS BloqueGeneral:bloqGen
-   {: RESULT=new DefaultCase(bloqGen); :};
+   {: RESULT=new DefaultCase(bloqGen, false); :};
+Default ::= DEFAULT DOSPTOS BloqueGeneral:bloqGen BREAK PTOCOMA
+   {: RESULT=new DefaultCase(bloqGen, true); :};
 SDecFuncionInline ::= Tipos:tipo IDEN:name PAP SParams:params PCIERRE PTOCOMA
    {: RESULT=new DecFuncion(tipo, name.lexema, params, null, null); :};
 SDecFuncionInline ::= TipoVoid:tipo IDEN:name PAP SParams:params PCIERRE PTOCOMA
@@ -156,6 +170,10 @@ SCallFun ::= MEMSPACE PAP SExp4:arg1 PCIERRE PTOCOMA
    {: RESULT=new Memspace(arg1); :};
 SCallFun ::= FREE PAP IDEN: arg1 PCIERRE PTOCOMA
    {: RESULT=new Free(new Ident(arg1.lexema)); :};
+SCallFun ::=IdenOps0:idenops0 PUNTO CallFun:llamada PTOCOMA
+    {: RESULT = new EBin(idenops0, llamada, KindE.PUNTO); :};
+SCallFun ::=IdenOps0:idenops0 FLECHA CallFun:llamada PTOCOMA
+    {: RESULT = new EBin(idenops0, llamada, KindE.FLECHA); :};
 SCallFun ::= CallFun:llamada PTOCOMA
    {: RESULT=llamada; :};
 CallFun ::= IDEN:ident PAP SParExp:parexp PCIERRE //SparExp son parametros de funcion
@@ -232,24 +250,18 @@ Exp ::= TRUE: trueterm
    {: RESULT=new True(); :};
 Exp ::= FALSE: falseterm
    {: RESULT=new False(); :};
-/*Exp ::= IDEN: ident
-   {: RESULT=new Ident(ident.lexema); :}; */  // Dejamos el de IdenOps
-/*Exp ::= PAP SExp4:expterm PCIERRE
-   {: RESULT=expterm; :};*/
-Exp ::= IdenOps2:idenops
+Exp ::= NULL
+   {: RESULT=new Null(); :};
+Exp ::= IdenOps1:idenops
    {: RESULT=idenops; :};
-Exp ::= CallFun:callfun
-   {: RESULT=callfun; :};
-IdenOps2 ::= POR IdenOps2:idenOps // Esto es lo que queda aqui [], ->, ., *iden
+IdenOps1 ::= POR IdenOps1:idenOps // Esto es lo que queda aqui [], ->, ., *iden
    {:RESULT = new EUnar(idenOps, KindE.ASTERISCO); :};
-IdenOps2 ::= IdenOps1:idenOps
+IdenOps1 ::= IdenOps0:idenOps
    {: RESULT = idenOps; :};
-IdenOps1 ::= IdenOps1:idenOps0 PUNTO IdenOps0:idenOps // . y -> asocian de izquierda a derecha segun cpp reference
+IdenOps0 ::= IdenOps0:idenOps0 PUNTO IdenOps:idenOps // . y -> asocian de izquierda a derecha segun cpp reference
    {: RESULT=new EBin(idenOps0, idenOps, KindE.PUNTO); :};
-IdenOps1 ::= IdenOps1:idenOps0 FLECHA IdenOps0:idenOps
+IdenOps0 ::= IdenOps0:idenOps0 FLECHA IdenOps:idenOps
    {: RESULT=new EBin(idenOps0, idenOps, KindE.FLECHA); :};
-IdenOps1 ::= IdenOps0:idenOps0
-   {: RESULT = idenOps0; :};
 IdenOps0 ::= IdenOps0:idenOps0 CAP SExp4:exp CCIERRE
    {: RESULT = new EBin(idenOps0, exp, KindE.CORCHETES); :};
 IdenOps0 ::= IdenOps:idenOps
@@ -257,7 +269,9 @@ IdenOps0 ::= IdenOps:idenOps
 IdenOps ::= PAP SExp4:idenOps PCIERRE
    {: RESULT = idenOps; :};
 IdenOps ::= IDEN:iden
-   {: RESULT =  new Ident(iden.lexema); :}; // Esto es ambiguo con Exp casi seguro
+   {: RESULT =  new Ident(iden.lexema); :};
+IdenOps ::= CallFun:fun
+   {: RESULT = fun; :};
 TipoVoid ::= TipoVoid:tipo POR
    {: RESULT=new Puntero(tipo); :};
 TipoVoid ::= VOID

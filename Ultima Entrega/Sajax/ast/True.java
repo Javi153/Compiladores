@@ -6,6 +6,10 @@ public class True extends E{
         return KindE.TRUE;
     }
 
+    public String num(){
+        return "true";
+    }
+
     @Override
     public boolean isBound() {
         return true;

@@ -11,6 +11,61 @@ public class EBin extends E {
         this.k = k;
     }
 
+    public String num(){
+        String simbolo = "";
+        switch(k){
+            case SUMA -> {
+                simbolo = "+";
+            }
+            case RESTA -> {
+                simbolo = "-";
+            }
+            case MUL -> {
+                simbolo = "*";
+            }
+            case DIV -> {
+                simbolo = "/";
+            }
+            case MOD -> {
+                simbolo = "%";
+            }
+            case POT -> {
+                simbolo = "^";
+            }
+            case DISTINTO -> {
+                simbolo = "/=";
+            }
+            case OR -> {
+                simbolo = "||";
+            }
+            case AND -> {
+                simbolo = "&&";
+            }
+            case MENOR -> {
+                simbolo = "<";
+            }
+            case MAYOR -> {
+                simbolo = ">";
+            }
+            case MENIGUAL -> {
+                simbolo = "<=";
+            }
+            case MAYIGUAL -> {
+                simbolo = ">=";
+            }
+            case PUNTO -> {
+                simbolo = ".";
+            }
+            case FLECHA -> {
+                simbolo = "->";
+            }
+            case CORCHETES -> {
+                simbolo = "[]";
+            }
+        }
+        return opnd1.num() + simbolo + opnd2.num();
+    }
+
     public E opnd1() {
         return opnd1;
     }
@@ -39,28 +94,35 @@ public class EBin extends E {
                 }
                 return new Tipo(TipoEnum.INT);
             }
-            case DISTINTO, OR, AND -> {
+            case OR, AND -> {
                 aux = opnd1.isType().getTipo() == TipoEnum.BOOL && opnd2.isType().getTipo() == TipoEnum.BOOL;
                 if(!aux){
                     System.out.println("Error: se esperaba tipo bool pero se ha recibido tipo " + opnd1.isType().toString() + " y tipo " + opnd2.isType().toString());
                 }
             }
-            case MENOR, MAYOR, MENIGUAL, MAYIGUAL -> {
+            case MENOR, MAYOR, MENIGUAL, MAYIGUAL, ID, DISTINTO -> {
                 aux = opnd1.isType().getTipo() == TipoEnum.INT && opnd2.isType().getTipo() == TipoEnum.INT || opnd1.isType().getTipo() == TipoEnum.BOOL && opnd2.isType().getTipo() == TipoEnum.BOOL;
                 if(!aux){
                     System.out.println("Error: los tipos de los operandos" + opnd1.toString() + " y " + opnd2.toString() + " no son compatibles");
                 }
             }
+            //TODO AUN NO ESTA TERMINADO, REVISAR TIPOS PARA STRUCTS
             case PUNTO -> {
                 Tipo t = opnd1.isType();
+                if(t.getTipo() != TipoEnum.STRUCT){
+                    System.out.println("Error: el operando izquierdo de un punto debe ser un struct");
+                }
             }
             case FLECHA -> {
             }
-            case ASTERISCO -> {
-            }
             case CORCHETES -> {
+                if(opnd2.isType().getTipo() != TipoEnum.INT){
+                    System.out.println("Error: el acceso a un array debe hacerse con una expresión de tipo int");
+                }
             }
         }
+        //TODO QUITA ESTO DE AQUI ERA SOLO PARA QUE NO SALIESE EL ERROR
+        return new Tipo(TipoEnum.NULL);
     }
 
     @Override

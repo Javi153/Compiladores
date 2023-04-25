@@ -6,6 +6,11 @@ public class Puntero extends Tipo implements ASTNode{
     public Puntero(Tipo t){
         super(t.getTipo());
         this.t = t;
+        isPointer = true;
+    }
+
+    public Tipo getPointer(){
+        return t;
     }
 
     @Override

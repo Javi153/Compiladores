@@ -51,9 +51,6 @@ non terminal ArrayList<E> SParExp, SParExp1;
 non terminal ArrayList<Definicion> GrupoDefs;
 non terminal MainFun Main;
 
-//Cosas que faltan: añadir simbolo dos puntos(:) al lexico, switch-case-default, operadores de identificadores(*,.,->,[], &), main
-//Cosas opcionales: Typedef, for, if y while de una linea
-
 S ::= GrupoDefs:defs Main:main
    {: RESULT=new Programa(new BloqueDef(defs), main); :};
 GrupoDefs ::= GrupoDefs:defs SDecFuncionInline:newdef

@@ -13,7 +13,7 @@ public class Asign extends Statement implements ASTNode {
     public boolean type() {
         boolean aux = designador.isType().equals(expresion.isType());
         if(!aux){
-            System.out.println("Error: Se esperaba tipo " + designador.isType().toString() + " pero se ha recibido tipo " + expresion.isType().toString());
+            System.out.println("Error: Se esperaba tipo " + designador.isType().toString() + " pero se ha recibido tipo " + expresion.isType().toString() + " en la expresion " + expresion.num());
         }
         aux = aux & designador.isType().equals(buscaTipo(designador.num()));
         if(!aux){

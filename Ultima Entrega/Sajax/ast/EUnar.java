@@ -4,6 +4,20 @@ public class EUnar extends E {
     private E opnd;
     private KindE k;
 
+    public String num(){
+        String simbolo = "";
+        switch(k){
+
+            case NOT -> {
+                simbolo = "!";
+            }
+            case ASTERISCO -> {
+                simbolo = "*";
+            }
+        }
+        return simbolo + opnd.num();
+    }
+
     public EUnar(E opnd, KindE k) {
         this.opnd = opnd;
         this.k = k;
