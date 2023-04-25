@@ -1,4 +1,4 @@
-struct Persona {
+/*struct Persona {
 	int dni;
 	int edad;
 }
@@ -35,4 +35,19 @@ int main() {
 
 	return 0;
 
+}*/
+
+
+int main() {
+	switch(n) {
+		case 0: break;
+		case 2: x = 7;
+		default: a = 9; break;
+	}
+	
+	switch(y) {
+		default:
+			print(y);
+	}
+	return 0;
 }

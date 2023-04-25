@@ -2,12 +2,12 @@ package ast;
 
 import java.util.ArrayList;
 
-public class Case extends Bloque implements ASTNode {
+public class Case extends DefaultCase implements ASTNode {
 
     private Ent ent;
 
-    public Case(Ent ent, ArrayList<Statement> stlist) {
-        super(stlist);
+    public Case(Ent ent, ArrayList<Statement> stlist, boolean breakPresence) {
+        super(stlist, breakPresence);
         this.ent = ent;
         tipoBloque = "case";
     }
@@ -18,18 +18,13 @@ public class Case extends Bloque implements ASTNode {
     }
 
     @Override
-    public String toString(){
-        if (stlist.size() == 0) {
-            return tipoBloque + "(" + ent.toString() + ")";
+    public String toString() {
+        String s = tipoBloque + "(" + ent.toString();
+        for (int i = 0; i < stlist.size(); ++i) {
+            s = s.concat("," + stlist.get(i).toString());
         }
-        else {
-            String s = tipoBloque + "(" + ent.toString();
-            for (int i = 0; i < stlist.size(); ++i) {
-                s = s.concat("," + stlist.get(i).toString());
-            }
-            s = s.concat(")");
-            return s;
-        }
+        s = s.concat("," + breakPresence + ")");
+        return s;
     }
 
 }
