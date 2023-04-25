@@ -9,6 +9,15 @@ public class BloqueDef extends Bloque<Definicion> implements ASTNode{
     }
 
     @Override
+    public boolean type() {
+        boolean aux = true;
+        for(Definicion d : stlist){
+            aux = aux & d.type();
+        }
+        return aux;
+    }
+
+    @Override
     public boolean bind(){
         boolean aux = true;
         for(Definicion d : stlist){

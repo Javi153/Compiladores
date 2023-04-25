@@ -23,10 +23,22 @@ public class DecFuncion extends Definicion implements ASTNode{
     }
 
     @Override
+    public boolean type() {
+        /*Javi del futuro este es el plan. Si no tiene cuerpo guarda el nombre de la funcion y el tipo.
+        Ademas, guarda cada parametro como nombre.1, nombre.2 etc y guarda su tipo
+        Cuando venga el que tiene cuerpo que compruebe las que ya estaban y tambien compruebe que los tipos del cuerpo estan bien*/
+    }
+
+    @Override
     public boolean bind() {
+        //Esta funcion es bastante liosa asi que la explico. En primer lugar hay dos tipos de declaracion
+        //de funciones, la declaracion de una funcion sin cuerpo y la declaracion de una funcion con cuerpo.
+        //Cuando no tenga cuerpo, solo hay que comporbar por un lado que nunca haya sido definida y por otro
+        //que los parametros estan bien definidos, es decir, no se repiten
         if(cuerpo == null) {
             HashMap<String, ASTNode> m = s.peek();
             if (m.containsKey(name)) {
+                System.out.println("Error: Funcion " + name + " ya declarada");
                 return false;
             } else {
                 boolean aux = true;
@@ -39,13 +51,19 @@ public class DecFuncion extends Definicion implements ASTNode{
                 return aux;
             }
         }
+        //Si por el contrario tiene cuerpo, ahora podemos aceptar que la funcion ya estuviese declarada siempre
+        //y cuando la anterior declaracion no tuviese cuerpo y coincida el numero de parametros (si el nombre cambia da igual)
+        //Ademas, debemos encargarnos de vincular las instrucciones dentro del cuerpo
         else{
             HashMap<String, ASTNode> m = s.peek();
             if(m.containsKey(name)){
                 ASTNode original = m.get(name);
                 if(original.nodeKind() == NodeKind.FUNCIONDEC && ((DecFuncion)original).sinCuerpo()){
-                    boolean aux = true;
-                    m.replace(name, this);
+                    boolean aux = ((DecFuncion)original).numParams() == parlist.size();
+                    if(!aux) {
+                        System.out.println("Error: Funcion " + name + " no coincide en el número de parámetros");
+                    }
+                    m.replace(name, this); //Nos quedaremos siempre con la declaracion con cuerpo que nos da mas informacion
                     s.push(new HashMap<>());
                     for(Parametro p : parlist){
                         aux = aux & p.bind();

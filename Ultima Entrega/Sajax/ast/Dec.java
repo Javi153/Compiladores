@@ -47,6 +47,18 @@ public class Dec extends Statement implements ASTNode{
         }
     }
 
+    @Override
+    public boolean type() {
+        sTipo.peek().put(iden.toString(), tipo);
+        if(exp != null) {
+            if(!tipo.equals(exp.isType())){
+                System.out.println("Error: se esperaba tipo "+tipo.toString()+" pero se ha recibido tipo "+exp.isType().toString());
+                return false;
+            }
+        }
+        return true;
+    }
+
     public String getName(){
         return iden.num();
     }

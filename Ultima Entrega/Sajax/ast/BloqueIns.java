@@ -9,6 +9,15 @@ public class BloqueIns extends Bloque<Statement> implements ASTNode{
     }
 
     @Override
+    public boolean type() {
+        boolean aux = true;
+        for(Statement s : stlist){
+            aux = aux & s.type();
+        }
+        return aux;
+    }
+
+    @Override
     public boolean bind(){
         boolean aux = true;
         for(Statement s : stlist){

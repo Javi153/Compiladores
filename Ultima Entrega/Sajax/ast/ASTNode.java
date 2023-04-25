@@ -6,6 +6,7 @@ import java.util.Stack;
 
 public interface ASTNode {
     public static Stack<HashMap<String, ASTNode>> s = new Stack<>();
+    public static Stack<HashMap<String, Tipo>> sTipo = new Stack<>();
 
     public default void insertaId(String id, ASTNode nodo){
         if(!s.empty()){
@@ -32,7 +33,7 @@ public interface ASTNode {
         return result;
     }
 
-    // public ?? type() // for the future
+    public boolean type(); // for the future
     public boolean bind();  // for the future
     // public ?? generateCode() // for the future
     public NodeKind nodeKind();

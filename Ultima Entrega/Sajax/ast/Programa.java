@@ -13,6 +13,21 @@ public class Programa implements ASTNode{
     }
 
     @Override
+    public boolean type() {
+        sTipo.push(new HashMap<>());
+        if(!(defs.type() & main.type())){
+            sTipo.pop();
+            System.out.println("La comprobación de tipos falló. Compilación abortada");
+            return false;
+        }
+        else{
+            sTipo.pop();
+            System.out.println("La comprobación de tipos fue exitosa");
+            return true;
+        }
+    }
+
+    @Override
     public boolean bind() {
         s.push(new HashMap<>());
         if(!(defs.bind() & main.bind())){

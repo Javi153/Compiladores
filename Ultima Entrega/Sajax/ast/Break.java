@@ -4,6 +4,11 @@ public class Break extends Statement implements ASTNode{
     public Break(){}
 
     @Override
+    public boolean type() {
+        return true;
+    }
+
+    @Override
     public boolean bind() {
         return true;
     }

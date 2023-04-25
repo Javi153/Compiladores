@@ -12,6 +12,15 @@ public class Bloque<T extends ASTNode> implements ASTNode {
     }
 
     @Override
+    public boolean type() {
+        boolean aux = true;
+        for(T elem : stlist){
+            aux = aux & elem.type();
+        }
+        return aux;
+    }
+
+    @Override
     public boolean bind() {
         boolean aux = true;
         for(T elem : stlist){

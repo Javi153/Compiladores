@@ -12,6 +12,13 @@ public class Struct extends Definicion implements ASTNode{
     }
 
     @Override
+    public boolean type() {
+        /*Javi del pasado igual no te acuerdas pero ya pensamos en eso. Si, en las funciones de structs
+        La clave sera guardar todo como struct.funcion.1 etc. Para ello quiza lo mejor es que escribas las cosas
+        de funcion desde aqui, sin llamar a su type*/
+    }
+
+    @Override
     public boolean bind() {
         if(buscaId(name) != null){
             System.out.println("Error: ya existe una variable con el nombre "+name);

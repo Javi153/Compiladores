@@ -17,6 +17,11 @@ public class MainFun implements ASTNode {
     }
 
     @Override
+    public boolean type() {
+        return bloque.type();
+    }
+
+    @Override
     public boolean bind() {
         return bloque.bind();
     }
