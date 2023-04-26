@@ -16,9 +16,19 @@ public class DecArray extends Statement implements ASTNode {
         this.dims = dims;
     }
 
+    public DecArray(String name, DecArray d){
+        this.iden = name;
+        this.tipo = d.tipo;
+        this.dims = d.dims;
+    }
+
     @Override
     public NodeKind nodeKind() {
         return NodeKind.DECARRAY;
+    }
+
+    public String getName(){
+        return iden;
     }
 
     @Override
@@ -58,6 +68,12 @@ public class DecArray extends Statement implements ASTNode {
                 System.out.println(s);
             }
         }
+        String s = iden;
+        for(int i = 0; i < dims.size(); i++){
+            s = s.concat("[]");
+            sTipo.peek().put(new String(s), new TipoArray(tipo, dims.size() - i - 1));
+        }
+        sTipo.peek().put(new String(s), tipo);
         return aux;
     }
 }

@@ -18,6 +18,13 @@ public class Dec extends Statement implements ASTNode{
         this.iden = new Ident(iden);
         this.exp = exp;
     }
+
+    public Dec(String name, Dec d){
+        this.iden = new Ident(name);
+        this.tipo = d.tipo;
+        this.exp = d.exp;
+    }
+
     @Override
     public NodeKind nodeKind() {
         return NodeKind.DEC;
@@ -49,7 +56,7 @@ public class Dec extends Statement implements ASTNode{
 
     @Override
     public boolean type() {
-        sTipo.peek().put(iden.toString(), tipo);
+        sTipo.peek().put(iden.num(), tipo);
         if(exp != null) {
             if(!tipo.getTipo().equals(exp.isType().getTipo()) || exp.isType().getTipo().equals((new Null()).isType().getTipo()) && !buscaTipo(iden.num()).isPointer()){
                 System.out.println("Error: se esperaba tipo "+tipo.getTipo().toString()+" pero se ha recibido tipo "+exp.isType().getTipo().toString() + " en la expresion " + tipo.getTipo().toString() +" " + iden.num() + " = " + exp.num());

@@ -1,18 +1,13 @@
-bool persona(bool algo){
-int a = 6;
-return 5 == 7;
+struct persona{
+int dni[9][7];
+bool prueba(int a, bool b){
+	return false;
 }
-
-int c;
-
-bool cosa[4][c % 7][c];
-
-int b = 3 ^ 6 - 7 % 3;
+}
 
 int main(){
-int a = 2;
-for(int i = 3; 7;b + 7){
-	int b;
-}
+persona p;
+//p.dni[9][8] = 8;
+bool zero = p.prueba(true,false);
 return 0;
 }

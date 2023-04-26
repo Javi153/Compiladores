@@ -43,7 +43,7 @@ non terminal Statement SAsign, SDec, SDecArray, SIf, SWhile, SSwitch, SBreak, SF
 non terminal Definicion SStruct, SDecFuncion, SDecFuncionInline;
 non terminal ArrayList<E> Dims;
 non terminal DefaultCase Default;
-non terminal E SExp4, SExp3, SExp2, SExp1, SExp0, Exp, CallFun, IdenOps, IdenOps0, IdenOps1;
+non terminal E SExp4, SExp3, SExp2, SExp1, SExp0, Exp, CallFun, IdenOps, IdenOps0, IdenOps1, IdenOps2;
 non terminal Tipo TipoBas, TipoStruct, Tipos, TipoVoid;
 non terminal ArrayList<Elsif> SElsif;
 non terminal ArrayList<Parametro> SParams, SParamsNoVacio;
@@ -92,8 +92,8 @@ SStruct ::= STRUCT IDEN:name LLAP AtribStruct:atributos LLCIERRE
    {: RESULT=new Struct(name.lexema, new Bloque(atributos)); :};
 SStruct ::= STRUCT IDEN:name LLAP AtribStruct:atributos error
    {: System.out.println("Se esperaba \"}\""); RESULT=null; :};
-AtribStruct ::= AtribStruct:bloqueatr SAsign: asign
-   {: bloqueatr.add(asign); RESULT=bloqueatr; :};
+AtribStruct ::= AtribStruct:bloqueatr SDecArray: dec
+   {: bloqueatr.add(dec); RESULT=bloqueatr; :};
 AtribStruct ::= AtribStruct:bloqueatr SDec: dec
    {: bloqueatr.add(dec); RESULT=bloqueatr; :};
 AtribStruct ::= AtribStruct:bloqueatr SDecFuncion: dec
@@ -120,9 +120,9 @@ SDec ::= Tipos:tipoAsig error
    {: System.out.println("Se esperaba \";\""); RESULT=null; :};
 SDec ::= Tipos: tipoAsig IDEN:ident IGUAL SExp4:expterm PTOCOMA
    {: RESULT=new Dec(tipoAsig, ident.lexema, expterm); :};
-SAsign ::= IdenOps1:designador IGUAL SExp4:expterm PTOCOMA
+SAsign ::= IdenOps2:designador IGUAL SExp4:expterm PTOCOMA
    {: RESULT=new Asign(designador, expterm); :};
-SAsign ::= IdenOps1:designador IGUAL error
+SAsign ::= IdenOps2:designador IGUAL error
    {: System.out.println("Se esperaba ;"); RESULT=null; :};
 SFor ::= FOR PAP INT IDEN:iden IGUAL SExp4:inicio PTOCOMA SExp4:fin PCIERRE LLAP BloqueGeneral:statement LLCIERRE
    {: RESULT=new For(new Dec(new Tipo(TipoEnum.INT),iden.lexema,inicio), fin, new BloqueIns(statement)); :};
@@ -170,9 +170,9 @@ SCallFun ::= MEMSPACE PAP SExp4:arg1 PCIERRE PTOCOMA
    {: RESULT=new Memspace(arg1); :};
 SCallFun ::= FREE PAP IDEN: arg1 PCIERRE PTOCOMA
    {: RESULT=new Free(new Ident(arg1.lexema)); :};
-SCallFun ::=IdenOps0:idenops0 PUNTO CallFun:llamada PTOCOMA
+SCallFun ::=IdenOps1:idenops0 PUNTO CallFun:llamada PTOCOMA
     {: RESULT = new EBin(idenops0, llamada, KindE.PUNTO); :};
-SCallFun ::=IdenOps0:idenops0 FLECHA CallFun:llamada PTOCOMA
+SCallFun ::=IdenOps1:idenops0 FLECHA CallFun:llamada PTOCOMA
     {: RESULT = new EBin(idenops0, llamada, KindE.FLECHA); :};
 SCallFun ::= CallFun:llamada PTOCOMA
    {: RESULT=llamada; :};
@@ -252,16 +252,18 @@ Exp ::= FALSE: falseterm
    {: RESULT=new False(); :};
 Exp ::= NULL
    {: RESULT=new Null(); :};
-Exp ::= IdenOps1:idenops
+Exp ::= IdenOps2:idenops
    {: RESULT=idenops; :};
-IdenOps1 ::= POR IdenOps1:idenOps // Esto es lo que queda aqui [], ->, ., *iden
+IdenOps2 ::= POR IdenOps2:idenOps // Esto es lo que queda aqui [], ->, ., *iden
    {:RESULT = new EUnar(idenOps, KindE.ASTERISCO); :};
+IdenOps2 ::= IdenOps1:idenOps
+   {: RESULT = idenOps; :};
+IdenOps1 ::= IdenOps1:idenOps0 PUNTO IdenOps0:idenOps // . y -> asocian de izquierda a derecha segun cpp reference
+   {: RESULT=new EBin(idenOps0, idenOps, KindE.PUNTO); :};
+IdenOps1 ::= IdenOps1:idenOps0 FLECHA IdenOps0:idenOps
+   {: RESULT=new EBin(idenOps0, idenOps, KindE.FLECHA); :};
 IdenOps1 ::= IdenOps0:idenOps
    {: RESULT = idenOps; :};
-IdenOps0 ::= IdenOps0:idenOps0 PUNTO IdenOps:idenOps // . y -> asocian de izquierda a derecha segun cpp reference
-   {: RESULT=new EBin(idenOps0, idenOps, KindE.PUNTO); :};
-IdenOps0 ::= IdenOps0:idenOps0 FLECHA IdenOps:idenOps
-   {: RESULT=new EBin(idenOps0, idenOps, KindE.FLECHA); :};
 IdenOps0 ::= IdenOps0:idenOps0 CAP SExp4:exp CCIERRE
    {: RESULT = new EBin(idenOps0, exp, KindE.CORCHETES); :};
 IdenOps0 ::= IdenOps:idenOps

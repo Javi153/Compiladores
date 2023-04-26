@@ -18,6 +18,14 @@ public class DecFuncion extends Definicion implements ASTNode{
         this.ret = ret;
     }
 
+    public DecFuncion(String name, DecFuncion d){
+        this.name = name;
+        this.tipo = d.tipo;
+        this.parlist = d.parlist;
+        this.cuerpo = d.cuerpo;
+        this.ret = d.ret;
+    }
+
     public boolean sinCuerpo(){
         return cuerpo == null;
     }

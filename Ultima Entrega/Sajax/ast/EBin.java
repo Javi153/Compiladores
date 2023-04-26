@@ -60,7 +60,7 @@ public class EBin extends E {
                 simbolo = "->";
             }
             case CORCHETES -> {
-                simbolo = "[]";
+                return opnd1.num() + "[]";
             }
         }
         return opnd1.num() + simbolo + opnd2.num();
@@ -110,9 +110,16 @@ public class EBin extends E {
             }
             //TODO AUN NO ESTA TERMINADO, REVISAR TIPOS PARA STRUCTS
             case PUNTO -> {
-                Tipo t = opnd1.isType();
+                Tipo t = buscaTipo(opnd1.num());
                 if(t.getTipo() != TipoEnum.STRUCT){
                     System.out.println("Error: el operando izquierdo de un punto debe ser un struct");
+                }
+                String auxname = ((TipoStruct)t).getId();
+                if(opnd2.kind().equals(KindE.CALLFUN)){
+                    return buscaTipo(auxname + "." + ((LlamadaFuncion)opnd2).getName());
+                }
+                else{
+                    return buscaTipo(auxname + "." + opnd2.num());
                 }
             }
             case FLECHA -> {
@@ -121,6 +128,7 @@ public class EBin extends E {
                 if(opnd2.isType().getTipo() != TipoEnum.INT){
                     System.out.println("Error: el acceso a un array debe hacerse con una expresión de tipo int");
                 }
+                return buscaTipo(num());
             }
         }
         //TODO QUITA ESTO DE AQUI ERA SOLO PARA QUE NO SALIESE EL ERROR
@@ -131,14 +139,18 @@ public class EBin extends E {
     public boolean isBound() {
         switch(k){
             case PUNTO, FLECHA -> {
-                if(opnd2.kind() == KindE.IDEN){
+                if(opnd2.kind().equals(KindE.CALLFUN)){
                     boolean res = opnd1.isBound();
-                    Ident aux = (Ident)buscaId("."+opnd2.num());
+                    return res & (new LlamadaFuncion("."+((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist()).isBound());
+
+                }
+                else if(opnd2.kind().equals(KindE.IDEN)){
+                    boolean res = opnd1.isBound();
+                    ASTNode aux = buscaId("."+opnd2.num());
                     if(aux == null){
                         System.out.println("Error: el identificador " + opnd2.num() + " no está definido en el struct " + opnd1.num());
                         return false;
-                    }
-                    else{
+                    } else{
                         return res;
                     }
                 }

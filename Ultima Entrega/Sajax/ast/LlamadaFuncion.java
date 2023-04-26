@@ -11,6 +11,10 @@ public class LlamadaFuncion extends E implements ASTNode{
         this.parlist = parlist;
     }
 
+    public ArrayList<E> getParlist() {
+        return parlist;
+    }
+
     @Override
     public KindE kind() {
         return KindE.CALLFUN;
@@ -51,9 +55,9 @@ public class LlamadaFuncion extends E implements ASTNode{
         }
         else{
             for(int i = 0; i < parlist.size(); i++){
-                boolean paraux = parlist.get(i).isType().getTipo().equals(buscaTipo(name + "." + i).getTipo());
+                boolean paraux = parlist.get(i).isType().getTipo().equals(buscaTipo(name + "." + (i+1)).getTipo());
                 if(!paraux){
-                    System.out.println("Error: se esperaba tipo " + buscaTipo(name + "." + i).getTipo().toString() + " pero se ha recibido tipo " + parlist.get(i).isType().getTipo().toString() + " en el parámetro " + parlist.get(i).num() + " de la función " + name);
+                    System.out.println("Error: se esperaba tipo " + buscaTipo(name + "." + (i+1)).getTipo().toString() + " pero se ha recibido tipo " + parlist.get(i).isType().getTipo().toString() + " en el parámetro " + parlist.get(i).num() + " de la función " + name);
                 }
                 aux = aux & paraux;
             }
@@ -69,6 +73,10 @@ public class LlamadaFuncion extends E implements ASTNode{
     @Override
     public NodeKind nodeKind(){
         return NodeKind.FUNCIONCALL;
+    }
+
+    public String getName(){
+        return name;
     }
 
     public String toString(){

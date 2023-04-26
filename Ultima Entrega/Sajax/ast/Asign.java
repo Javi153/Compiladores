@@ -11,7 +11,11 @@ public class Asign extends Statement implements ASTNode {
 
     @Override
     public boolean type() {
-        boolean aux = designador.isType().getTipo().equals(expresion.isType().getTipo());
+        if(designador.isType().getTipo().equals(TipoEnum.ARRAY)){
+            System.out.println("Error: No se puede asignar a un array");
+            return false;
+        }
+        boolean aux = designador.isType().getTipo().equals(expresion.isType().getTipo()) & expresion.type();
         if(!aux){
             System.out.println("Error: Se esperaba tipo " + designador.isType().toString() + " pero se ha recibido tipo " + expresion.isType().toString() + " en la expresion " + expresion.num());
         }
