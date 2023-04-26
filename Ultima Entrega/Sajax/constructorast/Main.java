@@ -21,8 +21,12 @@ public class Main {
      catch (Exception e) {
          System.out.println("Error de parseo.");
      }
+     boolean success = true;
      if(result != null) {
-         result.bind();
+         success = result.bind();
+     }
+     if(result != null && success){
+         success = result.type();
      }
    }
 }   

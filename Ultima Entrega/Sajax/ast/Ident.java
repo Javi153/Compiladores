@@ -23,7 +23,7 @@ public class Ident extends E {
 
     @Override
     public Tipo isType() { //En teoria nunca se llamará a este método, sino que se verá en la tabla cual es el tipo
-        return null;
+        return buscaTipo(v);
     }
 
     @Override

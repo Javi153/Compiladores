@@ -16,6 +16,7 @@ public class Struct extends Definicion implements ASTNode{
         /*Javi del pasado igual no te acuerdas pero ya pensamos en eso. Si, en las funciones de structs
         La clave sera guardar todo como struct.funcion.1 etc. Para ello quiza lo mejor es que escribas las cosas
         de funcion desde aqui, sin llamar a su type*/
+        return true;
     }
 
     @Override

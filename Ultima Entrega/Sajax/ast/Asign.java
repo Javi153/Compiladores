@@ -11,11 +11,11 @@ public class Asign extends Statement implements ASTNode {
 
     @Override
     public boolean type() {
-        boolean aux = designador.isType().equals(expresion.isType());
+        boolean aux = designador.isType().getTipo().equals(expresion.isType().getTipo());
         if(!aux){
             System.out.println("Error: Se esperaba tipo " + designador.isType().toString() + " pero se ha recibido tipo " + expresion.isType().toString() + " en la expresion " + expresion.num());
         }
-        aux = aux & designador.isType().equals(buscaTipo(designador.num()));
+        aux = aux & designador.isType().getTipo().equals(buscaTipo(designador.num()).getTipo());
         if(!aux){
             System.out.println("Error: el designador " + designador.num() + " no coincide con el tipo de su defincion");
         }

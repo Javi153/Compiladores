@@ -22,6 +22,25 @@ public class For extends Statement implements ASTNode{
     }
 
     @Override
+    public boolean type() {
+        s.push(new HashMap<>());
+        boolean aux = inicio.type();
+        if(!fin.isType().getTipo().equals(TipoEnum.INT)){
+            aux = false;
+            System.out.println("Error: la expresion del for " + fin.num() + " no es de tipo entero");
+        }
+        if(paso != null){
+            if(!paso.isType().getTipo().equals(TipoEnum.INT)){
+                aux = false;
+                System.out.println("Error: la expresion del for " + paso.num() + " no es de tipo entero");
+            }
+        }
+        aux = aux & st.type();
+        s.pop();
+        return aux;
+    }
+
+    @Override
     public boolean bind() {
         boolean aux = true;
         s.push(new HashMap<>());

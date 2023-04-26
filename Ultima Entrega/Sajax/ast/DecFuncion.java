@@ -50,12 +50,12 @@ public class DecFuncion extends Definicion implements ASTNode{
             sTipo.push(new HashMap<>());
             for(Parametro p : parlist){
                 sTipo.peek().put(p.getName(), p.getTipo());
-                aux = cuerpo.bind();
+                aux = cuerpo.type();
             }
             if(ret != null){
-                if(!ret.getTipo().equals(tipo)){
+                if(!ret.getTipo().getTipo().equals(tipo.getTipo())){
                     aux = false;
-                    System.out.println("El tipo de retorno de la funcion " + name + " no coincide con el tipo de la declaracion");
+                    System.out.println("Error: El tipo de retorno de la funcion " + name + " no coincide con el tipo de la declaracion");
                 }
             }
             sTipo.pop();

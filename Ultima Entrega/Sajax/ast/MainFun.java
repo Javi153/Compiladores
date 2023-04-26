@@ -18,12 +18,17 @@ public class MainFun implements ASTNode {
 
     @Override
     public boolean type() {
-        return bloque.type();
+        boolean aux =  bloque.type();
+        if(!ret.getTipo().getTipo().equals(TipoEnum.INT)){
+            aux = false;
+            System.out.println("Error: El tipo de retorno de la funcion main debe ser de tipo int");
+        }
+        return aux;
     }
 
     @Override
     public boolean bind() {
-        return bloque.bind();
+        return bloque.bind() & ret.bind();
     }
 
     @Override

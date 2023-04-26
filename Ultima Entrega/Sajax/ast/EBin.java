@@ -88,23 +88,25 @@ public class EBin extends E {
         boolean aux = true;
         switch(k){
             case SUMA, RESTA, MUL, DIV, MOD, POT -> {
-                aux = opnd1.isType().getTipo() == TipoEnum.INT && opnd2.isType().getTipo() == TipoEnum.INT;
+                aux = opnd1.isType().getTipo().equals(TipoEnum.INT) && opnd2.isType().getTipo().equals(TipoEnum.INT);
                 if(!aux){
                     System.out.println("Error: se esperaba tipo int en "+ this.num() + " pero se ha recibido tipo " + opnd1.isType().toString() + " y tipo " + opnd2.isType().toString());
                 }
                 return new Tipo(TipoEnum.INT);
             }
             case OR, AND -> {
-                aux = opnd1.isType().getTipo() == TipoEnum.BOOL && opnd2.isType().getTipo() == TipoEnum.BOOL;
+                aux = opnd1.isType().getTipo().equals(TipoEnum.BOOL) && opnd2.isType().getTipo().equals(TipoEnum.BOOL);
                 if(!aux){
-                    System.out.println("Error: se esperaba tipo bool en la expresion" + this.num() + " pero se ha recibido tipo " + opnd1.isType().toString() + " y tipo " + opnd2.isType().toString());
+                    System.out.println("Error: se esperaba tipo bool en la expresion " + this.num() + " pero se ha recibido tipo " + opnd1.isType().toString() + " y tipo " + opnd2.isType().toString());
                 }
+                return new Tipo(TipoEnum.BOOL);
             }
             case MENOR, MAYOR, MENIGUAL, MAYIGUAL, ID, DISTINTO -> {
-                aux = opnd1.isType().getTipo() == TipoEnum.INT && opnd2.isType().getTipo() == TipoEnum.INT || opnd1.isType().getTipo() == TipoEnum.BOOL && opnd2.isType().getTipo() == TipoEnum.BOOL;
+                aux = opnd1.isType().getTipo().equals(TipoEnum.INT) && opnd2.isType().getTipo().equals(TipoEnum.INT) || opnd1.isType().getTipo().equals(TipoEnum.BOOL) && opnd2.isType().getTipo().equals(TipoEnum.BOOL);
                 if(!aux){
-                    System.out.println("Error: los tipos de los operandos" + opnd1.num() + " y " + opnd2.num() + " no son compatibles");
+                    System.out.println("Error: los tipos de los operandos " + opnd1.num() + " y " + opnd2.num() + " no son compatibles");
                 }
+                return new Tipo(TipoEnum.BOOL);
             }
             //TODO AUN NO ESTA TERMINADO, REVISAR TIPOS PARA STRUCTS
             case PUNTO -> {
@@ -133,7 +135,7 @@ public class EBin extends E {
                     boolean res = opnd1.isBound();
                     Ident aux = (Ident)buscaId("."+opnd2.num());
                     if(aux == null){
-                        System.out.println("Error: el identificador " + opnd2.num() + " no está definido en el struct");
+                        System.out.println("Error: el identificador " + opnd2.num() + " no está definido en el struct " + opnd1.num());
                         return false;
                     }
                     else{
