@@ -1,7 +1,7 @@
 package ast;
 
 public enum TipoEnum {
-    INT("int"), FLOAT("float"), BOOL("bool"), STRUCT("struct"), VOID("void"), NULL("null"), PUNTERO("puntero"), ARRAY("array");
+    INT("int"), FLOAT("float"), BOOL("bool"), STRUCT("struct"), VOID("void"), PUNTERO("puntero"), ARRAY("array");
 
     private String name;
     TipoEnum(String name){

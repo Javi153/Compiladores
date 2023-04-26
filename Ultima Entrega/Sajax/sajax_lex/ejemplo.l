@@ -54,6 +54,7 @@ free = free
 barraBaja = \_
 true = true
 false = false
+null = null
 letra  = ([A-Z]|[a-z])
 digitoPositivo = [1-9]
 digito = ({digitoPositivo}|0)
@@ -120,6 +121,7 @@ punto = .
 {free}                    {return ops.unidadFree();}
 {true}			          {return ops.unidadTrue();}
 {false}			          {return ops.unidadFalse();}
+{null}			          {return ops.unidadNull();}
 {identificador}           {return ops.unidadId();}
 {operadorSuma}            {return ops.unidadSuma();}
 {operadorResta}           {return ops.unidadResta();}

@@ -38,11 +38,44 @@ public class EUnar extends E {
 
     @Override
     public Tipo isType() {
+        switch(k){
+            case ASTERISCO -> {
+                if(opnd.isType().getTipo().equals(TipoEnum.PUNTERO)){
+                    return ((Puntero)opnd.isType()).getTipoPointer();
+                }
+                else{
+                    return opnd.isType();
+                }
+            }
+            case NOT -> {
+                return new Tipo(TipoEnum.BOOL);
+            }
+        }
         return opnd.isType();
     }
 
     @Override
     public boolean type() {
+        switch(k){
+            case ASTERISCO -> {
+                if(opnd.isType().getTipo().equals(TipoEnum.PUNTERO)){
+                    return opnd.type();
+                }
+                else{
+                    System.out.println("Error: Se esperaba un puntero en la expresion " + num());
+                    return false;
+                }
+            }
+            case NOT -> {
+                if(opnd.isType().getTipo().equals(TipoEnum.BOOL)){
+                    return opnd.type();
+                }
+                else{
+                    System.out.println("Error: Se esperaba una expresion booleana en la expresion " + num());
+                    return false;
+                }
+            }
+        }
         return opnd.type();
     }
 

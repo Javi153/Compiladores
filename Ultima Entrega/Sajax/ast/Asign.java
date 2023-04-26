@@ -15,13 +15,10 @@ public class Asign extends Statement implements ASTNode {
             System.out.println("Error: No se puede asignar a un array");
             return false;
         }
-        boolean aux = designador.isType().getTipo().equals(expresion.isType().getTipo()) & expresion.type();
-        if(!aux){
+        boolean aux = expresion.type() & designador.type();
+        if(!designador.isType().getTipo().equals(expresion.isType().getTipo())){
+            aux = false;
             System.out.println("Error: Se esperaba tipo " + designador.isType().toString() + " pero se ha recibido tipo " + expresion.isType().toString() + " en la expresion " + expresion.num());
-        }
-        aux = aux & designador.isType().getTipo().equals(buscaTipo(designador.num()).getTipo());
-        if(!aux){
-            System.out.println("Error: el designador " + designador.num() + " no coincide con el tipo de su defincion");
         }
         return aux;
     }

@@ -103,6 +103,9 @@ public class SajaxOperations {
   public UnidadLexica unidadFalse() {
     return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.FALSE,sjx.lexema());
   }
+  public UnidadLexica unidadNull() {
+    return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.NULL,sjx.lexema());
+  }
 
   public UnidadLexica unidadSuma() {
     return new UnidadLexica(sjx.fila(),sjx.columna(),ClaseLexica.MAS,sjx.lexema());

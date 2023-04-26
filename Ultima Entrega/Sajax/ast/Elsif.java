@@ -13,7 +13,7 @@ public class Elsif extends Statement implements ASTNode{
 
     @Override
     public boolean type() {
-        boolean aux = cond.isType().getTipo().equals(TipoEnum.BOOL);
+        boolean aux = cond.type() && cond.isType().getTipo().equals(TipoEnum.BOOL);
         if(!aux){
             System.out.println("Error: Se esperaba condicion booleana en la clausula if " + cond.num());
         }

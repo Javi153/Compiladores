@@ -3,7 +3,7 @@ package ast;
 public class Null extends E {
     private Tipo tipo;
     public Null() {
-        tipo = new Tipo(TipoEnum.NULL);
+        tipo = new Tipo(TipoEnum.PUNTERO);
     }
     public KindE kind(){
         return KindE.NULL;

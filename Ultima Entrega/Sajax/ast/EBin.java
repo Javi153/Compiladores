@@ -80,49 +80,129 @@ public class EBin extends E {
 
     @Override
     public boolean type(){
-        return opnd1.type() & opnd2.type();
+        boolean aux = true;
+        switch (k){
+
+            case SUMA, RESTA, MUL, DIV, MOD, POT -> {
+                aux = opnd1.type() & opnd2.type();
+                aux = aux & (opnd1.isType().getTipo().equals(TipoEnum.INT) & opnd2.isType().getTipo().equals(TipoEnum.INT))
+                        || (opnd1.isType().getTipo().equals(TipoEnum.FLOAT) & opnd2.isType().getTipo().equals(TipoEnum.FLOAT));
+                if(!aux){
+                    System.out.println("Error: se esperaba un tipo entero o float en la operacion " + num() + " pero se encontro " + opnd1.isType().getTipo() + " y " + opnd2.isType().getTipo());
+                }
+            }
+            case OR, AND -> {
+                aux = opnd1.type() & opnd2.type() & opnd1.isType().getTipo().equals(TipoEnum.BOOL) & opnd2.isType().getTipo().equals(TipoEnum.BOOL);
+                if(!aux){
+                    System.out.println("Error: se esperaba un tipo booleano en la operacion " + num() + " pero se encontro " + opnd1.isType().getTipo() + " y " + opnd2.isType().getTipo());
+                }
+            }
+            case MENOR, MAYOR, MENIGUAL, MAYIGUAL, ID, DISTINTO -> {
+                aux = opnd1.type() & opnd2.type();
+                aux = aux & (opnd1.isType().getTipo().equals(TipoEnum.INT) & opnd2.isType().getTipo().equals(TipoEnum.INT))
+                        || (opnd1.isType().getTipo().equals(TipoEnum.FLOAT) & opnd2.isType().getTipo().equals(TipoEnum.FLOAT))
+                        || (opnd1.isType().getTipo().equals(TipoEnum.BOOL) & opnd2.isType().getTipo().equals(TipoEnum.BOOL));
+                if(!aux){
+                    System.out.println("Error: se esperaba un tipo entero, float o booleano en la operacion " + num() + " pero se encontro " + opnd1.isType().getTipo() + " y " + opnd2.isType().getTipo());
+                }
+            }
+            case PUNTO -> {
+                Tipo t = buscaTipo(opnd1.num());
+                if(t == null || t.getTipo() != TipoEnum.STRUCT){
+                    System.out.println("Error: el operando izquierdo de un punto debe ser un struct");
+                    return false;
+                }
+                String auxname = ((TipoStruct)t).getId();
+                if(opnd2.kind().equals(KindE.CALLFUN)){
+                    LlamadaFuncion f = new LlamadaFuncion(auxname + "." + ((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist());
+                    return f.type();
+                }
+                else if(opnd2.kind().equals(KindE.CORCHETES)){
+                    //Tipo = buscaTipo(auxname + "." + )
+                }
+                else{
+                    Ident Id = new Ident(auxname + "." + ((Ident)opnd2).num());
+                    return Id.type();
+                }
+            }
+            case FLECHA -> {
+                Tipo t = buscaTipo(opnd1.num());
+                if(t == null || t.getTipo() != TipoEnum.PUNTERO || ((Puntero)t).getTipoPointer().getTipo() != TipoEnum.STRUCT) {
+                    System.out.println("Error: el operando izquierdo de una flecha debe ser un puntero a struct en " + num());
+                    return false;
+                }
+                String auxname = ((TipoStruct)((Puntero)t).getTipoPointer()).getId();
+                if(opnd2.kind().equals(KindE.CALLFUN)){
+                    LlamadaFuncion f = new LlamadaFuncion(auxname + "." + ((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist());
+                    return f.type();
+                }
+                else{
+                    return opnd2.type();
+                }
+            }
+            case CORCHETES -> {
+
+            }
+        }
+        return aux;
     }
 
     @Override
     public Tipo isType(){
         boolean aux = true;
         switch(k){
-            case SUMA, RESTA, MUL, DIV, MOD, POT -> {
-                aux = opnd1.isType().getTipo().equals(TipoEnum.INT) && opnd2.isType().getTipo().equals(TipoEnum.INT);
-                if(!aux){
-                    System.out.println("Error: se esperaba tipo int en "+ this.num() + " pero se ha recibido tipo " + opnd1.isType().toString() + " y tipo " + opnd2.isType().toString());
-                }
-                return new Tipo(TipoEnum.INT);
+            case SUMA, RESTA, MUL, DIV, MOD, POT, MENOR, MAYOR, MENIGUAL, MAYIGUAL, ID, DISTINTO -> {
+                return opnd1.isType();
             }
             case OR, AND -> {
-                aux = opnd1.isType().getTipo().equals(TipoEnum.BOOL) && opnd2.isType().getTipo().equals(TipoEnum.BOOL);
-                if(!aux){
-                    System.out.println("Error: se esperaba tipo bool en la expresion " + this.num() + " pero se ha recibido tipo " + opnd1.isType().toString() + " y tipo " + opnd2.isType().toString());
-                }
-                return new Tipo(TipoEnum.BOOL);
-            }
-            case MENOR, MAYOR, MENIGUAL, MAYIGUAL, ID, DISTINTO -> {
-                aux = opnd1.isType().getTipo().equals(TipoEnum.INT) && opnd2.isType().getTipo().equals(TipoEnum.INT) || opnd1.isType().getTipo().equals(TipoEnum.BOOL) && opnd2.isType().getTipo().equals(TipoEnum.BOOL);
-                if(!aux){
-                    System.out.println("Error: los tipos de los operandos " + opnd1.num() + " y " + opnd2.num() + " no son compatibles");
-                }
                 return new Tipo(TipoEnum.BOOL);
             }
             //TODO AUN NO ESTA TERMINADO, REVISAR TIPOS PARA STRUCTS
             case PUNTO -> {
                 Tipo t = buscaTipo(opnd1.num());
-                if(t.getTipo() != TipoEnum.STRUCT){
-                    System.out.println("Error: el operando izquierdo de un punto debe ser un struct");
+                if(t == null || t.getTipo() != TipoEnum.STRUCT){
+                    return new Tipo(TipoEnum.VOID);
                 }
                 String auxname = ((TipoStruct)t).getId();
                 if(opnd2.kind().equals(KindE.CALLFUN)){
-                    return buscaTipo(auxname + "." + ((LlamadaFuncion)opnd2).getName());
+                    LlamadaFuncion f = new LlamadaFuncion(auxname + "." + ((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist());
+                    Tipo taux = buscaTipo(f.getName());
+                    if(taux != null){
+                        return taux;
+                    }
+                    else{
+                        return new Tipo(TipoEnum.VOID);
+                    }
+                }
+                else{
+                    Tipo taux = buscaTipo(auxname + "." + opnd2.num());
+                    if(taux != null){
+                        return taux;
+                    }
+                    else{
+                        return new Tipo(TipoEnum.VOID);
+                    }
+                }
+            }
+            case FLECHA -> {
+                Tipo t = buscaTipo(opnd1.num());
+                if(t == null || t.getTipo() != TipoEnum.PUNTERO || ((Puntero)t).getTipoPointer().getTipo() != TipoEnum.STRUCT){
+                    return new Tipo(TipoEnum.VOID);
+                }
+                String auxname = ((TipoStruct)((Puntero)t).getTipoPointer()).getId();
+                if(opnd2.kind().equals(KindE.CALLFUN)){
+                    LlamadaFuncion f = new LlamadaFuncion(auxname + "." + ((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist());
+                    Tipo taux = buscaTipo(f.getName());
+                    if(taux != null){
+                        return taux;
+                    }
+                    else{
+                        return new Tipo(TipoEnum.VOID);
+                    }
                 }
                 else{
                     return buscaTipo(auxname + "." + opnd2.num());
                 }
-            }
-            case FLECHA -> {
             }
             case CORCHETES -> {
                 if(opnd2.isType().getTipo() != TipoEnum.INT){
@@ -132,7 +212,7 @@ public class EBin extends E {
             }
         }
         //TODO QUITA ESTO DE AQUI ERA SOLO PARA QUE NO SALIESE EL ERROR
-        return new Tipo(TipoEnum.NULL);
+        return new Tipo(TipoEnum.VOID);
     }
 
     @Override

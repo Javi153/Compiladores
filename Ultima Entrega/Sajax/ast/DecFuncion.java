@@ -34,7 +34,7 @@ public class DecFuncion extends Definicion implements ASTNode{
     public boolean type() {
         boolean aux = true;
         if(cuerpo != null && sTipo.peek().get(name) != null){
-            if(!sTipo.peek().get(name).equals(tipo)){
+            if(!sTipo.peek().get(name).getTipo().equals(tipo.getTipo())){
                 aux = false;
                 System.out.println("El tipo de la funcion " + name + " no coincide con el tipo de la declaracion");
             }
