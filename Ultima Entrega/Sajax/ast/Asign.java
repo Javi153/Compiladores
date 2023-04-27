@@ -16,7 +16,22 @@ public class Asign extends Statement implements ASTNode {
             return false;
         }
         boolean aux = expresion.type() & designador.type();
-        if(!designador.isType().getTipo().equals(expresion.isType().getTipo())){
+        if(designador.isType().isPointer() && expresion.kind() == KindE.NULL){
+            return true;
+        }
+        if(designador.isType().isPointer() && expresion.isType().isPointer()){
+            Tipo t1 = designador.isType();
+            Tipo t2 = expresion.isType();
+            while(t1.isPointer() && t2.isPointer()){
+                t1 = ((Puntero)t1).getTipoPointer();
+                t2 = ((Puntero)t2).getTipoPointer();
+            }
+            if(!t1.getTipo().equals(t2.getTipo())){
+                aux = false;
+                System.out.println("Error: Los punteros " + designador.num() + " y " + expresion.num() + " son de tipos distintos");
+            }
+        }
+        else if(!designador.isType().getTipo().equals(expresion.isType().getTipo())){
             aux = false;
             System.out.println("Error: Se esperaba tipo " + designador.isType().toString() + " pero se ha recibido tipo " + expresion.isType().toString() + " en la expresion " + expresion.num());
         }

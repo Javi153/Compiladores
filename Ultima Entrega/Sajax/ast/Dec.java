@@ -59,7 +59,22 @@ public class Dec extends Statement implements ASTNode{
         sTipo.peek().put(iden.num(), tipo);
         if(exp != null) {
             boolean aux = exp.type();
-            if(!tipo.getTipo().equals(exp.isType().getTipo())){
+            if(tipo.isPointer() && exp.kind() == KindE.NULL){
+                return true;
+            }
+            if(tipo.isPointer() && exp.isType().isPointer()){
+                Tipo t1 = ((Puntero)tipo).getTipoPointer();
+                Tipo t2 = ((Puntero)exp.isType()).getTipoPointer();
+                while(t1.isPointer() && t2.isPointer()){
+                    t1 = ((Puntero)t1).getTipoPointer();
+                    t2 = ((Puntero)t2).getTipoPointer();
+                }
+                if(!t1.getTipo().equals(t2.getTipo())){
+                    aux = false;
+                    System.out.println("Error: Los punteros " + iden.num() + " y " + exp.num() + " son de tipos distintos");
+                }
+            }
+            else if(!tipo.getTipo().equals(exp.isType().getTipo())){
                 System.out.println("Error: se esperaba tipo "+tipo.getTipo().toString()+" pero se ha recibido tipo "+exp.isType().getTipo().toString() + " en la expresion " + tipo.getTipo().toString() +" " + iden.num() + " = " + exp.num());
                 aux = false;
             }

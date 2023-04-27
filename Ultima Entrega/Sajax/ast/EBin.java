@@ -109,18 +109,6 @@ public class EBin extends E {
             case PUNTO -> {
                 if(opnd2.kind().equals(KindE.CORCHETES)){
                     return new EBin(new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO), opnd2.opnd2(), KindE.CORCHETES).type();
-                    /*aux = aux & opnd2.opnd2().type();
-                    if(!opnd2.opnd2().isType().getTipo().equals(TipoEnum.INT)){
-                        System.out.println("Error: el indice de un array debe ser un entero en " + num());
-                        aux = false;
-                    }
-                    EBin e = (new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO));
-                    aux = aux & e.type();
-                    if(!e.isType().getTipo().equals(TipoEnum.ARRAY)){
-                        System.out.println("Error: el operando izquierdo de un corchete debe ser un array en " + num());
-                        aux = false;
-                    }
-                    return aux;*/
                 }
                 Tipo t = opnd1.isType();
                 if(t == null || t.getTipo() != TipoEnum.STRUCT){
@@ -138,19 +126,11 @@ public class EBin extends E {
                 }
             }
             case FLECHA -> {
-                Tipo t = buscaTipo(opnd1.num());
-                if(t == null || t.getTipo() != TipoEnum.PUNTERO || ((Puntero)t).getTipoPointer().getTipo() != TipoEnum.STRUCT) {
-                    System.out.println("Error: el operando izquierdo de una flecha debe ser un puntero a struct en " + num());
+                if(!opnd1.isType().isPointer()){
+                    System.out.println("Error: el operando izquierdo de una flecha debe ser un puntero en " + num());
                     return false;
                 }
-                String auxname = ((TipoStruct)((Puntero)t).getTipoPointer()).getId();
-                if(opnd2.kind().equals(KindE.CALLFUN)){
-                    LlamadaFuncion f = new LlamadaFuncion(auxname + "." + ((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist());
-                    return f.type();
-                }
-                else{
-                    return opnd2.type();
-                }
+                return new EBin(new EUnar(opnd1, KindE.ASTERISCO), opnd2, KindE.PUNTO).type();
             }
             case CORCHETES -> {
                 if(!opnd1.type() || !opnd2.type() || opnd2.isType().getTipo() != TipoEnum.INT){
@@ -202,24 +182,10 @@ public class EBin extends E {
                 }
             }
             case FLECHA -> {
-                Tipo t = buscaTipo(opnd1.num());
-                if(t == null || t.getTipo() != TipoEnum.PUNTERO || ((Puntero)t).getTipoPointer().getTipo() != TipoEnum.STRUCT){
+                if(!opnd1.isType().isPointer()){
                     return new Tipo(TipoEnum.VOID);
                 }
-                String auxname = ((TipoStruct)((Puntero)t).getTipoPointer()).getId();
-                if(opnd2.kind().equals(KindE.CALLFUN)){
-                    LlamadaFuncion f = new LlamadaFuncion(auxname + "." + ((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist());
-                    Tipo taux = buscaTipo(f.getName());
-                    if(taux != null){
-                        return taux;
-                    }
-                    else{
-                        return new Tipo(TipoEnum.VOID);
-                    }
-                }
-                else{
-                    return buscaTipo(auxname + "." + opnd2.num());
-                }
+                return new EBin(new EUnar(opnd1, KindE.ASTERISCO), opnd2, KindE.PUNTO).isType();
             }
             case CORCHETES -> {
                 Tipo taux = opnd1.isType();

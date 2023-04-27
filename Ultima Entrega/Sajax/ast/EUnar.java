@@ -44,7 +44,7 @@ public class EUnar extends E {
                     return ((Puntero)opnd.isType()).getTipoPointer();
                 }
                 else{
-                    return opnd.isType();
+                    return new Tipo(TipoEnum.VOID);
                 }
             }
             case NOT -> {
