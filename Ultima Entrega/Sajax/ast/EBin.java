@@ -60,7 +60,7 @@ public class EBin extends E {
                 simbolo = "->";
             }
             case CORCHETES -> {
-                return opnd1.num() + "[]";
+                return opnd1.num() + "["+opnd2.num()+"]";
             }
         }
         return opnd1.num() + simbolo + opnd2.num();
@@ -107,7 +107,22 @@ public class EBin extends E {
                 }
             }
             case PUNTO -> {
-                Tipo t = buscaTipo(opnd1.num());
+                if(opnd2.kind().equals(KindE.CORCHETES)){
+                    return new EBin(new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO), opnd2.opnd2(), KindE.CORCHETES).type();
+                    /*aux = aux & opnd2.opnd2().type();
+                    if(!opnd2.opnd2().isType().getTipo().equals(TipoEnum.INT)){
+                        System.out.println("Error: el indice de un array debe ser un entero en " + num());
+                        aux = false;
+                    }
+                    EBin e = (new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO));
+                    aux = aux & e.type();
+                    if(!e.isType().getTipo().equals(TipoEnum.ARRAY)){
+                        System.out.println("Error: el operando izquierdo de un corchete debe ser un array en " + num());
+                        aux = false;
+                    }
+                    return aux;*/
+                }
+                Tipo t = opnd1.isType();
                 if(t == null || t.getTipo() != TipoEnum.STRUCT){
                     System.out.println("Error: el operando izquierdo de un punto debe ser un struct");
                     return false;
@@ -116,9 +131,6 @@ public class EBin extends E {
                 if(opnd2.kind().equals(KindE.CALLFUN)){
                     LlamadaFuncion f = new LlamadaFuncion(auxname + "." + ((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist());
                     return f.type();
-                }
-                else if(opnd2.kind().equals(KindE.CORCHETES)){
-                    //Tipo = buscaTipo(auxname + "." + )
                 }
                 else{
                     Ident Id = new Ident(auxname + "." + ((Ident)opnd2).num());
@@ -141,7 +153,15 @@ public class EBin extends E {
                 }
             }
             case CORCHETES -> {
-
+                if(!opnd1.type() || !opnd2.type() || opnd2.isType().getTipo() != TipoEnum.INT){
+                    System.out.println("Error: el operando derecho de corchetes debe ser un entero en " + num());
+                    aux = false;
+                }
+                Tipo t = opnd1.isType();
+                if(t.getTipo() != TipoEnum.ARRAY){
+                    System.out.println("Error: el operando izquierdo de corchetes debe ser un array en " + num());
+                    return false;
+                }
             }
         }
         return aux;
@@ -159,7 +179,10 @@ public class EBin extends E {
             }
             //TODO AUN NO ESTA TERMINADO, REVISAR TIPOS PARA STRUCTS
             case PUNTO -> {
-                Tipo t = buscaTipo(opnd1.num());
+                if(opnd2.kind().equals(KindE.CORCHETES)){
+                    return new EBin(new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO),opnd2.opnd2(), KindE.CORCHETES).isType();
+                }
+                Tipo t = opnd1.isType();
                 if(t == null || t.getTipo() != TipoEnum.STRUCT){
                     return new Tipo(TipoEnum.VOID);
                 }
@@ -175,13 +198,7 @@ public class EBin extends E {
                     }
                 }
                 else{
-                    Tipo taux = buscaTipo(auxname + "." + opnd2.num());
-                    if(taux != null){
-                        return taux;
-                    }
-                    else{
-                        return new Tipo(TipoEnum.VOID);
-                    }
+                    return buscaTipo(auxname + "." + opnd2.num());
                 }
             }
             case FLECHA -> {
@@ -205,10 +222,16 @@ public class EBin extends E {
                 }
             }
             case CORCHETES -> {
-                if(opnd2.isType().getTipo() != TipoEnum.INT){
-                    System.out.println("Error: el acceso a un array debe hacerse con una expresión de tipo int");
+                Tipo taux = opnd1.isType();
+                if(taux.getTipo() != TipoEnum.ARRAY){
+                    return new Tipo(TipoEnum.VOID);
                 }
-                return buscaTipo(num());
+                else if(((TipoArray)taux).getTam() == 1){
+                    return ((TipoArray)taux).getTipoBasico();
+                }
+                else{
+                    return new TipoArray(((TipoArray)taux).getTipoBasico(), ((TipoArray)taux).getTam()-1);
+                }
             }
         }
         //TODO QUITA ESTO DE AQUI ERA SOLO PARA QUE NO SALIESE EL ERROR

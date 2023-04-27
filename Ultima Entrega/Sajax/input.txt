@@ -1,15 +1,20 @@
 struct persona{
+bool algo;
 int dni[9][7];
 bool prueba(float a, bool b){
 	return false;
 }
 }
 
+int a[5][6];
+
 int main(){
 int* punt = null;
 punt = null;
 persona p;
-p.dni[true][8] = 8;
+a[2][6] = 9;
+p.dni[8][9] = -5;
+p.algo = false;
 bool zero = p.prueba(567.0,false);
 return 0;
 }
