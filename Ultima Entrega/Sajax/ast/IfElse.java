@@ -59,6 +59,19 @@ public class IfElse extends Statement implements ASTNode{
     }
 
     @Override
+    public String code() {
+        String c = cond.code() + "\nif\n" + S1.code() + "\n";
+        for (Elsif es : Elsifs)
+            c = c.concat(es.code());
+        if (hayelse)
+            c = c.concat("\nelse\n" + S2.code());
+        for (Elsif es : Elsifs)
+            c = c.concat("\nend");
+        c = c.concat("\nend");
+        return c;
+    }
+
+    @Override
     public NodeKind nodeKind() {
         return NodeKind.IFELSE;
     }

@@ -34,6 +34,10 @@ public class Elsif extends Statement implements ASTNode{
         return aux;
     }
 
+    public String code() {
+        return "else\n" + cond.code() + "if" + St.code();
+    }
+
     @Override
     public NodeKind nodeKind() {
         return NodeKind.ELSIF;

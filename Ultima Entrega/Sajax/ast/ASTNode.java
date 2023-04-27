@@ -53,8 +53,10 @@ public interface ASTNode {
         }
         return result;
     }
-    public boolean bind();  // for the future
-    // public ?? generateCode() // for the future
+    public boolean bind();
+    public default String code() {
+        return "";
+    }
     public NodeKind nodeKind();
     public String toString();
 }

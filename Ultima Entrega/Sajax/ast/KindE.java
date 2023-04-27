@@ -11,6 +11,16 @@ public enum KindE {
     name = s;
   }
 
+  public String alias() {
+    switch (this) {
+      SUMA -> return "add";
+      RESTA -> return "sub";
+      MUL -> return "mul";
+      DIV -> return "div"; // Para float, división entera es div_s
+      MOD -> return "rem_s";
+    }
+  }
+
   public String toString(){
     return name;
   }

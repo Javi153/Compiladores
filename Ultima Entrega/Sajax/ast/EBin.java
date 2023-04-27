@@ -242,6 +242,54 @@ public class EBin extends E {
         return opnd1.bind() & opnd2.bind();
     }
 
+    @Override
+    public String code() {
+        String c = "";
+        switch(k) {
+            case SUMA, RESTA, MUL, MOD -> {
+                return opnd1.code() + "\n" + opnd2.code() + "\n" + isType().getTipo().alias() + "." + k.alias();
+            }
+            case DIV -> {
+                c = opnd1.code() + "\n" + opnd2.code() + "\n" + isType().getTipo().alias() + "." + k.alias();
+                return isType().getTipo() == TipoEnum.FLOAT ? c : c + "_s";
+            }
+            case POT -> {
+                return "uf"; // TODO potencia
+            }
+            case DISTINTO -> {
+
+            }
+            case OR -> {
+
+            }
+            case AND -> {
+
+            }
+            case MENOR -> {
+
+            }
+            case MAYOR -> {
+
+            }
+            case MENIGUAL -> {
+
+            }
+            case MAYIGUAL -> {
+
+            }
+            case PUNTO -> {
+
+            }
+            case FLECHA -> {
+
+            }
+            case CORCHETES -> {
+
+            }
+        }
+
+    }
+
     public String toString() {
         return k.toString()+"(" + opnd1().toString() + "," + opnd2().toString() + ")";
     }

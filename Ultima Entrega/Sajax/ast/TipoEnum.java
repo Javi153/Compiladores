@@ -11,4 +11,12 @@ public enum TipoEnum {
     public String toString(){
         return name;
     }
+
+    public String alias() {
+        switch (this) {
+            case INT -> return "i32";
+            case FLOAT -> return "f32";
+            default -> return null;
+        }
+    }
 }

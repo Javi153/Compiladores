@@ -33,6 +33,11 @@ public class While extends Statement implements ASTNode{
     }
 
     @Override
+    public String code() {
+        return "block\nloop\n" + cond.code() + "\ni32.eqz\nbr_if 1\n" + st.code() + "\nbr 0\nend";
+    }
+
+    @Override
     public NodeKind nodeKind() {
         return NodeKind.WHILE;
     }

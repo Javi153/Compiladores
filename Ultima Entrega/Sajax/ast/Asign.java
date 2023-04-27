@@ -44,6 +44,11 @@ public class Asign extends Statement implements ASTNode {
     }
 
     @Override
+    public String code() {
+        return designador.code() + "\n" + expresion.code() + "\ni32.store\n";
+    }
+
+    @Override
     public NodeKind nodeKind() {
         return NodeKind.ASIGN;
     }
