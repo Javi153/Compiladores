@@ -18,6 +18,8 @@ public enum KindE {
       MUL -> return "mul";
       DIV -> return "div"; // Para float, división entera es div_s
       MOD -> return "rem_s";
+      ID -> return "eq";
+      DISTINTO -> return "ne";
     }
   }
 

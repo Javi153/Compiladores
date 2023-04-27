@@ -32,6 +32,9 @@ public class EBin extends E {
             case POT -> {
                 simbolo = "^";
             }
+            case ID -> {
+                simbolo = "==";
+            }
             case DISTINTO -> {
                 simbolo = "/=";
             }
@@ -83,12 +86,20 @@ public class EBin extends E {
         boolean aux = true;
         switch (k){
 
-            case SUMA, RESTA, MUL, DIV, MOD, POT -> {
+            case SUMA, RESTA, MUL, DIV, MOD -> {
                 aux = opnd1.type() & opnd2.type();
                 aux = aux & (opnd1.isType().getTipo().equals(TipoEnum.INT) & opnd2.isType().getTipo().equals(TipoEnum.INT))
                         || (opnd1.isType().getTipo().equals(TipoEnum.FLOAT) & opnd2.isType().getTipo().equals(TipoEnum.FLOAT));
                 if(!aux){
                     System.out.println("Error: se esperaba un tipo entero o float en la operacion " + num() + " pero se encontro " + opnd1.isType().getTipo() + " y " + opnd2.isType().getTipo());
+                }
+            }
+            case POT -> {
+                aux = opnd1.type() & opnd2.type();
+                aux = aux & (opnd1.isType().getTipo().equals(TipoEnum.INT) & opnd2.isType().getTipo().equals(TipoEnum.INT))
+                        || (opnd1.isType().getTipo().equals(TipoEnum.FLOAT) & opnd2.isType().getTipo().equals(TipoEnum.INT));
+                if(!aux){
+                    System.out.println("Error: se esperaba un tipo entero o float en la base y un entero en el exponente en la operacion " + num() + " pero se encontro " + opnd1.isType().getTipo() + " y " + opnd2.isType().getTipo());
                 }
             }
             case OR, AND -> {
@@ -151,10 +162,10 @@ public class EBin extends E {
     public Tipo isType(){
         boolean aux = true;
         switch(k){
-            case SUMA, RESTA, MUL, DIV, MOD, POT, MENOR, MAYOR, MENIGUAL, MAYIGUAL, ID, DISTINTO -> {
+            case SUMA, RESTA, MUL, DIV, MOD, POT, OR, AND -> {
                 return opnd1.isType();
             }
-            case OR, AND -> {
+            case MENOR, MAYOR, MENIGUAL, MAYIGUAL, ID, DISTINTO -> {
                 return new Tipo(TipoEnum.BOOL);
             }
             //TODO AUN NO ESTA TERMINADO, REVISAR TIPOS PARA STRUCTS
@@ -246,7 +257,7 @@ public class EBin extends E {
     public String code() {
         String c = "";
         switch(k) {
-            case SUMA, RESTA, MUL, MOD -> {
+            case SUMA, RESTA, MUL, MOD, ID, DISTINTO -> {
                 return opnd1.code() + "\n" + opnd2.code() + "\n" + isType().getTipo().alias() + "." + k.alias();
             }
             case DIV -> {
@@ -256,14 +267,8 @@ public class EBin extends E {
             case POT -> {
                 return "uf"; // TODO potencia
             }
-            case DISTINTO -> {
-
-            }
-            case OR -> {
-
-            }
-            case AND -> {
-
+            case OR, AND -> {
+                return opnd1.code() + "\n" + opnd2.code() + "\n" + opnd1.getTipo().alias() + "." + k.alias();
             }
             case MENOR -> {
 
