@@ -2,13 +2,11 @@ package ast;
 
 public class Parametro implements ASTNode{
     private String name;
-    private Tipo tipo;
-    private boolean ref;
+    private TipoParam tipo;
 
     public Parametro(Tipo tipo, boolean ref, String name){
-        this.tipo = tipo;
+        this.tipo = new TipoParam(tipo, ref);
         this.name = name;
-        this.ref = ref;
     }
 
     public String getName(){
@@ -42,6 +40,6 @@ public class Parametro implements ASTNode{
     }
 
     public String toString(){
-        return "param("+tipo.toString()+","+ (ref ? "referencia" : "valor") +","+name+")";
+        return "param("+tipo.toString()+","+ (tipo.isRef() ? "referencia" : "valor") +","+name+")";
     }
 }

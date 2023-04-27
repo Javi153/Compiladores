@@ -14,9 +14,9 @@ public enum TipoEnum {
 
     public String alias() {
         switch (this) {
-            case INT, BOOL -> return "i32";
-            case FLOAT -> return "f32";
-            default -> return null;
+            case INT, BOOL -> {return "i32";}
+            case FLOAT -> {return "f32";}
+            default -> {return null;}
         }
     }
 }

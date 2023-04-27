@@ -13,7 +13,7 @@ public class While extends Statement implements ASTNode{
 
     @Override
     public boolean type() {
-        boolean aux = cond.isType().getTipo().equals(TipoEnum.BOOL);
+        boolean aux = cond.type() && cond.isType().getTipo().equals(TipoEnum.BOOL);
         if(!aux){
             System.out.println("Error: la condicion del while " + cond.num() + " no es de tipo booleano");
         }

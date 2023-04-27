@@ -13,14 +13,15 @@ public enum KindE {
 
   public String alias() {
     switch (this) {
-      SUMA -> return "add";
-      RESTA -> return "sub";
-      MUL -> return "mul";
-      DIV -> return "div"; // Para float, división entera es div_s
-      MOD -> return "rem_s";
-      ID -> return "eq";
-      DISTINTO -> return "ne";
+      case SUMA -> {return "add";}
+      case RESTA -> {return "sub";}
+      case MUL -> {return "mul";}
+      case DIV -> {return "div";} // Para float, división entera es div_s
+      case MOD -> {return "rem_s";}
+      case ID -> {return "eq";}
+      case DISTINTO -> {return "ne";}
     }
+    return null; //Te lo he cambiado porq daba fallo de compilacion
   }
 
   public String toString(){

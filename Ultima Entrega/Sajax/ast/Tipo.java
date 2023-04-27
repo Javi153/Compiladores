@@ -1,7 +1,7 @@
 package ast;
 
 public class Tipo implements ASTNode{
-    private TipoEnum t;
+    protected TipoEnum t;
     protected boolean isPointer;
 
     public Tipo(TipoEnum t){

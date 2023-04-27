@@ -160,7 +160,6 @@ public class EBin extends E {
 
     @Override
     public Tipo isType(){
-        boolean aux = true;
         switch(k){
             case SUMA, RESTA, MUL, DIV, MOD, POT, OR, AND -> {
                 return opnd1.isType();
@@ -168,7 +167,6 @@ public class EBin extends E {
             case MENOR, MAYOR, MENIGUAL, MAYIGUAL, ID, DISTINTO -> {
                 return new Tipo(TipoEnum.BOOL);
             }
-            //TODO AUN NO ESTA TERMINADO, REVISAR TIPOS PARA STRUCTS
             case PUNTO -> {
                 if(opnd2.kind().equals(KindE.CORCHETES)){
                     return new EBin(new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO),opnd2.opnd2(), KindE.CORCHETES).isType();

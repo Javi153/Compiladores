@@ -27,7 +27,7 @@ public class IfElse extends Statement implements ASTNode{
 
     @Override
     public boolean type() {
-        boolean aux = cond.isType().getTipo().equals(TipoEnum.BOOL);
+        boolean aux = cond.type() && cond.isType().getTipo().equals(TipoEnum.BOOL);
         if(!aux){
             System.out.println("Error: se esperaba tipo bool en la condicion de if " + cond.num());
         }

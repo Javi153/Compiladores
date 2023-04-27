@@ -55,7 +55,14 @@ public class LlamadaFuncion extends E implements ASTNode{
         }
         else{
             for(int i = 0; i < parlist.size(); i++){
-                boolean paraux = parlist.get(i).isType().getTipo().equals(buscaTipo(name + "." + (i+1)).getTipo());
+                KindE naux = parlist.get(i).kind();
+                boolean paraux = parlist.get(i).isType().getTipo().equals(((TipoParam)buscaTipo(name + "." + (i+1))).getTipoParam().getTipo());
+                if(((TipoParam)buscaTipo(name + "." + (i+1))).isRef()){
+                    if(!naux.equals(KindE.IDEN) && !naux.equals(KindE.FLECHA) && !naux.equals(KindE.PUNTO) && !naux.equals(KindE.CORCHETES) && !naux.equals(KindE.ASTERISCO)){
+                        System.out.println("Error: Se esperaba un designador en el parámetro por referencia " + parlist.get(i).num() + " de la función " + name);
+                        paraux = false;
+                    }
+                }
                 if(!paraux){
                     System.out.println("Error: se esperaba tipo " + buscaTipo(name + "." + (i+1)).getTipo().toString() + " pero se ha recibido tipo " + parlist.get(i).isType().getTipo().toString() + " en el parámetro " + parlist.get(i).num() + " de la función " + name);
                 }

@@ -1,10 +1,10 @@
-struct coche{
-	bool b;
+int fun(int& a, int b){
+	return 0;
 }
 
 
 int main(){
-coche* c;
-c->b = false;
+int a = 9;
+fun(a, 5);
 return 0;
 }
