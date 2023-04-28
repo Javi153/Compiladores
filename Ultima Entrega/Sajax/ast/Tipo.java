@@ -27,6 +27,8 @@ public class Tipo implements ASTNode{
         return true;
     }
 
+    public int size() { return t.size(); }
+
     @Override
     public NodeKind nodeKind() {
         return NodeKind.TIPO;
