@@ -1,6 +1,8 @@
 package ast;
 
-public class False extends E{
+public class False extends E {
+    private String v = "0";
+
     public False() {}
     public KindE kind(){
         return KindE.FALSE;
@@ -29,6 +31,9 @@ public class False extends E{
     public boolean bind() {
         return true;
     }
+
+    @Override
+    public String code() {return "i32.const " + v; }
 
     public String toString(){
         return "false";

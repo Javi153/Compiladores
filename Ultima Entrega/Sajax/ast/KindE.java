@@ -20,6 +20,11 @@ public enum KindE {
       case MOD -> {return "rem_s";}
       case ID -> {return "eq";}
       case DISTINTO -> {return "ne";}
+      case MENOR -> {return "lt";} // Para float, comparación entera es lt_s
+      case MAYOR -> {return "gt";} // Para float, comparación entera es gt_s
+      case MENIGUAL -> {return "le";} // Para float, comparación entera es le_s
+      case MAYIGUAL -> {return "ge";} // Para float, comparación entera es ge_s
+      case NOT -> {return "eqz";}
     }
     return null; //Te lo he cambiado porq daba fallo de compilacion
   }

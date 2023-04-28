@@ -7,6 +7,8 @@ import java.util.Stack;
 public interface ASTNode {
     public static Stack<HashMap<String, ASTNode>> s = new Stack<>();
     public static Stack<HashMap<String, Tipo>> sTipo = new Stack<>();
+    public static Stack<HashMap<String, Integer>> sDelta = new Stack<>();
+    public static Stack<Integer> sDeltaCont = new Stack<>();
 
     public default void insertaId(String id, ASTNode nodo){
         if(!s.empty()){
@@ -54,6 +56,8 @@ public interface ASTNode {
         return result;
     }
     public boolean bind();
+    public default void setDelta() {}
+    public default int getDelta(String iden) {}
     public default String code() {
         return "";
     }

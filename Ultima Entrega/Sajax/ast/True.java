@@ -1,6 +1,9 @@
 package ast;
 
-public class True extends E{
+public class True extends E {
+
+    private String v = "1";
+
     public True() {}
     public KindE kind(){
         return KindE.TRUE;
@@ -29,6 +32,9 @@ public class True extends E{
     public boolean bind() {
         return true;
     }
+
+    @Override
+    public String code() {return "i32.const " + v; }
 
     public String toString(){
         return "true";

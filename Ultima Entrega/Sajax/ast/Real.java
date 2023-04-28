@@ -28,5 +28,8 @@ public class Real extends E {
         return true;
     }
 
+    @Override
+    public String code() {return "f32.const " + v; }
+
     public String toString() {return v;}
 }

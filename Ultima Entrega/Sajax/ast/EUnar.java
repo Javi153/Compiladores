@@ -84,6 +84,14 @@ public class EUnar extends E {
         return opnd.bind();
     }
 
+    @Override
+    public String code() {
+        switch(k) {
+            case ASTERISCO -> {}
+            case NOT -> {return opnd.code() + "\ni32.eqz"; }
+        }
+    }
+
     public String toString() {
         return k.toString()+"(" + opnd().toString() + ")";
     }

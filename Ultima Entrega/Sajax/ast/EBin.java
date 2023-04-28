@@ -258,7 +258,7 @@ public class EBin extends E {
             case SUMA, RESTA, MUL, MOD, ID, DISTINTO -> {
                 return opnd1.code() + "\n" + opnd2.code() + "\n" + isType().getTipo().alias() + "." + k.alias();
             }
-            case DIV -> {
+            case DIV, MENOR, MAYOR, MINGUAL, MAYIGUAL -> {
                 c = opnd1.code() + "\n" + opnd2.code() + "\n" + isType().getTipo().alias() + "." + k.alias();
                 return isType().getTipo() == TipoEnum.FLOAT ? c : c + "_s";
             }
@@ -267,18 +267,6 @@ public class EBin extends E {
             }
             case OR, AND -> {
                 return opnd1.code() + "\n" + opnd2.code() + "\n" + opnd1.getTipo().alias() + "." + k.alias();
-            }
-            case MENOR -> {
-
-            }
-            case MAYOR -> {
-
-            }
-            case MENIGUAL -> {
-
-            }
-            case MAYIGUAL -> {
-
             }
             case PUNTO -> {
 

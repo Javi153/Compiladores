@@ -28,5 +28,8 @@ public class Ent extends E {
     return true;
   }
 
+  @Override
+  public String code() {return "i32.const " + v; }
+
   public String toString() {return v;}
 }

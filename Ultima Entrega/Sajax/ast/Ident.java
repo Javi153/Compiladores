@@ -43,5 +43,12 @@ public class Ident extends E {
         }
     }
 
+    @Override
+    public String code() {
+        switch(isType().getTipo()) {
+            case ENT -> {}
+        }
+    }
+
     public String toString() {return v;}
 }
