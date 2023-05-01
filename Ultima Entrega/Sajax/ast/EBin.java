@@ -151,7 +151,7 @@ public class EBin extends E{
                     aux = false;
                 }
                 Tipo t = opnd1.isType();
-                if(t.getTipo() != TipoEnum.ARRAY){
+                if(t.getTipo() != TipoEnum.ARRAY && t.getTipo() != TipoEnum.PUNTERO){
                     System.out.println("Error: el operando izquierdo de corchetes debe ser un array en " + num());
                     return false;
                 }
@@ -200,8 +200,11 @@ public class EBin extends E{
             }
             case CORCHETES -> {
                 Tipo taux = opnd1.isType();
-                if(taux.getTipo() != TipoEnum.ARRAY){
+                if(taux.getTipo() != TipoEnum.ARRAY && taux.getTipo() != TipoEnum.PUNTERO){
                     return new Tipo(TipoEnum.VOID);
+                }
+                else if(taux.getTipo() == TipoEnum.PUNTERO){
+                    return ((Puntero)taux).getTipoPointer();
                 }
                 else if(((TipoArray)taux).getTam() == 1){
                     return ((TipoArray)taux).getTipoBasico();

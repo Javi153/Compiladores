@@ -25,6 +25,12 @@ public class Print extends LlamadaFuncion implements ASTNode{
 
     @Override
     public boolean type() {
+        boolean aux = expresion.type();
+        Tipo tipaux = expresion.isType();
+        if(!aux || (!tipaux.getTipo().equals(TipoEnum.INT) && !tipaux.getTipo().equals(TipoEnum.FLOAT) && !tipaux.getTipo().equals(TipoEnum.BOOL))){
+            System.out.println("Error: print/println solo acepta enteros, floats y bools en la expresion " + expresion.num());
+            return false;
+        }
         return true;
     }
 

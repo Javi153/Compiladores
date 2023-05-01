@@ -19,6 +19,9 @@ public class Asign extends Statement implements ASTNode {
         if(designador.isType().isPointer() && expresion.kind() == KindE.NULL){
             return true;
         }
+        if(designador.isType().isPointer() && expresion.nodeKind() == NodeKind.MEMSPACE){
+            return true;
+        }
         if(designador.isType().isPointer() && expresion.isType().isPointer()){
             Tipo t1 = designador.isType();
             Tipo t2 = expresion.isType();

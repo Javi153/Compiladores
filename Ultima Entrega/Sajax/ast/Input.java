@@ -13,6 +13,12 @@ public class Input extends LlamadaFuncion implements ASTNode{
 
     @Override
     public boolean type() { //No veo como tipar esto sin strings
+        boolean aux = expresion.type();
+        Tipo tipaux = expresion.isType();
+        if(!aux || (!tipaux.getTipo().equals(TipoEnum.INT) && !tipaux.getTipo().equals(TipoEnum.FLOAT))){
+            System.out.println("Error: input solo acepta enteros y floats en la expresion " + expresion.num());
+            return false;
+        }
         return true;
     }
 
@@ -23,7 +29,7 @@ public class Input extends LlamadaFuncion implements ASTNode{
 
     @Override
     public Tipo isType() { //No veo como tipar esto sin strings
-        return null;
+        return new Tipo(TipoEnum.VOID);
     }
 
     @Override

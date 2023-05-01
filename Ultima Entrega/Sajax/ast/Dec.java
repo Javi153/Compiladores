@@ -58,9 +58,28 @@ public class Dec extends Statement implements ASTNode{
     @Override
     public boolean type() {
         sTipo.peek().put(iden.num(), tipo);
+        if(tipo.isPointer()) {
+            int count = 0;
+            Tipo t = tipo;
+            while(t.isPointer()){
+                count++;
+                t = ((Puntero)t).getTipoPointer();
+            }
+            String s = iden.num();
+            for (int i = 0; i < count; i++) {
+                s = s.concat("[]");
+                if (i != count - 1) {
+                    sTipo.peek().put(new String(s), new TipoArray(tipo, count - i - 1));
+                }
+            }
+            sTipo.peek().put(new String(s), t);
+        }
         if(exp != null) {
             boolean aux = exp.type();
             if(tipo.isPointer() && exp.kind() == KindE.NULL){
+                return true;
+            }
+            if(tipo.isPointer() && exp.nodeKind() == NodeKind.MEMSPACE){
                 return true;
             }
             if(tipo.isPointer() && exp.isType().isPointer()){
