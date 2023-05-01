@@ -8,10 +8,10 @@ public class Real extends E {
     public String num() {return v;}
     public KindE kind() {return KindE.REAL;}
 
-    @Override
+    /*@Override
     public boolean isBound() {
         return true;
-    }
+    }*/
 
     @Override
     public Tipo isType() {
@@ -32,4 +32,9 @@ public class Real extends E {
     public String code() {return "f32.const " + v; }
 
     public String toString() {return v;}
+
+    @Override
+    public ASTNode getDef() {
+        return null;
+    }
 }

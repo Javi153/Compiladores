@@ -5,21 +5,21 @@ import java.util.HashMap;
 
 public class DecFuncion extends Definicion implements ASTNode{
     private Tipo tipo;
-    private String name;
+    private Ident name;
     private ArrayList<Parametro> parlist;
     private BloqueIns cuerpo;
     private Return ret;
 
     public DecFuncion(Tipo tipo, String name, ArrayList<Parametro> parlist, BloqueIns cuerpo, Return ret){
         this.tipo = tipo;
-        this.name = name;
+        this.name = new Ident(name);
         this.parlist = parlist;
         this.cuerpo = cuerpo;
         this.ret = ret;
     }
 
     public DecFuncion(String name, DecFuncion d){
-        this.name = name;
+        this.name = new Ident(name);
         this.tipo = d.tipo;
         this.parlist = d.parlist;
         this.cuerpo = d.cuerpo;
@@ -33,21 +33,21 @@ public class DecFuncion extends Definicion implements ASTNode{
     @Override
     public boolean type() {
         boolean aux = true;
-        if(cuerpo != null && sTipo.peek().get(name) != null){
-            if(!sTipo.peek().get(name).getTipo().equals(tipo.getTipo())){
+        if(cuerpo != null && sTipo.peek().get(name.toString()) != null){
+            if(!sTipo.peek().get(name.toString()).getTipo().equals(tipo.getTipo())){
                 aux = false;
                 System.out.println("El tipo de la funcion " + name + " no coincide con el tipo de la declaracion");
             }
             int count = 1;
             for(Parametro p : parlist){
-                if(!sTipo.peek().get(name + "." + count).equals(p.getTipo())){
+                if(!sTipo.peek().get(name.toString() + "." + count).equals(p.getTipo())){
                     aux = false;
                     System.out.println("El tipo del parametro " + p.getName() + " en " + name + " no coincide con el tipo de la declaracion");
                 }
             }
         }
         else {
-            sTipo.peek().put(name, tipo);
+            sTipo.peek().put(name.toString(), tipo);
             int count = 1;
             for (Parametro p : parlist) {
                 sTipo.peek().put(name + "." + count, p.getTipo());
@@ -79,12 +79,13 @@ public class DecFuncion extends Definicion implements ASTNode{
         //que los parametros estan bien definidos, es decir, no se repiten
         if(cuerpo == null) {
             HashMap<String, ASTNode> m = s.peek();
-            if (m.containsKey(name)) {
+            if (m.containsKey(name.toString())) {
                 System.out.println("Error: Funcion " + name + " ya declarada");
                 return false;
             } else {
-                boolean aux = true;
-                m.put(name, this);
+                boolean aux;
+                m.put(name.toString(), this);
+                aux = name.bind();
                 s.push(new HashMap<>());
                 for (Parametro p : parlist) {
                     aux = aux & p.bind();
@@ -98,14 +99,14 @@ public class DecFuncion extends Definicion implements ASTNode{
         //Ademas, debemos encargarnos de vincular las instrucciones dentro del cuerpo
         else{
             HashMap<String, ASTNode> m = s.peek();
-            if(m.containsKey(name)){
-                ASTNode original = m.get(name);
+            if(m.containsKey(name.toString())){
+                ASTNode original = m.get(name.toString());
                 if(original.nodeKind() == NodeKind.FUNCIONDEC && ((DecFuncion)original).sinCuerpo()){
                     boolean aux = ((DecFuncion)original).numParams() == parlist.size();
                     if(!aux) {
                         System.out.println("Error: Funcion " + name + " no coincide en el número de parámetros");
                     }
-                    m.replace(name, this); //Nos quedaremos siempre con la declaracion con cuerpo que nos da mas informacion
+                    m.replace(name.toString(), this); //Nos quedaremos siempre con la declaracion con cuerpo que nos da mas informacion
                     s.push(new HashMap<>());
                     for(Parametro p : parlist){
                         aux = aux & p.bind();
@@ -124,7 +125,7 @@ public class DecFuncion extends Definicion implements ASTNode{
             }
             else{
                 boolean aux = true;
-                m.put(name, this);
+                m.put(name.toString(), this);
                 s.push(new HashMap<>());
                 for(Parametro p : parlist){
                     aux = aux & p.bind();
@@ -174,6 +175,6 @@ public class DecFuncion extends Definicion implements ASTNode{
     }
 
     public String getName(){
-        return name;
+        return name.toString();
     }
 }

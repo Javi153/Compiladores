@@ -18,7 +18,7 @@ public class Return extends Statement implements ASTNode{
 
     @Override
     public boolean bind() {
-        return ret.isBound();
+        return ret.bind();
     }
 
     @Override

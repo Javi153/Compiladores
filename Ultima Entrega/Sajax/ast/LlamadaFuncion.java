@@ -5,10 +5,12 @@ import java.util.ArrayList;
 public class LlamadaFuncion extends E implements ASTNode{
     private String name;
     private ArrayList<E> parlist;
+    private ASTNode def;
 
     public LlamadaFuncion(String name, ArrayList<E> parlist){
         this.name = name;
         this.parlist = parlist;
+        def = null;
     }
 
     public ArrayList<E> getParlist() {
@@ -20,7 +22,7 @@ public class LlamadaFuncion extends E implements ASTNode{
         return KindE.CALLFUN;
     }
 
-    @Override
+    /*@Override
     public boolean isBound() {
         boolean res = true;
         ASTNode aux = buscaId(name);
@@ -40,7 +42,7 @@ public class LlamadaFuncion extends E implements ASTNode{
             res = res & elem.isBound();
         }
         return res;
-    }
+    }*/
 
     @Override
     public Tipo isType() {
@@ -73,8 +75,25 @@ public class LlamadaFuncion extends E implements ASTNode{
     }
 
     @Override
-    public boolean bind() {
-        return true;
+    public boolean bind() {boolean res = true;
+        ASTNode aux = buscaId(name);
+        if(aux == null){
+            res = false;
+            System.out.println("Error: Función " + name + " no está definida");
+        }
+        else if(aux.nodeKind() != NodeKind.FUNCIONDEC){
+            res = false;
+            System.out.println("Error: " + name + " no es una función");
+        }
+        else if(((DecFuncion)aux).numParams() != parlist.size()){
+            res = false;
+            System.out.println("Error: Función " + name + " no tiene el número de parámetros correcto");
+        }
+        def = aux;
+        for(E elem : parlist){
+            res = res & elem.bind();
+        }
+        return res;
     }
 
     @Override
@@ -103,5 +122,15 @@ public class LlamadaFuncion extends E implements ASTNode{
         }
         s = s.concat(parlist.get(parlist.size() - 1).num() + ")");
         return s;
+    }
+
+    @Override
+    public ASTNode getDef(){
+        return def;
+    }
+
+    @Override
+    public void setDef(ASTNode def) {
+        this.def = def;
     }
 }

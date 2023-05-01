@@ -13,7 +13,7 @@ public class Memspace extends LlamadaFuncion implements ASTNode{
 
     @Override
     public boolean bind() {
-        return arg.isBound();
+        return arg.bind();
     }
 
     @Override

@@ -4,13 +4,15 @@ import java.util.HashMap;
 
 public class Ident extends E {
     private String v;
+    private ASTNode def;
     public Ident(String v) {
         this.v = v;
+        this.def = null;
     }
     public String num() {return v;}
     public KindE kind() {return KindE.IDEN;}
 
-    @Override
+    /*@Override
     public boolean isBound() {
         if(buscaId(v) == null){
             System.out.println("Error: el identificador " + v + " no está definido");
@@ -19,7 +21,7 @@ public class Ident extends E {
         else{
             return true;
         }
-    }
+    }*/
 
     @Override
     public Tipo isType() { //En teoria nunca se llamará a este método, sino que se verá en la tabla cual es el tipo
@@ -33,12 +35,13 @@ public class Ident extends E {
 
     @Override
     public boolean bind() {
-        if(s.peek().containsKey(v)){
-            System.out.println("Error: el identificador " + v + " ya está definido en este ámbito");
+        ASTNode aux = buscaId(v);
+        if(aux == null){
+            System.out.println("Error: el identificador " + v + " no está definido");
             return false;
         }
         else{
-            insertaId(v, this);
+            def = aux;
             return true;
         }
     }
@@ -46,9 +49,20 @@ public class Ident extends E {
     @Override
     public String code() {
         switch(isType().getTipo()) {
-            case ENT -> {}
+            case INT -> {}
         }
+        return null;
     }
 
     public String toString() {return v;}
+
+    @Override
+    public ASTNode getDef() {
+        return def;
+    }
+
+    @Override
+    public void setDef(ASTNode def) {
+        this.def = def;
+    }
 }

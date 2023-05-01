@@ -9,10 +9,10 @@ public class Null extends E {
         return KindE.NULL;
     }
 
-    @Override
+    /*@Override
     public boolean isBound() {
         return true;
-    }
+    }*/
 
     @Override
     public Tipo isType() { //Probablemente le metere puntero
@@ -35,5 +35,10 @@ public class Null extends E {
 
     public String num(){
         return "null";
+    }
+
+    @Override
+    public ASTNode getDef() {
+        return null;
     }
 }

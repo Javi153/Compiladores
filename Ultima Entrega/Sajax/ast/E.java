@@ -1,9 +1,8 @@
 package ast;
 
-public abstract class E extends Statement implements ASTNode {
+public abstract class E extends Statement implements ASTNode, Designador {
     private Tipo tipo;
     public abstract KindE kind();
-    public abstract boolean isBound();
 
     public abstract Tipo isType();
     public E opnd1() {throw new UnsupportedOperationException("opnd1");} 

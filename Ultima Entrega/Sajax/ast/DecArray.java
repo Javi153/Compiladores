@@ -7,17 +7,17 @@ import java.util.stream.Collectors;
 public class DecArray extends Statement implements ASTNode {
 
     Tipo tipo;
-    String iden;
+    Ident iden;
     ArrayList<E> dims;
 
     public DecArray(Tipo tipo, String iden, ArrayList<E> dims) {
         this.tipo = tipo;
-        this.iden = iden;
+        this.iden = new Ident(iden);
         this.dims = dims;
     }
 
     public DecArray(String name, DecArray d){
-        this.iden = name;
+        this.iden = new Ident(name);
         this.tipo = d.tipo;
         this.dims = d.dims;
     }
@@ -28,7 +28,7 @@ public class DecArray extends Statement implements ASTNode {
     }
 
     public String getName(){
-        return iden;
+        return iden.toString();
     }
 
     @Override
@@ -39,24 +39,25 @@ public class DecArray extends Statement implements ASTNode {
 
     @Override
     public boolean bind() {
-        boolean aux = true;
+        boolean aux = tipo.bind();
         HashMap<String, ASTNode> m = s.peek();
-        if(m.containsKey(iden)){
+        if(m.containsKey(iden.toString())){
             System.out.println("Error: variable "+iden+" ya declarada");
             aux = false;
         }
         else{
-            m.put(iden, this);
+            m.put(iden.toString(), this);
+            aux = aux & iden.bind();
         }
         for(E e : dims){
-            aux = aux & e.isBound();
+            aux = aux & e.bind();
         }
         return aux;
     }
 
     @Override
     public boolean type(){
-        sTipo.peek().put(iden, new TipoArray(tipo, dims.size()));
+        sTipo.peek().put(iden.toString(), new TipoArray(tipo, dims.size()));
         boolean aux = true;
         for(E e : dims){
                 aux = aux & e.type() && e.isType().getTipo().equals(TipoEnum.INT);
@@ -68,7 +69,7 @@ public class DecArray extends Statement implements ASTNode {
                     System.out.println(s);
                 }
         }
-        String s = iden;
+        String s = iden.toString();
         for(int i = 0; i < dims.size(); i++){
             s = s.concat("[]");
             if(i != dims.size() - 1) {

@@ -1,10 +1,16 @@
-int fun(int& a, int b){
-	return 0;
+struct Persona{
+ int a[7][7];
+ int fun(int v, int w){
+return 4;
+}
 }
 
 
 int main(){
-int a = 9;
-fun(a, 5);
+Auto a;
+Persona p;
+p.a[8] = 8;
+p.b = 0;
+p.fun(3);
 return 0;
 }

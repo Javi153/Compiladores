@@ -24,7 +24,7 @@ public class Free extends LlamadaFuncion implements ASTNode{
 
     @Override
     public boolean bind() {
-        return arg.isBound();
+        return arg.bind();
     }
 
     @Override
@@ -39,5 +39,10 @@ public class Free extends LlamadaFuncion implements ASTNode{
 
     public String toString(){
         return "free("+arg.toString()+")";
+    }
+
+    @Override
+    public ASTNode getDef() {
+        return null;
     }
 }

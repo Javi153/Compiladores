@@ -18,7 +18,7 @@ public class Input extends LlamadaFuncion implements ASTNode{
 
     @Override
     public boolean bind() {
-        return expresion.isBound();
+        return expresion.bind();
     }
 
     @Override
@@ -34,5 +34,10 @@ public class Input extends LlamadaFuncion implements ASTNode{
     @Override
     public String toString() {
         return "input("+expresion.toString()+")";
+    }
+
+    @Override
+    public ASTNode getDef() {
+        return null;
     }
 }

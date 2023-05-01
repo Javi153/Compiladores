@@ -42,7 +42,7 @@ public class Dec extends Statement implements ASTNode{
     @Override
     public boolean bind() {
         boolean aux = tipo.bind();
-        if(exp != null) { aux = exp.isBound(); }
+        if(exp != null) { aux = aux & exp.bind(); }
         HashMap<String, ASTNode> m = s.peek();
         if(m.containsKey(iden.toString())){
             System.out.println("Error: variable "+iden.num()+" ya declarada");
@@ -50,6 +50,7 @@ public class Dec extends Statement implements ASTNode{
         }
         else{
             m.put(iden.toString(), this);
+            aux = aux & iden.bind();
             return aux;
         }
     }
@@ -84,9 +85,9 @@ public class Dec extends Statement implements ASTNode{
     }
 
     public void setDelta() {
-        sDelta().peek().put(iden.num(), sDelta().peek());
-        Integer cima = sDelta().pop();
-        sDelta().push(cima + tipo.size());
+        // sDelta.peek().put(iden.num(), sDelta.peek());
+        // Integer cima = sDelta.pop();
+        // sDelta.push(cima + tipo.size());
     }
 
     public String getName(){

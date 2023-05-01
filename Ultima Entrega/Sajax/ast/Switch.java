@@ -37,7 +37,7 @@ public class Switch extends Statement implements ASTNode {
 
     @Override
     public boolean bind() {
-        boolean aux = exp.isBound();
+        boolean aux = exp.bind();
         for (Case c : cases) {
             aux = aux & c.bind();
         }

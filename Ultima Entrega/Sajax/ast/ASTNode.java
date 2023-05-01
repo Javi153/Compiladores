@@ -57,7 +57,7 @@ public interface ASTNode {
     }
     public boolean bind();
     public default void setDelta() {}
-    public default int getDelta(String iden) {}
+    public default int getDelta(String iden) {return -1;}
     public default String code() {
         return "";
     }

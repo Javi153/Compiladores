@@ -27,7 +27,7 @@ public class Elsif extends Statement implements ASTNode{
 
     @Override
     public boolean bind() {
-        boolean aux = cond.isBound();
+        boolean aux = cond.bind();
         s.push(new HashMap<>());
         aux = aux & St.bind();
         s.pop();

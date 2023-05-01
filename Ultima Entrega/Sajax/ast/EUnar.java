@@ -31,10 +31,10 @@ public class EUnar extends E {
         return k;
     }
 
-    @Override
+    /*@Override
     public boolean isBound() {
         return opnd.isBound();
-    }
+    }*/
 
     @Override
     public Tipo isType() {
@@ -90,9 +90,20 @@ public class EUnar extends E {
             case ASTERISCO -> {}
             case NOT -> {return opnd.code() + "\ni32.eqz"; }
         }
+        return null;
     }
 
     public String toString() {
         return k.toString()+"(" + opnd().toString() + ")";
+    }
+
+    @Override
+    public ASTNode getDef() {
+        return opnd.getDef();
+    }
+
+    @Override
+    public void setDef(ASTNode def) {
+        opnd.setDef(def);
     }
 }

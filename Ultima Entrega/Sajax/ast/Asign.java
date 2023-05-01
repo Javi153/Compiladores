@@ -40,7 +40,7 @@ public class Asign extends Statement implements ASTNode {
 
     @Override
     public boolean bind() {
-        return designador.isBound() & expresion.isBound();
+        return designador.bind() & expresion.bind();
     }
 
     @Override

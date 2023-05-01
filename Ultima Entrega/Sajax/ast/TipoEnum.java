@@ -23,7 +23,7 @@ public enum TipoEnum {
     public int size() {     //TODO esto no se puede hacer aqui
         switch(this) {
             case INT, BOOL, FLOAT -> {return 32;}
-            default -> {return null;}
+            default -> {return 0;}
         }
     }
 }

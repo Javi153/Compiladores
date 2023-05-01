@@ -15,7 +15,7 @@ public class Print extends LlamadaFuncion implements ASTNode{
 
     @Override
     public boolean bind() {
-        return expresion.isBound();
+        return expresion.bind();
     }
 
     @Override

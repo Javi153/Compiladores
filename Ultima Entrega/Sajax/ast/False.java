@@ -12,10 +12,10 @@ public class False extends E {
         return "false";
     }
 
-    @Override
+    /*@Override
     public boolean isBound() {
         return true;
-    }
+    }*/
 
     @Override
     public Tipo isType() {
@@ -37,5 +37,10 @@ public class False extends E {
 
     public String toString(){
         return "false";
+    }
+
+    @Override
+    public ASTNode getDef() {
+        return null;
     }
 }

@@ -1,14 +1,16 @@
 package ast;
 
-public class EBin extends E {
+public class EBin extends E{
     private E opnd1;
     private E opnd2;
     private KindE k;
+    private ASTNode def;
 
     public EBin(E opnd1, E opnd2, KindE k) {
         this.opnd1 = opnd1;
         this.opnd2 = opnd2;
         this.k = k;
+        def = null;
     }
 
     public String num(){
@@ -213,7 +215,7 @@ public class EBin extends E {
         return new Tipo(TipoEnum.VOID);
     }
 
-    @Override
+    /*@Override
     public boolean isBound() {
         switch(k){
             case PUNTO, FLECHA -> {
@@ -244,11 +246,58 @@ public class EBin extends E {
                 return opnd1.isBound() & opnd2.isBound();
             }
         }
-    }
+    }*/
 
     @Override
     public boolean bind() {
-        return opnd1.bind() & opnd2.bind();
+        switch(k){
+            case PUNTO, FLECHA -> {
+                if(opnd2.kind().equals(KindE.CALLFUN)){
+                    boolean res = opnd1.bind();
+                    if(res & (new LlamadaFuncion("."+((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist()).bind())){
+                        opnd2.setDef(buscaId("."+((LlamadaFuncion)opnd2).getName()));
+                    }
+                    def = opnd2.getDef();
+                    return res;
+                }
+                else if(opnd2.kind().equals(KindE.IDEN)){
+                    boolean res = opnd1.bind();
+                    ASTNode aux = buscaId("."+opnd2.num());
+                    if(aux == null){
+                        System.out.println("Error: el identificador " + opnd2.num() + " no está definido en el struct " + opnd1.num());
+                        return false;
+                    } else{
+                        opnd2.setDef(aux);
+                        return res;
+                    }
+                }
+                else if(opnd2.kind() == KindE.CORCHETES){
+                    boolean res = true;
+                    EBin aux = new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO);
+                    if(aux.bind()){
+                        def = aux.getDef();
+                        opnd2.setDef(def);
+                        E opndaux = opnd2.opnd1();
+                        while(opndaux.kind() == KindE.CORCHETES){
+                            opndaux.setDef(def);
+                            opndaux = ((EBin)opndaux).opnd1();
+                        }
+                    }
+                    else{
+                        res = false;
+                    }
+                    res = res & opnd2.bind();
+                    return res;
+                }
+                else{
+                    System.out.println("Error: el operando derecho de un punto o flecha debe ser un identificador o un array");
+                    return false;
+                }
+            }
+            default ->{
+                return opnd1.bind() & opnd2.bind();
+            }
+        }
     }
 
     @Override
@@ -258,7 +307,7 @@ public class EBin extends E {
             case SUMA, RESTA, MUL, MOD, ID, DISTINTO -> {
                 return opnd1.code() + "\n" + opnd2.code() + "\n" + isType().getTipo().alias() + "." + k.alias();
             }
-            case DIV, MENOR, MAYOR, MINGUAL, MAYIGUAL -> {
+            case DIV, MENOR, MAYOR, MENIGUAL, MAYIGUAL -> {
                 c = opnd1.code() + "\n" + opnd2.code() + "\n" + isType().getTipo().alias() + "." + k.alias();
                 return isType().getTipo() == TipoEnum.FLOAT ? c : c + "_s";
             }
@@ -266,7 +315,7 @@ public class EBin extends E {
                 return "uf"; // TODO potencia
             }
             case OR, AND -> {
-                return opnd1.code() + "\n" + opnd2.code() + "\n" + opnd1.getTipo().alias() + "." + k.alias();
+                return opnd1.code() + "\n" + opnd2.code() + "\n" + opnd1.isType().getTipo().alias() + "." + k.alias();
             }
             case PUNTO -> {
 
@@ -278,10 +327,20 @@ public class EBin extends E {
 
             }
         }
-
+        return c;
     }
 
     public String toString() {
         return k.toString()+"(" + opnd1().toString() + "," + opnd2().toString() + ")";
+    }
+
+    @Override
+    public ASTNode getDef() {
+        return def;
+    }
+
+    @Override
+    public void setDef(ASTNode n) {
+        def = n;
     }
 }

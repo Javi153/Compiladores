@@ -1,16 +1,16 @@
 package ast;
 
 public class Parametro implements ASTNode{
-    private String name;
+    private Ident name;
     private TipoParam tipo;
 
     public Parametro(Tipo tipo, boolean ref, String name){
         this.tipo = new TipoParam(tipo, ref);
-        this.name = name;
+        this.name = new Ident(name);
     }
 
     public String getName(){
-        return name;
+        return name.toString();
     }
 
     public Tipo getTipo(){
@@ -24,13 +24,15 @@ public class Parametro implements ASTNode{
 
     @Override
     public boolean bind() {
-        if(s.peek().containsKey(name)){
+        boolean aux = tipo.bind();
+        if(s.peek().containsKey(name.toString())){
             System.out.println("Nombre de parámetro duplicado: " + name);
             return false;
         }
         else{
-            insertaId(name, this);
-            return true;
+            insertaId(name.toString(), this);
+            aux = aux & name.bind();
+            return aux;
         }
     }
 

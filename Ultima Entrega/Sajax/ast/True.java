@@ -13,10 +13,10 @@ public class True extends E {
         return "true";
     }
 
-    @Override
+    /*@Override
     public boolean isBound() {
         return true;
-    }
+    }*/
 
     @Override
     public Tipo isType() {
@@ -38,5 +38,10 @@ public class True extends E {
 
     public String toString(){
         return "true";
+    }
+
+    @Override
+    public ASTNode getDef() {
+        return null;
     }
 }

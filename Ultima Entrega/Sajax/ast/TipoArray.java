@@ -16,4 +16,9 @@ public class TipoArray extends Tipo{
     public Tipo getTipoBasico(){
         return t;
     }
+
+    @Override
+    public boolean bind() {
+        return t.bind();
+    }
 }
