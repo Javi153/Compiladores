@@ -41,7 +41,7 @@ non terminal ArrayList<Case> Cases;
 non terminal Return SReturn;
 non terminal Statement SAsign, SDec, SDecArray, SIf, SWhile, SSwitch, SBreak, SFor, SCallFun;
 non terminal Definicion SStruct, SDecFuncion, SDecFuncionInline;
-non terminal ArrayList<E> Dims;
+non terminal ArrayList<Ent> Dims;
 non terminal DefaultCase Default;
 non terminal E SExp4, SExp3, SExp2, SExp1, SExp0, Exp, CallFun, IdenOps, IdenOps0, IdenOps1, IdenOps2;
 non terminal Tipo TipoBas, TipoStruct, Tipos, TipoVoid;
@@ -154,10 +154,10 @@ SDecFuncion ::= TipoVoid:tipo IDEN:name PAP SParams:params PCIERRE LLAP BloqueGe
    {: RESULT=new DecFuncion(tipo, name.lexema, params, new BloqueIns(block), null); :};
 SDecArray ::= Tipos:tipo IDEN:iden Dims:dims PTOCOMA
    {: RESULT=new DecArray(tipo, iden.lexema, dims); :};
-Dims ::= Dims:dims CAP SExp4:tam CCIERRE
-   {: dims.add(tam); RESULT=dims; :};
-Dims ::= CAP SExp4:tam CCIERRE
-   {: RESULT=new ArrayList<E>(Arrays.asList(tam)); :};
+Dims ::= Dims:dims CAP ENT:tam CCIERRE
+   {: dims.add(new Ent(tam.lexema)); RESULT=dims; :};
+Dims ::= CAP ENT:tam CCIERRE
+   {: RESULT=new ArrayList<Ent>(Arrays.asList(new Ent(tam.lexema))); :};
 SReturn ::= RETURN SExp4:expresion PTOCOMA
    {: RESULT=new Return(expresion); :};
 SCallFun ::=IdenOps1:idenops0 PUNTO CallFun:llamada PTOCOMA

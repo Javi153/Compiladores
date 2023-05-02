@@ -37,4 +37,8 @@ public class Ent extends E {
   public ASTNode getDef() {
     return null;
   }
+
+  public int getInt() {
+    return Integer.parseInt(v);
+  }
 }

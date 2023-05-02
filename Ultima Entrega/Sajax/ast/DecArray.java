@@ -1,5 +1,6 @@
 package ast;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -8,9 +9,9 @@ public class DecArray extends Statement implements ASTNode {
 
     Tipo tipo;
     Ident iden;
-    ArrayList<E> dims;
+    ArrayList<Ent> dims;
 
-    public DecArray(Tipo tipo, String iden, ArrayList<E> dims) {
+    public DecArray(Tipo tipo, String iden, ArrayList<Ent> dims) {
         this.tipo = tipo;
         this.iden = new Ident(iden);
         this.dims = dims;
@@ -89,8 +90,9 @@ public class DecArray extends Statement implements ASTNode {
 
     public int size() {
         int s = tipo.size();
-        // TODO malasunto no sé evaluar las dims
-        // Habría que ir multiplicando s por cada dim
+        for (Ent d : dims) {
+            s = s * d.getInt();
+        }
         return s;
     }
 
