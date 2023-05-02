@@ -329,17 +329,17 @@ public class EBin extends E{
         String c = "";
         switch(k) {
             case SUMA, RESTA, MUL, MOD, ID, DISTINTO -> {
-                return opnd1.code() + "\n" + opnd2.code() + "\n" + "TIPO EXP alias" + "." + k.alias();
+                return opnd1.code() + "\n" + opnd2.code() + "\n" + tipoOp.getTipo().alias() + "." + k.alias();
             }
-            case DIV, MENOR, MAYOR, MENIGUAL, MAYIGUAL -> {
-                c = opnd1.code() + "\n" + opnd2.code() + "\n" + "TIPO EXP ALIAS" + "." + k.alias();
-                //return getDef().getTipo().getTipo() == TipoEnum.FLOAT ? c : c + "_s";
+            case DIV -> {
+                c = opnd1.code() + "\n" + opnd2.code() + "\n" + tipoOp.getTipo().alias() + "." + k.alias();
+                return tipoOp.getTipo() == TipoEnum.FLOAT ? c : c + "_s";
             }
             case POT -> {
                 return "uf"; // TODO potencia
             }
-            case OR, AND -> {
-                return opnd1.code() + "\n" + opnd2.code() + "\n" + "TIPO OP1 ALIAS" + "." + k.alias();
+            case OR, AND, MENOR, MAYOR, MENIGUAL, MAYIGUAL -> {
+                return opnd1.code() + "\n" + opnd2.code() + "\n" + TipoEnum.BOOL.alias() + "." + k.alias();
             }
             default -> {}
         }
@@ -353,8 +353,8 @@ public class EBin extends E{
                 return opnd1.codeDesig() + "\ni32.const" + getDelta(opnd2.num()) + "\ni32.add";
             }
             case FLECHA -> {
-                // d->id es azúcar sintáctico de (*d).id pero no sé hacer *d
-
+                // d->id es azúcar sintáctico de (*d).id
+                return opnd1.codeDesig() + "\ni32.load\ni32.const" + getDelta(opnd2.num()) + "\ni32.add";
             }
             case CORCHETES -> {
                 return opnd1.codeDesig() + "\ni32.const " + "TIPO SIZE getDef().getTipo().getTipo().size()" + "\n"
@@ -380,7 +380,7 @@ public class EBin extends E{
         def = n;
     }
 
-    public Tipo getTipoOp(){
+    public Tipo getTipoOp() {
         return tipoOp;
     }
 }

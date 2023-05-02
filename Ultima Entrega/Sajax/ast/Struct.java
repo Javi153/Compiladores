@@ -21,6 +21,7 @@ public class Struct extends Definicion implements ASTNode{
         /*Javi del pasado igual no te acuerdas pero ya pensamos en eso. Si, en las funciones de structs
         La clave sera guardar todo como struct.funcion.1 etc. Para ello quiza lo mejor es que escribas las cosas
         de funcion desde aqui, sin llamar a su type*/
+        // supongo que querrías decir Javi del futuro :)
         boolean aux = true;
         sTipo.peek().put(name, new TipoStruct(name));
         for(ASTNode n : atributos.getList()){
@@ -67,6 +68,16 @@ public class Struct extends Definicion implements ASTNode{
             }
             return aux;
         }
+    }
+
+    @Override
+    public void setDelta() {
+        sDelta.push(new HashMap<>());
+        sDeltaCont.push(0);
+        for (ASTNode a : atributos.getList())
+            a.setDelta(); // Esto tal vez no me hace el casting sino que llama a la setDelta() default de ASTNode
+        sDeltaCont.pop(); // Cosas de TP1
+        sDelta.pop();
     }
 
     @Override

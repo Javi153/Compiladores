@@ -104,14 +104,16 @@ public class Dec extends Statement implements ASTNode{
     }
 
     public void setDelta() {
-        // sDelta.peek().put(iden.num(), sDelta.peek());
-        // Integer cima = sDelta.pop();
-        // sDelta.push(cima + tipo.size());
+        sDelta.peek().put(iden.num(), sDeltaCont.peek());
+        Integer cima = sDeltaCont.pop();
+        sDeltaCont.push(cima + tipo.size());
     }
 
     public String getName(){
         return iden.num();
     }
+
+    public Ident getIden() { return iden; }
 
     public Tipo getTipo() { return tipo; }
 }

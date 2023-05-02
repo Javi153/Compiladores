@@ -80,5 +80,19 @@ public class DecArray extends Statement implements ASTNode {
         return aux;
     }
 
+    @Override
+    public void setDelta() {
+        sDelta.peek().put(iden.num(), sDeltaCont.peek());
+        Integer cima = sDeltaCont.pop();
+        sDeltaCont.push(cima + size());
+    }
+
+    public int size() {
+        int s = tipo.size();
+        // TODO malasunto no sé evaluar las dims
+        // Habría que ir multiplicando s por cada dim
+        return s;
+    }
+
     public Tipo getTipo() {return tipo;}
 }

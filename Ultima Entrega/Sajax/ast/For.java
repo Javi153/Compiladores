@@ -52,6 +52,35 @@ public class For extends Statement implements ASTNode{
         s.pop();
         return aux;
     }
+    
+    @Override
+    public String code() {
+        String c = "";
+        sDelta.push(new HashMap<>());
+        sDeltaCont.push(0);
+        inicio.setDelta();
+
+        c = c.concat (
+                "loop\nblock\n(br_if 1 (i32.gt_s (" + inicio.getIden().code() + ") (" + fin.code() + ")))"
+                + st.code() + "(i32.store (" + inicio.getIden().codeDesig() + ") (i32.add (" + inicio.getIden().code() + ") (i32.const 1)))"
+                + "br 0"
+        );
+
+        c = c.concat (
+                "loop\nblock\n(br_if 1 (i32.gt_s (" + inicio.getIden().code() + ") (" + fin.code() + ")))\n"
+                        + st.code() + "\n(i32.store (" + inicio.getIden().codeDesig() + ") (i32.add (" + inicio.getIden().code() + ") ("
+        );
+
+        if (paso == null)
+            c = c.concat("i32.const 1)))\nbr 0");
+        else
+            c = c.concat(paso.code() + ")))\nbr 0");
+
+
+        sDeltaCont.pop();
+        sDelta.pop();
+        return c;
+    }
 
     @Override
     public NodeKind nodeKind() {

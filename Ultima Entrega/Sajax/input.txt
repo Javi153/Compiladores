@@ -1,3 +1,16 @@
+int n = 6;
+bool b;
+
+struct p {
+int dni;
+int edad;
+}
+
+struct alguien {
+p padre;
+p amigos[7+4];
+}
+
 int main(){
 int **a = memspace(5);
 a[4] = memspace(7);

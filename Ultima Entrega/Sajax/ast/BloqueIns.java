@@ -1,8 +1,9 @@
 package ast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
-public class BloqueIns extends Bloque<Statement> implements ASTNode{
+public class BloqueIns extends Bloque<Statement> implements ASTNode {
     public BloqueIns(ArrayList<Statement> stlist) {
         super(stlist);
         super.tipoBloque = "bloqueInstrucciones";
@@ -24,5 +25,18 @@ public class BloqueIns extends Bloque<Statement> implements ASTNode{
             aux = aux & s.bind();
         }
         return aux;
+    }
+
+    @Override
+    public String code() {
+        String c = "";
+        sDelta.push(new HashMap<>());
+        sDeltaCont.push(0);
+        for (Statement s : stlist){
+            c = c.concat(s.code());
+        }
+        sDeltaCont.pop();
+        sDelta.pop();
+        return c;
     }
 }
