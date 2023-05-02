@@ -5,12 +5,14 @@ public class EBin extends E{
     private E opnd2;
     private KindE k;
     private ASTNode def;
+    private Tipo tipoOp;
 
     public EBin(E opnd1, E opnd2, KindE k) {
         this.opnd1 = opnd1;
         this.opnd2 = opnd2;
         this.k = k;
         def = null;
+        tipoOp = null;
     }
 
     public String num(){
@@ -95,6 +97,9 @@ public class EBin extends E{
                 if(!aux){
                     System.out.println("Error: se esperaba un tipo entero o float en la operacion " + num() + " pero se encontro " + opnd1.isType().getTipo() + " y " + opnd2.isType().getTipo());
                 }
+                else{
+                    tipoOp = opnd1.isType();
+                }
             }
             case POT -> {
                 aux = opnd1.type() & opnd2.type();
@@ -103,12 +108,16 @@ public class EBin extends E{
                 if(!aux){
                     System.out.println("Error: se esperaba un tipo entero o float en la base y un entero en el exponente en la operacion " + num() + " pero se encontro " + opnd1.isType().getTipo() + " y " + opnd2.isType().getTipo());
                 }
+                else{
+                    tipoOp = opnd1.isType();
+                }
             }
             case OR, AND -> {
                 aux = opnd1.type() & opnd2.type() & opnd1.isType().getTipo().equals(TipoEnum.BOOL) & opnd2.isType().getTipo().equals(TipoEnum.BOOL);
                 if(!aux){
                     System.out.println("Error: se esperaba un tipo booleano en la operacion " + num() + " pero se encontro " + opnd1.isType().getTipo() + " y " + opnd2.isType().getTipo());
                 }
+                tipoOp = new Tipo(TipoEnum.BOOL);
             }
             case MENOR, MAYOR, MENIGUAL, MAYIGUAL, ID, DISTINTO -> {
                 aux = opnd1.type() & opnd2.type();
@@ -118,10 +127,14 @@ public class EBin extends E{
                 if(!aux){
                     System.out.println("Error: se esperaba un tipo entero, float o booleano en la operacion " + num() + " pero se encontro " + opnd1.isType().getTipo() + " y " + opnd2.isType().getTipo());
                 }
+                tipoOp = new Tipo(TipoEnum.BOOL);
             }
             case PUNTO -> {
                 if(opnd2.kind().equals(KindE.CORCHETES)){
-                    return new EBin(new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO), opnd2.opnd2(), KindE.CORCHETES).type();
+                    EBin eb = new EBin(new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO), opnd2.opnd2(), KindE.CORCHETES);
+                    boolean res = eb.type();
+                    tipoOp = eb.isType();
+                    return res;
                 }
                 Tipo t = opnd1.isType();
                 if(t == null || t.getTipo() != TipoEnum.STRUCT){
@@ -131,11 +144,15 @@ public class EBin extends E{
                 String auxname = ((TipoStruct)t).getId();
                 if(opnd2.kind().equals(KindE.CALLFUN)){
                     LlamadaFuncion f = new LlamadaFuncion(auxname + "." + ((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist());
-                    return f.type();
+                    boolean res = f.type();
+                    tipoOp = f.isType();
+                    return res;
                 }
                 else{
                     Ident Id = new Ident(auxname + "." + ((Ident)opnd2).num());
-                    return Id.type();
+                    boolean res = Id.type();
+                    tipoOp = Id.isType();
+                    return res;
                 }
             }
             case FLECHA -> {
@@ -143,7 +160,10 @@ public class EBin extends E{
                     System.out.println("Error: el operando izquierdo de una flecha debe ser un puntero en " + num());
                     return false;
                 }
-                return new EBin(new EUnar(opnd1, KindE.ASTERISCO), opnd2, KindE.PUNTO).type();
+                EBin eb = new EBin(new EUnar(opnd1, KindE.ASTERISCO), opnd2, KindE.PUNTO);
+                boolean res = eb.type();
+                tipoOp = eb.isType();
+                return res;
             }
             case CORCHETES -> {
                 if(!opnd1.type() || !opnd2.type() || opnd2.isType().getTipo() != TipoEnum.INT){
@@ -151,6 +171,7 @@ public class EBin extends E{
                     aux = false;
                 }
                 Tipo t = opnd1.isType();
+                tipoOp = t;
                 if(t.getTipo() != TipoEnum.ARRAY && t.getTipo() != TipoEnum.PUNTERO){
                     System.out.println("Error: el operando izquierdo de corchetes debe ser un array en " + num());
                     return false;
@@ -357,5 +378,9 @@ public class EBin extends E{
     @Override
     public void setDef(ASTNode n) {
         def = n;
+    }
+
+    public Tipo getTipoOp(){
+        return tipoOp;
     }
 }

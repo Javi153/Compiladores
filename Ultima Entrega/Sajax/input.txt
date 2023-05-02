@@ -1,4 +1,6 @@
 int main(){
-print(3);
+int **a = memspace(5);
+a[4] = memspace(7);
+a[4][5] = 7;
 return 0;
 }
