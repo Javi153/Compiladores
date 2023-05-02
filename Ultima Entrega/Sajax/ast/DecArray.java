@@ -79,4 +79,6 @@ public class DecArray extends Statement implements ASTNode {
         sTipo.peek().put(new String(s), tipo);
         return aux;
     }
+
+    public Tipo getTipo() {return tipo;}
 }

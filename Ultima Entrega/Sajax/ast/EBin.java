@@ -308,27 +308,39 @@ public class EBin extends E{
         String c = "";
         switch(k) {
             case SUMA, RESTA, MUL, MOD, ID, DISTINTO -> {
-                return opnd1.code() + "\n" + opnd2.code() + "\n" + isType().getTipo().alias() + "." + k.alias();
+                return opnd1.code() + "\n" + opnd2.code() + "\n" + "TIPO EXP alias" + "." + k.alias();
             }
             case DIV, MENOR, MAYOR, MENIGUAL, MAYIGUAL -> {
-                c = opnd1.code() + "\n" + opnd2.code() + "\n" + isType().getTipo().alias() + "." + k.alias();
-                return isType().getTipo() == TipoEnum.FLOAT ? c : c + "_s";
+                c = opnd1.code() + "\n" + opnd2.code() + "\n" + "TIPO EXP ALIAS" + "." + k.alias();
+                //return getDef().getTipo().getTipo() == TipoEnum.FLOAT ? c : c + "_s";
             }
             case POT -> {
                 return "uf"; // TODO potencia
             }
             case OR, AND -> {
-                return opnd1.code() + "\n" + opnd2.code() + "\n" + opnd1.isType().getTipo().alias() + "." + k.alias();
+                return opnd1.code() + "\n" + opnd2.code() + "\n" + "TIPO OP1 ALIAS" + "." + k.alias();
             }
-            case PUNTO -> {
+            default -> {}
+        }
+        return c;
+    }
 
+    public String codeDesig() {
+        String c = "";
+        switch(k) {
+            case PUNTO -> {
+                return opnd1.codeDesig() + "\ni32.const" + getDelta(opnd2.num()) + "\ni32.add";
             }
             case FLECHA -> {
+                // d->id es azúcar sintáctico de (*d).id pero no sé hacer *d
 
             }
             case CORCHETES -> {
-
+                return opnd1.codeDesig() + "\ni32.const " + "TIPO SIZE getDef().getTipo().getTipo().size()" + "\n"
+                        + opnd2.code() + "\ni32.mul\ni32.add"; // El size debe referirse al tipo de d[e] (int, struct...)
+                                                                // NO a TipoArray
             }
+            default -> {}
         }
         return c;
     }

@@ -112,4 +112,6 @@ public class Dec extends Statement implements ASTNode{
     public String getName(){
         return iden.num();
     }
+
+    public Tipo getTipo() { return tipo; }
 }
