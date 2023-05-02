@@ -336,6 +336,12 @@ public class EBin extends E{
                 return tipoOp.getTipo() == TipoEnum.FLOAT ? c : c + "_s";
             }
             case POT -> {
+                //c = c.concat (
+                //        "loop\nblock\n(local $i 32)\n(br_if 1 (i32.gt_s (get_local $i) (" + opnd2.code() + ")))"
+                //        + "(i32.load (" + opnd1().codeDesig() + ") (i32.add (" + inicio.getIden().code() + ") (i32.const 1)))"
+                //        + "(i32.store (" + inicio.getIden().codeDesig() + ") (i32.add (" + inicio.getIden().code() + ") (i32.const 1)))"
+                //        + "br 0"
+                //);
                 return "uf"; // TODO potencia
             }
             case OR, AND, MENOR, MAYOR, MENIGUAL, MAYIGUAL -> {

@@ -61,12 +61,6 @@ public class For extends Statement implements ASTNode{
         inicio.setDelta();
 
         c = c.concat (
-                "loop\nblock\n(br_if 1 (i32.gt_s (" + inicio.getIden().code() + ") (" + fin.code() + ")))"
-                + st.code() + "(i32.store (" + inicio.getIden().codeDesig() + ") (i32.add (" + inicio.getIden().code() + ") (i32.const 1)))"
-                + "br 0"
-        );
-
-        c = c.concat (
                 "loop\nblock\n(br_if 1 (i32.gt_s (" + inicio.getIden().code() + ") (" + fin.code() + ")))\n"
                         + st.code() + "\n(i32.store (" + inicio.getIden().codeDesig() + ") (i32.add (" + inicio.getIden().code() + ") ("
         );
