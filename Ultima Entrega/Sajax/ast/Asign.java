@@ -48,7 +48,19 @@ public class Asign extends Statement implements ASTNode {
 
     @Override
     public String code() {
-        return designador.codeDesig() + "\n" + expresion.code() + "\ni32.store\n";
+
+        switch(designador.getDef().nodeKind()) {
+            case DEC -> {
+                TipoEnum t = ((Dec) designador.getDef()).getTipo().getTipo();
+                switch (t) {
+                    case INT, BOOL, FLOAT -> {return designador.codeDesig() + "\n" + expresion.code() + "\n" + t.alias() + ".store\n"; }
+                }
+            }
+            case STRUCT -> {}
+            default -> {}
+        }
+
+        return "";
     }
 
     @Override
