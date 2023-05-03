@@ -61,7 +61,7 @@ public class For extends Statement implements ASTNode{
         inicio.setDelta();
 
         c = c.concat (
-                inicio.getExp().code() + "\n" + fin.code() + "i32.le_s\nif\n"
+                inicio.getExp().code() + "\n" + fin.code() + "\ni32.le_s\nif\n"
         );
 
         c = c.concat (
@@ -70,9 +70,9 @@ public class For extends Statement implements ASTNode{
         );
 
         if (paso == null)
-            c = c.concat("i32.const 1)))\nbr 0\nend\nelse\n");
+            c = c.concat("i32.const 1)))\nbr 0\nend\nend\nelse\n");
         else
-            c = c.concat(paso.code() + ")))\nbr 0\nend\nelse\n");
+            c = c.concat(paso.code() + ")))\nbr 0\nend\nend\nelse\n");
 
         c = c.concat (
                 "block\nloop\n(br_if 1 (i32.lt_s (" + inicio.getIden().code() + ") (" + fin.code() + ")))\n"
@@ -80,9 +80,9 @@ public class For extends Statement implements ASTNode{
         );
 
         if (paso == null)
-            c = c.concat("i32.const 1)))\nbr 0\nend\nend");
+            c = c.concat("i32.const 1)))\nbr 0\nend\nend\nend");
         else
-            c = c.concat(paso.code() + ")))\nbr 0\nend\nend");
+            c = c.concat(paso.code() + ")))\nbr 0\nend\nend\nend");
 
         sDeltaCont.pop();
         sDelta.pop();
