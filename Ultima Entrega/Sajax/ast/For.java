@@ -61,15 +61,28 @@ public class For extends Statement implements ASTNode{
         inicio.setDelta();
 
         c = c.concat (
-                "loop\nblock\n(br_if 1 (i32.gt_s (" + inicio.getIden().code() + ") (" + fin.code() + ")))\n"
+                inicio.getExp().code() + "\n" + fin.code() + "i32.le_s\nif\n"
+        );
+
+        c = c.concat (
+                "block\nloop\n(br_if 1 (i32.gt_s (" + inicio.getIden().code() + ") (" + fin.code() + ")))\n"
                         + st.code() + "\n(i32.store (" + inicio.getIden().codeDesig() + ") (i32.add (" + inicio.getIden().code() + ") ("
         );
 
         if (paso == null)
-            c = c.concat("i32.const 1)))\nbr 0");
+            c = c.concat("i32.const 1)))\nbr 0\nend\nelse\n");
         else
-            c = c.concat(paso.code() + ")))\nbr 0");
+            c = c.concat(paso.code() + ")))\nbr 0\nend\nelse\n");
 
+        c = c.concat (
+                "block\nloop\n(br_if 1 (i32.lt_s (" + inicio.getIden().code() + ") (" + fin.code() + ")))\n"
+                        + st.code() + "\n(i32.store (" + inicio.getIden().codeDesig() + ") (i32.add (" + inicio.getIden().code() + ") ("
+        );
+
+        if (paso == null)
+            c = c.concat("i32.const 1)))\nbr 0\nend\nend");
+        else
+            c = c.concat(paso.code() + ")))\nbr 0\nend\nend");
 
         sDeltaCont.pop();
         sDelta.pop();

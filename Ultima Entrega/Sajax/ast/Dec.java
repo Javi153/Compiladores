@@ -116,4 +116,6 @@ public class Dec extends Statement implements ASTNode{
     public Ident getIden() { return iden; }
 
     public Tipo getTipo() { return tipo; }
+
+    public E getExp() { return exp; }
 }
