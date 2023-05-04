@@ -48,6 +48,14 @@ public class Bloque<T extends ASTNode> implements ASTNode {
         }
     }
 
+    public String code(){
+        String s = "";
+        for(T elem : stlist){
+            s = s.concat(elem.code());
+        }
+        return s;
+    }
+
     public ArrayList<T> getList(){
         return stlist;
     }

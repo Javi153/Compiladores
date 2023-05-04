@@ -49,4 +49,17 @@ public class MainFun implements ASTNode {
         s = s.concat(")");
         return s;
     }
+
+    @Override
+    public void setDelta(){
+        bloque.setDelta();
+        ret.setDelta();
+    }
+
+    @Override
+    public String code(){
+        String s = bloque.code();
+        s = s.concat(ret.code());
+        return s;
+    }
 }

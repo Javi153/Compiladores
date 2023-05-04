@@ -44,6 +44,24 @@ public class TipoStruct extends Tipo implements ASTNode, Designador{
         return def;
     }
 
+    public int size(){
+        int s = 0;
+        for(ASTNode atr : ((Struct)def).getAtt().getList()){
+            switch(atr.nodeKind()){
+                case DEC:
+                    s += ((Dec)atr).getTipo().size();
+                    break;
+                case DECARRAY:
+                    s += ((DecArray)atr).size();
+                    break;
+                case FUNCIONDEC:
+                    //s += ((FuncionDec)atr).getTipo().size(); //TODO Esto si que no se comoo funciona
+                    break;
+            }
+        }
+        return s;
+    }
+
     @Override
     public void setDef(ASTNode def) {
         this.def = def;

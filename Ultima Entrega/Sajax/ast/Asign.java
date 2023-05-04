@@ -56,7 +56,9 @@ public class Asign extends Statement implements ASTNode {
                     case INT, BOOL, FLOAT -> {return designador.codeDesig() + "\n" + expresion.code() + "\n" + t.alias() + ".store\n"; }
                 }
             }
-            case STRUCT -> {}
+            case STRUCT -> {
+                int s = expresion.isType().size();
+            }
             default -> {}
         }
 

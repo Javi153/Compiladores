@@ -28,6 +28,9 @@ public class Main {
      if(result != null && success){
          success = result.type();
      }
+     if(success){
+         System.out.println(result.code());
+     }
    }
 }   
    

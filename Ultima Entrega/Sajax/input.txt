@@ -1,19 +1,5 @@
-int n = 6;
-bool b;
-
-struct p {
-int dni;
-int edad;
-}
-
-struct alguien {
-p padre;
-p amigos[7];
-}
-
 int main(){
-int **a = memspace(5);
-a[4] = memspace(7);
-a[4][5] = 7;
+int a;
+a = 3 / 5;
 return 0;
 }
