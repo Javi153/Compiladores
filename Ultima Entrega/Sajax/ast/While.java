@@ -45,4 +45,9 @@ public class While extends Statement implements ASTNode{
     public String toString(){
         return "while("+cond.toString()+","+st.toString()+")";
     }
+
+    @Override
+    public void setDelta(int prof){
+        st.setDelta(prof);
+    }
 }

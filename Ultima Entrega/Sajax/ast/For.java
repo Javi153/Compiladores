@@ -56,9 +56,9 @@ public class For extends Statement implements ASTNode{
     @Override
     public String code() {
         String c = "";
-        sDelta.push(new HashMap<>());
-        sDeltaCont.push(0);
-        inicio.setDelta();
+        //sDelta.push(new HashMap<>());
+        //sDeltaCont.push(0);
+        //inicio.setDelta();
 
         c = c.concat (
                 inicio.getExp().code() + "\n" + fin.code() + "\ni32.le_s\nif\n"
@@ -84,8 +84,8 @@ public class For extends Statement implements ASTNode{
         else
             c = c.concat(paso.code() + ")))\nbr 0\nend\nend\nend");
 
-        sDeltaCont.pop();
-        sDelta.pop();
+        //sDeltaCont.pop();
+        //sDelta.pop();
         return c;
     }
 
@@ -101,5 +101,10 @@ public class For extends Statement implements ASTNode{
         else {
             return "for(" + inicio.toString() + "," + fin.toString() + "," + paso.toString() + "," + st.toString() + ")";
         }
+    }
+
+    public void setDelta(int prof){
+        inicio.setDelta(prof);
+        st.setDelta(prof);
     }
 }

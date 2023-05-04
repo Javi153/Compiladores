@@ -177,4 +177,13 @@ public class DecFuncion extends Definicion implements ASTNode{
     public String getName(){
         return name.toString();
     }
+
+    public void setDelta(int prof){
+        this.prof = prof + 1;
+        sDeltaCont.push(0);
+        for(Parametro p : parlist){
+            p.setDelta(this.prof);
+        }
+        sDeltaCont.pop();
+    }
 }

@@ -46,4 +46,8 @@ public class Elsif extends Statement implements ASTNode{
     public String toString(){
         return "elsif("+cond.toString()+","+St.toString()+")";
     }
+
+    public void setDelta(int prof){
+        St.setDelta(prof);
+    }
 }

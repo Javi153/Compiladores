@@ -51,9 +51,9 @@ public class MainFun implements ASTNode {
     }
 
     @Override
-    public void setDelta(){
-        bloque.setDelta();
-        ret.setDelta();
+    public void setDelta(int prof){
+        bloque.setDelta(1);
+        ret.setDelta(1);
     }
 
     @Override

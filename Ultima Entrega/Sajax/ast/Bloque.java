@@ -56,6 +56,13 @@ public class Bloque<T extends ASTNode> implements ASTNode {
         return s;
     }
 
+    @Override
+    public void setDelta(int prof){
+        for(T elem : stlist){
+            elem.setDelta(prof);
+        }
+    }
+
     public ArrayList<T> getList(){
         return stlist;
     }

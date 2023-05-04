@@ -28,7 +28,8 @@ public class Main {
      if(result != null && success){
          success = result.type();
      }
-     if(success){
+     if(result != null && success){
+         result.setDelta(0);
          System.out.println(result.code());
      }
    }

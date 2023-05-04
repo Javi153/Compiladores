@@ -81,11 +81,16 @@ public class DecArray extends Statement implements ASTNode {
         return aux;
     }
 
-    @Override
+    /*@Override
     public void setDelta() {
         sDelta.peek().put(iden.num(), sDeltaCont.peek());
         Integer cima = sDeltaCont.pop();
         sDeltaCont.push(cima + size());
+    }*/
+    public void setDelta(int prof) {
+        this.prof = prof;
+        delta = sDeltaCont.pop();
+        sDeltaCont.push(delta + size());
     }
 
     public int size() {

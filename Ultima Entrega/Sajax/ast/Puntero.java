@@ -26,4 +26,9 @@ public class Puntero extends Tipo implements ASTNode{ //Igual hay que rehacerlo
     public String toString(){
         return "puntero("+t.toString()+")";
     }
+
+    @Override
+    public int size(){
+        return 4;
+    }
 }

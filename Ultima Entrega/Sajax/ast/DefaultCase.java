@@ -48,4 +48,11 @@ public class DefaultCase extends Bloque<Statement> implements ASTNode {
         s = s.concat(breakPresence + ")");
         return s;
     }
+
+    @Override
+    public void setDelta(int prof){
+        for(Statement s : stlist){
+            s.setDelta(prof);
+        }
+    }
 }

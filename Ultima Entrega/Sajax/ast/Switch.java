@@ -62,4 +62,14 @@ public class Switch extends Statement implements ASTNode {
 
         return s + ")";
     }
+
+    @Override
+    public void setDelta(int prof){
+        for(Case c : cases){
+            c.setDelta(prof);
+        }
+        if(defaultCase != null){
+            defaultCase.setDelta(prof);
+        }
+    }
 }

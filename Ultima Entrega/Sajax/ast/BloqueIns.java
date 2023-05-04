@@ -30,13 +30,16 @@ public class BloqueIns extends Bloque<Statement> implements ASTNode {
     @Override
     public String code() {
         String c = "";
-        sDelta.push(new HashMap<>());
-        sDeltaCont.push(0);
         for (Statement s : stlist){
             c = c.concat(s.code());
         }
-        sDeltaCont.pop();
-        sDelta.pop();
         return c;
+    }
+
+    @Override
+    public void setDelta(int prof){
+        for(Statement s : stlist){
+            s.setDelta(prof);
+        }
     }
 }

@@ -150,9 +150,11 @@ public class Programa implements ASTNode{
     }
 
     @Override
-    public void setDelta(){
-        defs.setDelta();
-        main.setDelta();
+    public void setDelta(int prof){
+        sDeltaCont.push(0);
+        defs.setDelta(0);
+        main.setDelta(0);
+        sDeltaCont.pop();
     }
 
 }

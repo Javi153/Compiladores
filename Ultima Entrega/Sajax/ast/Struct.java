@@ -70,7 +70,7 @@ public class Struct extends Definicion implements ASTNode{
         }
     }
 
-    @Override
+    /*@Override
     public void setDelta() {
         sDelta.push(new HashMap<>());
         sDeltaCont.push(0);
@@ -78,6 +78,12 @@ public class Struct extends Definicion implements ASTNode{
             a.setDelta(); // Esto tal vez no me hace el casting sino que llama a la setDelta() default de ASTNode
         sDeltaCont.pop(); // Cosas de TP1
         sDelta.pop();
+    }*/
+
+    @Override
+    public void setDelta(int prof) {
+        for (ASTNode a : atributos.getList())
+            a.setDelta(prof);
     }
 
     @Override

@@ -28,4 +28,9 @@ public class VarGlobal extends Definicion implements ASTNode{
     public String toString(){
             return "variableGlobal("+var.toString()+")";
     }
+
+    @Override
+    public void setDelta(int prof){
+        var.setDelta(prof);
+    }
 }

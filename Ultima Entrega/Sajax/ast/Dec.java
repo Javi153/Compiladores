@@ -103,11 +103,11 @@ public class Dec extends Statement implements ASTNode{
         return true;
     }
 
-    public void setDelta() {
+    /*public void setDelta() {
         sDelta.peek().put(iden.num(), sDeltaCont.peek());
         Integer cima = sDeltaCont.pop();
         sDeltaCont.push(cima + tipo.size());
-    }
+    }*/
 
     public String getName(){
         return iden.num();
@@ -120,7 +120,13 @@ public class Dec extends Statement implements ASTNode{
     public E getExp() { return exp; }
 
     public String code(){
-        String s = "";
-        return s;
+        return "";
+    }
+
+    @Override
+    public void setDelta(int prof) {
+        this.prof = prof;
+        delta = sDeltaCont.pop();
+        sDeltaCont.push(delta+tipo.size());
     }
 }

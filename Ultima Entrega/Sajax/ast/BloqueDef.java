@@ -18,6 +18,13 @@ public class BloqueDef extends Bloque<Definicion> implements ASTNode{
     }
 
     @Override
+    public void setDelta(int prof){
+        for(Definicion d : stlist){
+            d.setDelta(prof);
+        }
+    }
+
+    @Override
     public boolean bind(){
         boolean aux = true;
         for(Definicion d : stlist){

@@ -94,4 +94,15 @@ public class IfElse extends Statement implements ASTNode{
         }
         return s;
     }
+
+    @Override
+    public void setDelta(int prof){
+        S1.setDelta(prof);
+        for(Elsif es : Elsifs){
+            es.setDelta(prof);
+        }
+        if(hayelse){
+            S2.setDelta(prof);
+        }
+    }
 }

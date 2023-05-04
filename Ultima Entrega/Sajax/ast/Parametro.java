@@ -3,6 +3,8 @@ package ast;
 public class Parametro implements ASTNode{
     private Ident name;
     private TipoParam tipo;
+    private int prof;
+    private int delta;
 
     public Parametro(Tipo tipo, boolean ref, String name){
         this.tipo = new TipoParam(tipo, ref);
@@ -43,5 +45,24 @@ public class Parametro implements ASTNode{
 
     public String toString(){
         return "param("+tipo.toString()+","+ (tipo.isRef() ? "referencia" : "valor") +","+name+")";
+    }
+
+    public void setDelta(int prof){
+        this.prof = prof;
+        delta = sDeltaCont.peek();
+        if(tipo.isRef()){
+            sDeltaCont.push(delta + 4);
+        }
+        else{
+            sDeltaCont.push(delta + tipo.getTipo().size());
+        }
+    }
+
+    public int getDelta(){
+        return delta;
+    }
+
+    public int getProf(){
+        return prof;
     }
 }
