@@ -127,7 +127,9 @@ public class EBin extends E{
                 if(!aux){
                     System.out.println("Error: se esperaba un tipo entero, float o booleano en la operacion " + num() + " pero se encontro " + opnd1.isType().getTipo() + " y " + opnd2.isType().getTipo());
                 }
-                tipoOp = new Tipo(TipoEnum.BOOL);
+                else {
+                    tipoOp = opnd1.isType();
+                }
             }
             case PUNTO -> {
                 if(opnd2.kind().equals(KindE.CORCHETES)){
@@ -344,8 +346,12 @@ public class EBin extends E{
                 //);
                 return "uf"; // TODO potencia
             }
-            case OR, AND, MENOR, MAYOR, MENIGUAL, MAYIGUAL -> {
-                return opnd1.code() + "\n" + opnd2.code() + "\n" + TipoEnum.BOOL.alias() + "." + k.alias();
+            case OR, AND -> {
+                return opnd1.code() + "\n" + opnd2.code() + "\n" + TipoEnum.BOOL.alias() + "." + k.alias() + "\n";
+            }
+            case MENOR, MAYOR, MENIGUAL, MAYIGUAL -> {
+                c = opnd1.code() + "\n" + opnd2.code() + "\n" + tipoOp.getTipo().alias() + "." + k.alias();
+                return tipoOp.getTipo() == TipoEnum.FLOAT ? c + "\n" : c + "_s\n";
             }
             default -> {}
         }

@@ -120,7 +120,18 @@ public class Dec extends Statement implements ASTNode{
     public E getExp() { return exp; }
 
     public String code(){
-        return "";
+        String s = "";
+        if(exp == null){
+            return "";
+        }
+        else{
+            if(!tipo.getTipo().equals(TipoEnum.STRUCT)){
+                s = iden.codeDesig() + "\n";
+                s = s.concat(exp.code()) + "\n";
+                s = s.concat(tipo.getTipo().alias() + ".store\n");
+            }
+            return s;
+        }
     }
 
     @Override
@@ -128,5 +139,6 @@ public class Dec extends Statement implements ASTNode{
         this.prof = prof;
         delta = sDeltaCont.pop();
         sDeltaCont.push(delta+tipo.size());
+        System.out.println("Soy la expresion " + iden.num() + " y mi delta es " + delta);
     }
 }

@@ -9,6 +9,7 @@ public class DecFuncion extends Definicion implements ASTNode{
     private ArrayList<Parametro> parlist;
     private BloqueIns cuerpo;
     private Return ret;
+    private int size;
 
     public DecFuncion(Tipo tipo, String name, ArrayList<Parametro> parlist, BloqueIns cuerpo, Return ret){
         this.tipo = tipo;
@@ -184,6 +185,6 @@ public class DecFuncion extends Definicion implements ASTNode{
         for(Parametro p : parlist){
             p.setDelta(this.prof);
         }
-        sDeltaCont.pop();
+        size = sDeltaCont.pop();
     }
 }

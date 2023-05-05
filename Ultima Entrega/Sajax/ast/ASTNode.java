@@ -59,6 +59,7 @@ public interface ASTNode {
     public default void setDelta() {}
     public default void setDelta(int prof) {}
     public default int getDelta(String iden) {return -1;}
+    public default int getDelta() {return -1;}
     public default String code() {
         return "";
     }

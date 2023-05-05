@@ -14,7 +14,7 @@ public enum TipoEnum {
 
     public String alias() {
         switch (this) {
-            case INT, BOOL -> {return "i32";}
+            case INT, BOOL, PUNTERO -> {return "i32";}
             case FLOAT -> {return "f32";}
             default -> {return null;}
         }
@@ -22,7 +22,7 @@ public enum TipoEnum {
 
     public int size() {     //TODO esto no se puede hacer aqui
         switch(this) {
-            case INT, BOOL, FLOAT -> {return 4;} //Aqui no es 4? Al final son los bytes, no los bits
+            case INT, BOOL, FLOAT -> {return 4;}
             default -> {return 0;}
         }
     }

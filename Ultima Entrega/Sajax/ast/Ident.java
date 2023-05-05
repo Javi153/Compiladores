@@ -73,10 +73,10 @@ public class Ident extends E implements ASTNode, Designador {
     }
 
     @Override
-    public void setDef(ASTNode def) {this.def = def; }
+    public void setDef(ASTNode def) {this.def = def;}
 
     @Override
     public String codeDesig() {
-        return "i32.const " + getDelta(v) + "\nget_local $localsStart\ni32.add";
+        return "i32.const " + def.getDelta() + "\nget_local $localsStart\ni32.add";
     }
 }

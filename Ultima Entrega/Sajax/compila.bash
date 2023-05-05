@@ -7,3 +7,5 @@ java -cp cup.jar java_cup.Main -parser ConstructorASTExp -symbols ClaseLexica -n
 cd ..
 javac -cp "cup.jar:." */*.java
 java -cp "cup.jar:." constructorast.Main input.txt
+./wat2wasm result.wat
+node main-memory.js

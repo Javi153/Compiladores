@@ -24,7 +24,7 @@ public class Programa implements ASTNode{
             "   call $exception\n" +
             "   end\n" +
             ")\n" +
-            "(func $freeStack (type $_sig_void) ;;funcion que libera la memoria del ultimo ambito en el que se haya entrado\n" +
+            "(func $freeStack ;;funcion que libera la memoria del ultimo ambito en el que se haya entrado\n" +
             "   get_global $MP\n" +
             "   i32.load\n" +
             "   i32.load offset=4\n" +
@@ -35,7 +35,6 @@ public class Programa implements ASTNode{
             ")\n" +
             "(func $reserveHeap ;;funcion que reserva memoria en el heap para un nuevo ambito\n" +
             "   (param $size i32)\n" +
-            "   get_global $MP\n" +
             "   get_global $NP\n" +
             "   set_global $MP\n" +
             "   get_global $NP\n" +
@@ -43,7 +42,7 @@ public class Programa implements ASTNode{
             "   i32.add\n" +
             "   set_global $NP\n" +
             ")\n" +
-            "(func $freeHeap (type $_sig_void) ;;funcion que libera memoria del heap del ultimo ambito en el que nos encontrasemos\n" +
+            "(func $freeHeap ;;funcion que libera memoria del heap del ultimo ambito en el que nos encontrasemos\n" +
             "   get_global $MP\n" +
             "   i32.load\n" +
             "   i32.load offset=4\n" +
@@ -52,7 +51,7 @@ public class Programa implements ASTNode{
             "   i32.load\n" +
             "   set_global $MP   \n" +
             ")\n" +
-            "(func $copyn (type $_sig_i32i32i32) ;; copy $n i32 slots from $src to $dest\n" +
+            "(func $copyn ;; copy $n i32 slots from $src to $dest\n" +
             "   (param $src i32)\n" +
             "   (param $dest i32)\n" +
             "   (param $n i32)\n" +
@@ -129,17 +128,17 @@ public class Programa implements ASTNode{
 
     public String code(){
         String s = "(module\n";
-        s = s.concat("(import \"runtime\" \"print\" (func $print (param i32)))\n");
-        s = s.concat("(import \"runtime\" \"read\" (func $read (result i32)))\n");
+        s = s.concat("(import \"runtime\" \"print\" (func $print (param i32)))\n" +
+                "(import \"runtime\" \"print\" (func $print2 (param f32)))\n" +
+                "(import \"runtime\" \"read\" (func $read (result i32)))\n" +
+                "(import \"runtime\" \"read\" (func $read2 (result f32)))\n");
         s = s.concat("(import \"runtime\" \"exceptionHandler\" (func $exception (param i32)))\n");
         s = s.concat("(memory 2000)\n");
         s = s.concat("(global $SP (mut i32) (i32.const 0)) ;; start of stack\n");
         s = s.concat("(global $MP (mut i32) (i32.const 0)) ;; mark pointer\n");
         s = s.concat("(global $NP (mut i32) (i32.const 131071996)) ;; heap 2000*64*1024-4\n");
         s = s.concat("(start $main)\n");
-        s = s.concat("(func $main (result i32)\n");
         s = s.concat(defs.code() + main.code());
-        s = s.concat(")\n");
         s = s.concat(funciones);
         s = s.concat(")\n");
         return s;

@@ -29,4 +29,8 @@ public class Return extends Statement implements ASTNode{
     public String toString(){
         return "return("+ret.toString()+")";
     }
+
+    public String code(){
+        return ret.code() + "\n";
+    }
 }

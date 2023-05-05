@@ -62,12 +62,12 @@ public class IfElse extends Statement implements ASTNode{
     public String code() {
         String c = cond.code() + "\nif\n" + S1.code() + "\n";
         for (Elsif es : Elsifs)
-            c = c.concat(es.code());
+            c = c.concat(es.code() + "\n");
         if (hayelse)
             c = c.concat("\nelse\n" + S2.code());
         for (Elsif es : Elsifs)
             c = c.concat("\nend");
-        c = c.concat("\nend");
+        c = c.concat("\nend\n");
         return c;
     }
 

@@ -21,7 +21,7 @@ public class Elsif extends Statement implements ASTNode{
         for(Statement s : St.getList()){
             aux = aux & s.type();
         }
-        s.pop();
+        sTipo.pop();
         return aux;
     }
 
@@ -35,7 +35,7 @@ public class Elsif extends Statement implements ASTNode{
     }
 
     public String code() {
-        return "else\n" + cond.code() + "if" + St.code();
+        return "else\n" + cond.code() + "\nif\n" + St.code() + "\n";
     }
 
     @Override

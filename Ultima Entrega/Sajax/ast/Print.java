@@ -6,6 +6,7 @@ import java.util.Arrays;
 public class Print extends LlamadaFuncion implements ASTNode{
     private E expresion;
     private boolean ln;
+    private Tipo tipo;
 
     public Print(E expresion, boolean ln){
         super("print", new ArrayList<E>(Arrays.asList(expresion)));
@@ -31,6 +32,7 @@ public class Print extends LlamadaFuncion implements ASTNode{
             System.out.println("Error: print/println solo acepta enteros, floats y bools en la expresion " + expresion.num());
             return false;
         }
+        tipo = tipaux;
         return true;
     }
 
@@ -47,5 +49,17 @@ public class Print extends LlamadaFuncion implements ASTNode{
         else{
             return "print("+expresion.toString()+")";
         }
+    }
+
+    @Override
+    public String code(){
+        String s = expresion.code() + "\n";
+        if(tipo.getTipo().equals(TipoEnum.INT) || tipo.getTipo().equals(TipoEnum.BOOL)) {
+            s = s.concat("call $print\n");
+        }
+        else{
+            s = s.concat("call $print2\n");
+        }
+        return s;
     }
 }
