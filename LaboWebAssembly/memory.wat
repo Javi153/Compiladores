@@ -33,17 +33,17 @@
    i32.add
    set_local $localsStart
    ;; instructions
-   get_local $localsStart
-   call $read
-   set_local $n
-   get_local $n
-   call $readn
-   get_local $localsStart
-   get_local $n
-   call $incn
-   get_local $localsStart
-   get_local $n
-   call $printn
+   ;;get_local $localsStart
+   ;;call $read
+   ;;set_local $n
+   ;;get_local $n
+   ;;call $readn
+   ;;get_local $localsStart
+   ;;get_local $n
+   ;;call $incn
+   ;;get_local $localsStart
+   ;;get_local $n
+   ;;call $printn
    ;; copy params from $localsStart
    ;; call $func1
    ;; instructions
