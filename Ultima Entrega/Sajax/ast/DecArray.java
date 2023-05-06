@@ -91,6 +91,7 @@ public class DecArray extends Statement implements ASTNode {
         this.prof = prof;
         delta = sDeltaCont.pop();
         sDeltaCont.push(delta + size());
+        iden.setDelta(prof);
     }
 
     public int size() {

@@ -1,16 +1,12 @@
+int i = 0;
 int main(){
-
-int a = 3;
-
-
-switch (a) {
-	case 4: break;
-	case 1:
-	case 7: break;
-	default:
+bool algo = true;
+while((i < 10) && algo){
+i = i + 1;
+if(i == 5){
+algo = false;
 }
-
-print(a);
-
+print(i);
+}
 return 0;
 }

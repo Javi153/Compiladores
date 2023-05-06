@@ -77,6 +77,20 @@ public class Ident extends E implements ASTNode, Designador {
 
     @Override
     public String codeDesig() {
-        return "i32.const " + def.getDelta() + "\nget_local $localsStart\ni32.add";
+        String s = "i32.const " + def.getDelta();
+        if(((Statement)def).getProf() == 1){
+            s = s.concat("\nget_local $localsStart\ni32.add");
+        }
+        else if(prof == 1){
+            s = s.concat("\nget_global $MP\ni32.load\ni32.add");
+        }
+        else{
+            s = s.concat("\nget_global $MP\ni32.add");
+        }
+        return s;
+    }
+
+    public void setDelta(int prof){
+        this.prof = prof;
     }
 }

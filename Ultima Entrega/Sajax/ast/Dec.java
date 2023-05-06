@@ -139,6 +139,10 @@ public class Dec extends Statement implements ASTNode{
         this.prof = prof;
         delta = sDeltaCont.pop();
         sDeltaCont.push(delta+tipo.size());
+        iden.setDelta(prof);
+        if(exp != null) {
+            exp.setDelta(prof);
+        }
         System.out.println("Soy la expresion " + iden.num() + " y mi delta es " + delta);
     }
 }

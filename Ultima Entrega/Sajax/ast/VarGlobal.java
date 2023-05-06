@@ -33,4 +33,8 @@ public class VarGlobal extends Definicion implements ASTNode{
     public void setDelta(int prof){
         var.setDelta(prof);
     }
+
+    public String code(){
+        return var.code();
+    }
 }

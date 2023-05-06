@@ -185,6 +185,9 @@ public class DecFuncion extends Definicion implements ASTNode{
         for(Parametro p : parlist){
             p.setDelta(this.prof);
         }
+        if(cuerpo != null){
+            cuerpo.setDelta(this.prof);
+        }
         size = sDeltaCont.pop();
     }
 }

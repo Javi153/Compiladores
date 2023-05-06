@@ -12,6 +12,11 @@
 (func $main
 (local $temp i32)
    (local $localsStart i32)
+i32.const 0
+get_global $MP
+i32.add
+i32.const 0
+i32.store
    i32.const 12
    call $reserveStack  ;; returns old MP (dynamic link)
    set_local $temp
@@ -28,46 +33,66 @@
 i32.const 0
 get_local $localsStart
 i32.add
-i32.const 3
+i32.const 1
 i32.store
+
+block
+loop
+i32.const 0
+get_global $MP
+i32.add
+i32.load
+i32.const 10
+i32.lt_s
 
 i32.const 0
 get_local $localsStart
 i32.add
 i32.load
+i32.and
+
+i32.eqz
+br_if 1
+i32.const 0
+get_global $MP
+i32.load
+i32.add
+i32.const 0
+get_global $MP
+i32.load
+i32.add
+i32.load
 i32.const 1
-i32.sub
-block
-block
-block
-block
-block
-block
-block
-block
-block
-br_table 7 1 7 7 0 7 7 2 7
-end
+i32.add
+i32.store
 
-br 7
-end
-
-end
-
-br 5
-end
-end
-end
-end
-end
-
-end
+i32.const 0
+get_global $MP
+i32.add
+i32.load
+i32.const 5
+i32.eq
+if
 i32.const 0
 get_local $localsStart
+i32.add
+i32.const 0
+i32.store
+
+
+
+end
+
+i32.const 0
+get_global $MP
 i32.add
 i32.load
 call $print
 
+
+br 0
+end
+end
 
    call $freeStack
 i32.const 0

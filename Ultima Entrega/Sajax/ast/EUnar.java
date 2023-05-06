@@ -106,4 +106,9 @@ public class EUnar extends E {
     public void setDef(ASTNode def) {
         opnd.setDef(def);
     }
+
+    public void setDelta(int prof){
+        this.prof = prof;
+        opnd.setDelta(prof);
+    }
 }

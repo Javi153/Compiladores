@@ -45,4 +45,8 @@ public class Free extends LlamadaFuncion implements ASTNode{
     public ASTNode getDef() {
         return null;
     }
+
+    public void setDelta(int prof){
+        arg.setDelta(prof);
+    }
 }

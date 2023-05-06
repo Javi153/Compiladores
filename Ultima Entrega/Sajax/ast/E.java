@@ -11,4 +11,8 @@ public abstract class E extends Statement implements ASTNode, Designador {
     public NodeKind nodeKind() {return NodeKind.EXPRESSION;}
     public String toString() {return "";}
 
+    public void setDelta(int prof) {
+        this.prof = prof;
+    }
+
 }

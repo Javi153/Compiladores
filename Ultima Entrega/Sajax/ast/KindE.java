@@ -25,6 +25,8 @@ public enum KindE {
       case MENIGUAL -> {return "le";} // Para float, comparación entera es le_s
       case MAYIGUAL -> {return "ge";} // Para float, comparación entera es ge_s
       case NOT -> {return "eqz";}
+      case AND -> {return "and";}
+      case OR -> {return "or";}
     }
     return null; //Te lo he cambiado porq daba fallo de compilacion
   }

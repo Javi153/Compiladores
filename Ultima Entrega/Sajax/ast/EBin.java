@@ -362,11 +362,11 @@ public class EBin extends E{
         String c = "";
         switch(k) {
             case PUNTO -> {
-                return opnd1.codeDesig() + "\ni32.const" + getDelta(opnd2.num()) + "\ni32.add";
+                return opnd1.codeDesig() + "\ni32.const" + opnd2.getDelta() + "\ni32.add";
             }
             case FLECHA -> {
                 // d->id es azúcar sintáctico de (*d).id
-                return opnd1.codeDesig() + "\ni32.load\ni32.const" + getDelta(opnd2.num()) + "\ni32.add";
+                return opnd1.codeDesig() + "\ni32.load\ni32.const" + opnd2.getDelta() + "\ni32.add";
             }
             case CORCHETES -> {
                 return opnd1.codeDesig() + "\ni32.const " + "TIPO SIZE getDef().getTipo().getTipo().size()" + "\n"
@@ -394,5 +394,11 @@ public class EBin extends E{
 
     public Tipo getTipoOp() {
         return tipoOp;
+    }
+
+    public void setDelta(int prof){
+        this.prof = prof;
+        opnd1.setDelta(prof);
+        opnd2.setDelta(prof);
     }
 }

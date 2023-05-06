@@ -74,4 +74,10 @@ public class Asign extends Statement implements ASTNode {
     public String toString() {
             return "asign("+designador.toString()+","+expresion.toString()+")";
     }
+
+    public void setDelta(int prof){
+        this.prof = prof;
+        designador.setDelta(prof);
+        expresion.setDelta(prof);
+    }
 }

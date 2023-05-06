@@ -61,10 +61,7 @@ public class MainFun implements ASTNode {
 
     @Override
     public String code(){
-        String s = "(func $main\n";
-        s = s.concat("(local $temp i32)\n" +
-                "   (local $localsStart i32)\n" +
-                "   i32.const " + (size + 8) + "\n" +
+        String s = "   i32.const " + (size + 8) + "\n" +
                 "   call $reserveStack  ;; returns old MP (dynamic link)\n" +
                 "   set_local $temp\n" +
                 "   get_global $MP\n" +
@@ -76,7 +73,7 @@ public class MainFun implements ASTNode {
                 "   get_global $MP\n" +
                 "   i32.const 8\n" +
                 "   i32.add\n" +
-                "   set_local $localsStart\n");
+                "   set_local $localsStart\n";
         s = s.concat(bloque.code() + "\n");
         s = s.concat("   call $freeStack\n");
         s = s.concat(ret.code() + "\n");

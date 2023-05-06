@@ -128,6 +128,10 @@ public class For extends Statement implements ASTNode{
 
     public void setDelta(int prof){
         inicio.setDelta(prof);
+        fin.setDelta(prof);
+        if(paso != null){
+            paso.setDelta(prof);
+        }
         st.setDelta(prof);
     }
 }
