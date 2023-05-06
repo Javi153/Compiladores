@@ -1,6 +1,7 @@
 package ast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MainFun implements ASTNode {
 
@@ -29,7 +30,10 @@ public class MainFun implements ASTNode {
 
     @Override
     public boolean bind() {
-        return bloque.bind() & ret.bind();
+        s.push(new HashMap<String, ASTNode>());
+        boolean res = bloque.bind() & ret.bind();
+        s.pop();
+        return res;
     }
 
     @Override
@@ -61,7 +65,7 @@ public class MainFun implements ASTNode {
 
     @Override
     public String code(){
-        String s = "   i32.const " + (size + 8) + "\n" +
+        String s ="(func $main\n"+"(local $temp i32)\n   (local $localsStart i32)\n"+ "   i32.const " + (size + 8) + "\n" +
                 "   call $reserveStack  ;; returns old MP (dynamic link)\n" +
                 "   set_local $temp\n" +
                 "   get_global $MP\n" +

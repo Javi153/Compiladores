@@ -37,4 +37,13 @@ public class VarGlobal extends Definicion implements ASTNode{
     public String code(){
         return var.code();
     }
+
+    public int size(){
+        if(var.nodeKind().equals(NodeKind.DEC)){
+            return ((Dec)var).size();
+        }
+        else{
+            return ((DecArray)var).size();
+        }
+    }
 }

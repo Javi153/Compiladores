@@ -137,9 +137,7 @@ public class Programa implements ASTNode{
         s = s.concat("(global $SP (mut i32) (i32.const 0)) ;; start of stack\n");
         s = s.concat("(global $MP (mut i32) (i32.const 0)) ;; mark pointer\n");
         s = s.concat("(global $NP (mut i32) (i32.const 131071996)) ;; heap 2000*64*1024-4\n");
-        s = s.concat("(start $main)\n");
-        s = s.concat("(func $main\n");
-        s = s.concat("(local $temp i32)\n   (local $localsStart i32)\n");
+        s = s.concat("(start $init)\n");
         s = s.concat(defs.code() + main.code());
         s = s.concat(funciones);
         s = s.concat(")\n");

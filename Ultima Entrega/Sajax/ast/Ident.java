@@ -81,12 +81,6 @@ public class Ident extends E implements ASTNode, Designador {
         if(((Statement)def).getProf() == 1){
             s = s.concat("\nget_local $localsStart\ni32.add");
         }
-        else if(prof == 1){
-            s = s.concat("\nget_global $MP\ni32.load\ni32.add");
-        }
-        else{
-            s = s.concat("\nget_global $MP\ni32.add");
-        }
         return s;
     }
 

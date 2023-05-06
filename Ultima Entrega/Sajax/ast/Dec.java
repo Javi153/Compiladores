@@ -145,4 +145,8 @@ public class Dec extends Statement implements ASTNode{
         }
         System.out.println("Soy la expresion " + iden.num() + " y mi delta es " + delta);
     }
+
+    public int size(){
+        return tipo.size();
+    }
 }
