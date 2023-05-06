@@ -19,7 +19,6 @@ public class Main {
            System.out.println(result);
        } catch (Exception e) {
            System.out.println("Error de parseo.");
-           e.printStackTrace();
            success = false;
        }
        if (result != null && success) {

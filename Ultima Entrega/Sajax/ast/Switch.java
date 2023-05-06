@@ -30,9 +30,6 @@ public class Switch extends Statement implements ASTNode {
         minimo = buscaMinimo();
         maximo = buscaMaximo();
         n = maximo - minimo + 1;
-        System.out.println("n vale " + n);
-        System.out.println("max vale " + maximo);
-        System.out.println("min vale " + minimo);
         br_table_init();
     }
 
@@ -148,11 +145,6 @@ public class Switch extends Statement implements ASTNode {
 
     private void br_table_init() {
         br_table = new ArrayList<Integer>(Collections.nCopies(n + 1, n));
-        /*for (int i = 0; i < n + 1; ++i) {
-            System.out.println("br_table size vale " + br_table.size());
-            br_table.set(i, n);
-            System.out.println(i);
-        }*/
 
         int num = cases.size();
         for (int i = 0; i < num; ++i) {
