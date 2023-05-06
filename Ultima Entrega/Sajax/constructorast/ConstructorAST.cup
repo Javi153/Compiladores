@@ -44,6 +44,7 @@ non terminal Definicion SStruct, SDecFuncion, SDecFuncionInline;
 non terminal ArrayList<Ent> Dims;
 non terminal DefaultCase Default;
 non terminal E SExp4, SExp3, SExp2, SExp1, SExp0, Exp, CallFun, IdenOps, IdenOps0, IdenOps1, IdenOps2;
+non terminal Ent Entero;
 non terminal Tipo TipoBas, TipoStruct, Tipos, TipoVoid;
 non terminal ArrayList<Elsif> SElsif;
 non terminal ArrayList<Parametro> SParams, SParamsNoVacio;
@@ -136,10 +137,10 @@ SSwitch ::= SWITCH PAP SExp4:exp PCIERRE LLAP Cases:cases Default:defCase LLCIER
    {: RESULT=new Switch(exp, cases, defCase); :};
 Cases ::=
    {: RESULT=new ArrayList<Case>(); :};
-Cases ::= Cases:cases CASE ENT:ent DOSPTOS BloqueGeneral:bloqGen
-   {: cases.add(new Case(new Ent(ent.lexema), bloqGen, false)); RESULT=cases; :};
-Cases ::= Cases:cases CASE ENT:ent DOSPTOS BloqueGeneral:bloqGen BREAK PTOCOMA
-   {: cases.add(new Case(new Ent(ent.lexema), bloqGen, true)); RESULT=cases; :};
+Cases ::= Cases:cases CASE Entero:ent DOSPTOS BloqueGeneral:bloqGen
+   {: cases.add(new Case(ent, bloqGen, false)); RESULT=cases; :};
+Cases ::= Cases:cases CASE Entero:ent DOSPTOS BloqueGeneral:bloqGen BREAK PTOCOMA
+   {: cases.add(new Case(ent, bloqGen, true)); RESULT=cases; :};
 Default ::= DEFAULT DOSPTOS BloqueGeneral:bloqGen
    {: RESULT=new DefaultCase(bloqGen, false); :};
 Default ::= DEFAULT DOSPTOS BloqueGeneral:bloqGen BREAK PTOCOMA
@@ -238,9 +239,11 @@ SExp0 ::= NOT SExp0:boolVal
    {: RESULT=new EUnar(boolVal, KindE.NOT); :};
 SExp0 ::= Exp: expterm1
    {: RESULT=expterm1; :};
-Exp ::= ENT: numEnt
+Exp ::= Entero:numEnt
+   {: RESULT=numEnt; :};
+Entero ::= ENT: numEnt
    {: RESULT=new Ent(numEnt.lexema); :};
-Exp ::= MENOS ENT: numEnt
+Entero ::= MENOS ENT: numEnt
    {: RESULT=new Ent("-" + numEnt.lexema); :};
 Exp ::= REAL: numReal
    {: RESULT=new Real(numReal.lexema); :};

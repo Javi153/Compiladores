@@ -12,12 +12,7 @@
 (func $main
 (local $temp i32)
    (local $localsStart i32)
-i32.const 0
-get_global $MP
-i32.add
-i32.const 0
-i32.store
-   i32.const 12
+   i32.const 16
    call $reserveStack  ;; returns old MP (dynamic link)
    set_local $temp
    get_global $MP
@@ -33,66 +28,136 @@ i32.store
 i32.const 0
 get_local $localsStart
 i32.add
-i32.const 1
+i32.const -5
 i32.store
+
+i32.const 0
+get_local $localsStart
+i32.add
+i32.load
+call $print
 
 block
-loop
-i32.const 0
-get_global $MP
-i32.add
-i32.load
-i32.const 10
-i32.lt_s
-
-i32.const 0
-get_local $localsStart
-i32.add
-i32.load
-i32.and
-
-i32.eqz
-br_if 1
-i32.const 0
-get_global $MP
-i32.load
-i32.add
-i32.const 0
-get_global $MP
-i32.load
-i32.add
-i32.load
-i32.const 1
-i32.add
-i32.store
-
-i32.const 0
-get_global $MP
-i32.add
-i32.load
-i32.const 5
-i32.eq
-if
+block
+block
+block
+block
+block
+block
+block
+block
+block
+block
 i32.const 0
 get_local $localsStart
 i32.add
-i32.const 0
-i32.store
+i32.load
+i32.const 4
+i32.add
+i32.const -1
+i32.sub
+br_table 1 9 9 9 9 0 9 9 2 9
+end
+i32.const 4
+call $print
 
+
+br 9
+end
+i32.const -1
+call $print
 
 
 end
+i32.const 7000
+call $print
 
-i32.const 0
-get_global $MP
-i32.add
-i32.load
+
+br 7
+end
+end
+end
+end
+end
+end
+end
+i32.const 66
 call $print
 
 
 br 0
 end
+i32.const 4
+get_local $localsStart
+i32.add
+i32.const 10
+i32.store
+
+i32.const 10
+i32.const -1
+i32.le_s
+if
+block
+loop
+i32.const 4
+get_local $localsStart
+i32.add
+i32.load
+i32.const -1
+i32.ge_s
+br_if 1
+i32.const 4
+get_local $localsStart
+i32.add
+i32.load
+call $print
+
+
+i32.const 4
+get_local $localsStart
+i32.add
+i32.const 4
+get_local $localsStart
+i32.add
+i32.load
+i32.const -1
+i32.add
+i32.store
+br 0
 end
+end
+else
+block
+loop
+i32.const 4
+get_local $localsStart
+i32.add
+i32.load
+i32.const -1
+i32.le_s
+br_if 1
+i32.const 4
+get_local $localsStart
+i32.add
+i32.load
+call $print
+
+
+i32.const 4
+get_local $localsStart
+i32.add
+i32.const 4
+get_local $localsStart
+i32.add
+i32.load
+i32.const -1
+i32.add
+i32.store
+br 0
+end
+end
+end
+
 
    call $freeStack
 i32.const 0

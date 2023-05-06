@@ -35,7 +35,7 @@ public class Switch extends Statement implements ASTNode {
 
     @Override
     public boolean type() {
-        boolean aux = exp.isType().getTipo().equals(TipoEnum.INT);
+        boolean aux = exp.type() & exp.isType().getTipo().equals(TipoEnum.INT);
         if(!aux){
             System.out.println("Error: la expresion del switch " + exp.num() + " no es de tipo entero");
         }
@@ -88,10 +88,12 @@ public class Switch extends Statement implements ASTNode {
 
     @Override
     public String code() {
-        String c = exp.code() + "\ni32.const " + minimo + "\ni32.sub\n";
+        String c = "";
 
         for (int i = 0; i < n + 2; ++i)
             c = c.concat("block\n");
+
+        c = c.concat(exp.code() + "\ni32.const " + minimo + "\ni32.sub\n");
 
         c = c.concat("br_table");
 
