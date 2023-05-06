@@ -13,6 +13,7 @@ public class Case extends DefaultCase implements ASTNode {
         tipoBloque = "case";
     }
 
+
     @Override
     public NodeKind nodeKind() {
         return NodeKind.CASE;
@@ -28,6 +29,8 @@ public class Case extends DefaultCase implements ASTNode {
         return s;
     }
 
-    //No implementes bind y type, coge el de default
+    //No implementes bind, type ni code, coge el de default
+
+    public Ent getEnt() { return ent; }
 
 }

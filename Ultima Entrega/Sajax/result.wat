@@ -12,7 +12,7 @@
 (func $main
 (local $temp i32)
    (local $localsStart i32)
-   i32.const 20
+   i32.const 12
    call $reserveStack  ;; returns old MP (dynamic link)
    set_local $temp
    get_global $MP
@@ -28,33 +28,50 @@
 i32.const 0
 get_local $localsStart
 i32.add
-f32.const 3.0
-f32.store
-i32.const 4
-get_local $localsStart
-i32.add
-f32.const 4.0
-f32.store
-i32.const 8
-get_local $localsStart
-i32.add
-i32.const 4
-get_local $localsStart
-i32.add
-f32.load
+i32.const 3
+i32.store
+
 i32.const 0
 get_local $localsStart
 i32.add
-f32.load
-f32.div
-f32.store
-i32.const 8
+i32.load
+i32.const 1
+i32.sub
+block
+block
+block
+block
+block
+block
+block
+block
+block
+br_table 7 1 7 7 0 7 7 2 7
+end
+
+br 7
+end
+
+end
+
+br 5
+end
+end
+end
+end
+end
+
+end
+i32.const 0
 get_local $localsStart
 i32.add
-f32.load
-call $print2
+i32.load
+call $print
+
+
    call $freeStack
 i32.const 0
+
    call $print
 )
 (func $reserveStack (param $size i32) ;;funcion que reserva memoria para la pila para entrar en un ambito nuevo

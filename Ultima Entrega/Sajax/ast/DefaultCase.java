@@ -55,4 +55,10 @@ public class DefaultCase extends Bloque<Statement> implements ASTNode {
             s.setDelta(prof);
         }
     }
+
+    // code no hace falta, hereda de bloque
+
+    public boolean getBreakPresence() {
+        return breakPresence;
+    }
 }

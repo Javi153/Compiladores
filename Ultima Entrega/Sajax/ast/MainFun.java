@@ -77,9 +77,9 @@ public class MainFun implements ASTNode {
                 "   i32.const 8\n" +
                 "   i32.add\n" +
                 "   set_local $localsStart\n");
-        s = s.concat(bloque.code());
+        s = s.concat(bloque.code() + "\n");
         s = s.concat("   call $freeStack\n");
-        s = s.concat(ret.code());
+        s = s.concat(ret.code() + "\n");
         s = s.concat("   call $print\n");
         s = s.concat(")\n");
         return s;

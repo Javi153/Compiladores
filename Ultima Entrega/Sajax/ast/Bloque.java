@@ -51,7 +51,7 @@ public class Bloque<T extends ASTNode> implements ASTNode {
     public String code(){
         String s = "";
         for(T elem : stlist){
-            s = s.concat(elem.code());
+            s = s.concat(elem.code() + "\n");
         }
         return s;
     }

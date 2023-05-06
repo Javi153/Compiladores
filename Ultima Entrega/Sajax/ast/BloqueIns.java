@@ -31,7 +31,7 @@ public class BloqueIns extends Bloque<Statement> implements ASTNode {
     public String code() {
         String c = "";
         for (Statement s : stlist){
-            c = c.concat(s.code());
+            c = c.concat(s.code() + "\n");
         }
         return c;
     }

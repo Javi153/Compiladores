@@ -60,30 +60,53 @@ public class For extends Statement implements ASTNode{
         //sDeltaCont.push(0);
         //inicio.setDelta();
 
-        c = c.concat (
-                inicio.getExp().code() + "\n" + fin.code() + "\ni32.le_s\nif\n"
+        // Importante:
+        // Primero se hace inicio.code() para que se genere el código de la asigación del valor a la variable inicio,
+        // ya que, como no es un statement como tal del bloque en el que esté, no se invoca de otra forma.
+
+        // Luego se generan inicio.getExp().code() y fin.code() para evaluar dichas expresiones y averiguar cuál es mayor.
+
+        c = c.concat(
+                inicio.code() + "\n"
+                + inicio.getExp().code() + "\n" + fin.code() + "\ni32.le_s\nif\n"
         );
 
-        c = c.concat (
-                "block\nloop\n(br_if 1 (i32.gt_s (" + inicio.getIden().code() + ") (" + fin.code() + ")))\n"
-                        + st.code() + "\n(i32.store (" + inicio.getIden().codeDesig() + ") (i32.add (" + inicio.getIden().code() + ") ("
+        c = c.concat(
+                "block\nloop\n"
+                + inicio.getIden().code() + "\n" + fin.code() + "\n"
+                + "i32.ge_s\nbr_if 1\n"
+                + st.code() + "\n"
+                + inicio.getIden().codeDesig() + "\n"
+                + inicio.getIden().code() + "\n"
         );
 
         if (paso == null)
-            c = c.concat("i32.const 1)))\nbr 0\nend\nend\nelse\n");
+            c = c.concat("i32.const 1\n");
         else
-            c = c.concat(paso.code() + ")))\nbr 0\nend\nend\nelse\n");
+            c = c.concat(paso.code() + "\n");
 
-        c = c.concat (
-                "block\nloop\n(br_if 1 (i32.lt_s (" + inicio.getIden().code() + ") (" + fin.code() + ")))\n"
-                        + st.code() + "\n(i32.store (" + inicio.getIden().codeDesig() + ") (i32.add (" + inicio.getIden().code() + ") ("
+        c = c.concat(
+                "i32.add\ni32.store\nbr 0\nend\nend\nelse\n"
+        );
+
+        c = c.concat(
+                "block\nloop\n"
+                        + inicio.getIden().code() + "\n" + fin.code() + "\n"
+                        + "i32.le_s\nbr_if 1\n"
+                        + st.code() + "\n"
+                        + inicio.getIden().codeDesig() + "\n"
+                        + inicio.getIden().code() + "\n"
         );
 
         if (paso == null)
-            c = c.concat("i32.const 1)))\nbr 0\nend\nend\nend");
+            c = c.concat("i32.const 1\n");
         else
-            c = c.concat(paso.code() + ")))\nbr 0\nend\nend\nend");
+            c = c.concat(paso.code() + "\n");
 
+        c = c.concat(
+                "i32.add\ni32.store\nbr 0\nend\nend\nend\n"
+        );
+        
         //sDeltaCont.pop();
         //sDelta.pop();
         return c;
