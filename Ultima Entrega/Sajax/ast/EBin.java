@@ -321,7 +321,9 @@ public class EBin extends E{
                 }
             }
             default ->{
-                return opnd1.bind() & opnd2.bind();
+                boolean res = opnd1.bind() & opnd2.bind();
+                def = opnd1.getDef();
+                return res;
             }
         }
     }
@@ -353,6 +355,12 @@ public class EBin extends E{
                 c = opnd1.code() + "\n" + opnd2.code() + "\n" + tipoOp.getTipo().alias() + "." + k.alias();
                 return tipoOp.getTipo() == TipoEnum.FLOAT ? c + "\n" : c + "_s\n";
             }
+            case CORCHETES -> {
+                if(!((TipoArray)tipoOp).getTipoBasico().getTipo().equals(TipoEnum.STRUCT)){
+                    c = codeDesig();
+                    c = c.concat(((TipoArray)tipoOp).getTipoBasico().getTipo().alias() + ".load");
+                }
+            }
             default -> {}
         }
         return c;
@@ -362,15 +370,15 @@ public class EBin extends E{
         String c = "";
         switch(k) {
             case PUNTO -> {
-                return opnd1.codeDesig() + "\ni32.const" + opnd2.getDelta() + "\ni32.add";
+                return opnd1.codeDesig() + "\ni32.const" + opnd2.getDelta() + "\ni32.add\n";
             }
             case FLECHA -> {
                 // d->id es azúcar sintáctico de (*d).id
-                return opnd1.codeDesig() + "\ni32.load\ni32.const" + opnd2.getDelta() + "\ni32.add";
+                return opnd1.codeDesig() + "\ni32.load\ni32.const" + opnd2.getDelta() + "\ni32.add\n";
             }
             case CORCHETES -> {
-                return opnd1.codeDesig() + "\ni32.const " + "TIPO SIZE getDef().getTipo().getTipo().size()" + "\n"
-                        + opnd2.code() + "\ni32.mul\ni32.add"; // El size debe referirse al tipo de d[e] (int, struct...)
+                return opnd1.codeDesig() + "\ni32.const " + ((TipoArray)tipoOp).getTipoBasico().size() + "\n"
+                        + opnd2.code() + "\ni32.mul\ni32.add\n"; // El size debe referirse al tipo de d[e] (int, struct...)
                                                                 // NO a TipoArray
             }
             default -> {}

@@ -1,12 +1,13 @@
-int i = 2;
-bool algo = true;
+int i[5][5];
 int main(){
-while((i < 10) && algo){
-i = i + 1;
-if(i == 5){
+bool algo = true;
+i[0][0] = 1;
+while((i[0][0] < 10) && algo){
+i[0][0] = i[0][0] + 1;
+if(i[0][0] == 5){
 algo = false;
 }
-print(i);
+print(i[0][0]);
 }
 return 0;
 }

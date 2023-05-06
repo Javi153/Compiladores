@@ -10,14 +10,8 @@
 (global $NP (mut i32) (i32.const 131071996)) ;; heap 2000*64*1024-4
 (start $init)
 (func $init
-i32.const 8
+i32.const 100
 set_global $SP
-i32.const 0
-i32.const 2
-i32.store
-i32.const 4
-i32.const 1
-i32.store
 call $main
 i32.const 0
 set_global $SP
@@ -25,7 +19,7 @@ set_global $SP
 (func $main
 (local $temp i32)
    (local $localsStart i32)
-   i32.const 8
+   i32.const 12
    call $reserveStack  ;; returns old MP (dynamic link)
    set_local $temp
    get_global $MP
@@ -38,32 +32,93 @@ set_global $SP
    i32.const 8
    i32.add
    set_local $localsStart
+i32.const 0
+get_local $localsStart
+i32.add
+i32.const 1
+i32.store
+
+i32.const 0
+i32.const 4
+i32.const 0
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 0
+i32.mul
+i32.add
+
+i32.const 1
+i32.store
+
 block
 loop
 i32.const 0
+i32.const 4
+i32.const 0
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 0
+i32.mul
+i32.add
 i32.load
 i32.const 10
 i32.lt_s
 
-i32.const 4
+i32.const 0
+get_local $localsStart
+i32.add
 i32.load
 i32.and
 
 i32.eqz
 br_if 1
 i32.const 0
+i32.const 4
 i32.const 0
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 0
+i32.mul
+i32.add
+
+i32.const 0
+i32.const 4
+i32.const 0
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 0
+i32.mul
+i32.add
 i32.load
 i32.const 1
 i32.add
 i32.store
 
 i32.const 0
+i32.const 4
+i32.const 0
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 0
+i32.mul
+i32.add
 i32.load
 i32.const 5
 i32.eq
 if
-i32.const 4
+i32.const 0
+get_local $localsStart
+i32.add
 i32.const 0
 i32.store
 
@@ -72,6 +127,15 @@ i32.store
 end
 
 i32.const 0
+i32.const 4
+i32.const 0
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 0
+i32.mul
+i32.add
 i32.load
 call $print
 
