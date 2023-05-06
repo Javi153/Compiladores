@@ -173,11 +173,11 @@ public class EBin extends E{
                     aux = false;
                 }
                 Tipo t = opnd1.isType();
-                tipoOp = t;
                 if(t.getTipo() != TipoEnum.ARRAY && t.getTipo() != TipoEnum.PUNTERO){
                     System.out.println("Error: el operando izquierdo de corchetes debe ser un array en " + num());
                     return false;
                 }
+                tipoOp = isType();
             }
         }
         return aux;
@@ -383,9 +383,9 @@ public class EBin extends E{
                 return tipoOp.getTipo() == TipoEnum.FLOAT ? c + "\n" : c + "_s\n";
             }
             case CORCHETES -> {
-                if(!((TipoArray)tipoOp).getTipoBasico().getTipo().equals(TipoEnum.STRUCT)){
+                if(!tipoOp.getTipo().equals(TipoEnum.STRUCT)){
                     c = codeDesig();
-                    c = c.concat(((TipoArray)tipoOp).getTipoBasico().getTipo().alias() + ".load");
+                    c = c.concat(tipoOp.getTipo().alias() + ".load");
                 }
             }
             default -> {}
@@ -404,9 +404,23 @@ public class EBin extends E{
                 return opnd1.codeDesig() + "\ni32.load\ni32.const" + opnd2.getDelta() + "\ni32.add\n";
             }
             case CORCHETES -> {
-                return opnd1.codeDesig() + "\ni32.const " + ((TipoArray)tipoOp).getTipoBasico().size() + "\n"
-                        + opnd2.code() + "\ni32.mul\ni32.add\n"; // El size debe referirse al tipo de d[e] (int, struct...)
-                                                                // NO a TipoArray
+                //def es DecArray
+                if(!tipoOp.getTipo().equals(TipoEnum.ARRAY)) {
+                    return opnd1.codeDesig() + "\ni32.const " + tipoOp.size() + "\n"
+                            + opnd2.code() + "\ni32.mul\ni32.add\n"; // El size debe referirse al tipo de d[e] (int, struct...)
+                    // NO a TipoArray
+                }
+                else{
+                    TipoArray aux = (TipoArray) tipoOp;
+                    int tam = aux.getTam();
+                    DecArray auxdef = (DecArray) def;
+                    int mult = 1;
+                    for(int i = auxdef.dimSize() - 1; i > auxdef.dimSize() - tam - 1; --i){
+                        mult = mult * auxdef.getDims().get(i).getInt();
+                    }
+                    return opnd1.codeDesig() + "\ni32.const " + ((TipoArray) tipoOp).getTipoBasico().size() * mult + "\n"
+                            + opnd2.code() + "\ni32.mul\ni32.add\n";
+                }
             }
             default -> {}
         }

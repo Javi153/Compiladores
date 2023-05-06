@@ -103,4 +103,12 @@ public class DecArray extends Statement implements ASTNode {
     }
 
     public Tipo getTipo() {return tipo;}
+
+    public int dimSize(){
+        return dims.size();
+    }
+
+    public ArrayList<Ent> getDims(){
+        return dims;
+    }
 }

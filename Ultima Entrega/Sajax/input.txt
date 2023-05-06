@@ -1,22 +1,17 @@
-
 int main(){
 int a[5][7];
 int c = 0;
 for (int i = 0; 5) {
 	for (int j = 0; 7) {
 		a[i][j] = c;
-		c = c+1;
 		print(a[i][j]);
 	}
 }
-
-print(a[0][1]);/*
 for (int k = 0; 5) {
 	for (int l = 0; 7) {
 		print(a[k][l]);
 	}
 }
-*/
 /*
 for (int i = 4; -1; -1) {
 	for (int j = 7; -1; -1) {
