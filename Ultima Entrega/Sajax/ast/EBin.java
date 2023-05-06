@@ -340,13 +340,40 @@ public class EBin extends E{
                 return tipoOp.getTipo() == TipoEnum.FLOAT ? c : c + "_s";
             }
             case POT -> {
+
+                c = opnd1.code() + "\n" + opnd2.code() + "\n";
+                return tipoOp.getTipo() == TipoEnum.INT ? c + "call $potInt" : c + "call $potFloat";
+                /* Pruebas con la potencia:
+
+                c = c.concat(
+                        "(local $i 32)\ni32.const 0\nset_local $i\ni32.const 1\n"
+                        + "block\nloop\n"
+                        + "get_local $i\n" + opnd2.code() + "\ni32.ge_3\nbr_if 1\n"
+                        + opnd1.code() + "\ni32.mul\n"
+                        + "br 0\nend\nend\n"
+                );
+
+
+                        "(func $potInt ;; para calcular potencias\n" +
+                        "   (param $base i32)\n" +
+                        "   (param $exp i32)\n" +
+                        "   (local $i i32)\n" +
+                        "   (result i32)\n" +
+                        "   i32.const 0\nset_local $i\ni32.const 1\n" +
+                        "   block\n" +
+                        "       loop\n" +
+                        "           get_local $i\n" +
+                        "           "
+                ")\n"
+
+                */
+
                 //c = c.concat (
                 //        "loop\nblock\n(local $i 32)\n(br_if 1 (i32.gt_s (get_local $i) (" + opnd2.code() + ")))"
                 //        + "(i32.load (" + opnd1().codeDesig() + ") (i32.add (" + inicio.getIden().code() + ") (i32.const 1)))"
                 //        + "(i32.store (" + inicio.getIden().codeDesig() + ") (i32.add (" + inicio.getIden().code() + ") (i32.const 1)))"
                 //        + "br 0"
                 //);
-                return "uf"; // TODO potencia
             }
             case OR, AND -> {
                 return opnd1.code() + "\n" + opnd2.code() + "\n" + TipoEnum.BOOL.alias() + "." + k.alias() + "\n";

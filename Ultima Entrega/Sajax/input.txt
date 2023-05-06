@@ -1,30 +1,28 @@
-int i[5][5];
+
 int main(){
-bool algo = true;
-i[0][0] = 1;
-while((i[0][0] < 10) && algo){
-i[0][0] = i[0][0] + 1;
-if(i[0][0] == 5){
-algo = false;
+int a[5][7];
+int c = 0;
+for (int i = 0; 5) {
+	for (int j = 0; 7) {
+		a[i][j] = c;
+		c = c+1;
+		print(a[i][j]);
+	}
 }
-print(i[0][0]);
+
+print(a[0][1]);/*
+for (int k = 0; 5) {
+	for (int l = 0; 7) {
+		print(a[k][l]);
+	}
 }
+*/
+/*
+for (int i = 4; -1; -1) {
+	for (int j = 7; -1; -1) {
+		print(a[i][j]);
+	}
+}
+*/
 return 0;
 }
-
-/*int a = -5;
-print(a);
-
-switch (a+4) {
-	case 4: print(4); break;
-	case -1: print(-1);
-	case 7: print(7000); break;
-	default: print(66); break;
-}
-
-for (int i = 10; -1; -1) {
-print(i);
-}
-
-return 0;
-}*/

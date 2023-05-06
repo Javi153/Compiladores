@@ -79,6 +79,64 @@ public class Programa implements ASTNode{
             "       br 0\n" +
             "     end\n" +
             "   end\n" +
+            ")\n" +
+            "(func $potInt ;; para calcular potencias de base entera\n" +
+            "   (param $base i32)\n" +
+            "   (param $exp i32)\n" +
+            "   (result i32)\n" +
+            "   (local $i i32)\n" +
+            "   (local $pot i32)\n" +
+            "   i32.const 0\n" +
+            "   set_local $i\n" +
+            "   i32.const 1\n" +
+            "   set_local $pot\n" +
+            "   block\n" +
+            "       loop\n" +
+            "           get_local $i\n" +
+            "           get_local $exp\n" +
+            "           i32.ge_s\n" +
+            "           br_if 1\n" +
+            "           get_local $base\n" +
+            "           get_local $pot\n" +
+            "           i32.mul\n" +
+            "           set_local $pot\n" +
+            "           get_local $i\n" +
+            "           i32.const 1\n" +
+            "           i32.add\n" +
+            "           set_local $i\n" +
+            "           br 0\n" +
+            "       end\n" +
+            "   end\n" +
+            "   get_local $pot\n" +
+            ")\n" +
+            "(func $potFloat ;; para calcular potencias de base real\n" +
+            "   (param $base f32)\n" +
+            "   (param $exp i32)\n" +
+            "   (result f32)\n" +
+            "   (local $i i32)\n" +
+            "   (local $pot f32)\n" +
+            "   i32.const 0\n" +
+            "   set_local $i\n" +
+            "   f32.const 1\n" +
+            "   set_local $pot\n" +
+            "   block\n" +
+            "       loop\n" +
+            "           get_local $i\n" +
+            "           get_local $exp\n" +
+            "           i32.ge_s\n" +
+            "           br_if 1\n" +
+            "           get_local $base\n" +
+            "           get_local $pot\n" +
+            "           f32.mul\n" +
+            "           set_local $pot\n" +
+            "           get_local $i\n" +
+            "           i32.const 1\n" +
+            "           i32.add\n" +
+            "           set_local $i\n" +
+            "           br 0\n" +
+            "       end\n" +
+            "   end\n" +
+            "   get_local $pot\n" +
             ")\n";
     
     public Programa(BloqueDef defs, MainFun main){

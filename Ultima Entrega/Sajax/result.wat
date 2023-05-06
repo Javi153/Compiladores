@@ -10,7 +10,7 @@
 (global $NP (mut i32) (i32.const 131071996)) ;; heap 2000*64*1024-4
 (start $init)
 (func $init
-i32.const 100
+i32.const 0
 set_global $SP
 call $main
 i32.const 0
@@ -19,7 +19,7 @@ set_global $SP
 (func $main
 (local $temp i32)
    (local $localsStart i32)
-   i32.const 12
+   i32.const 160
    call $reserveStack  ;; returns old MP (dynamic link)
    set_local $temp
    get_global $MP
@@ -32,117 +32,433 @@ set_global $SP
    i32.const 8
    i32.add
    set_local $localsStart
-i32.const 0
+
+i32.const 140
 get_local $localsStart
 i32.add
-i32.const 1
+i32.const 0
+i32.store
+
+i32.const 144
+get_local $localsStart
+i32.add
+i32.const 0
 i32.store
 
 i32.const 0
-i32.const 4
-i32.const 0
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 0
-i32.mul
-i32.add
-
-i32.const 1
-i32.store
-
+i32.const 5
+i32.le_s
+if
 block
 loop
-i32.const 0
-i32.const 4
-i32.const 0
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 0
-i32.mul
-i32.add
-i32.load
-i32.const 10
-i32.lt_s
-
-i32.const 0
+i32.const 144
 get_local $localsStart
-i32.add
-i32.load
-i32.and
-
-i32.eqz
-br_if 1
-i32.const 0
-i32.const 4
-i32.const 0
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 0
-i32.mul
-i32.add
-
-i32.const 0
-i32.const 4
-i32.const 0
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 0
-i32.mul
-i32.add
-i32.load
-i32.const 1
-i32.add
-i32.store
-
-i32.const 0
-i32.const 4
-i32.const 0
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 0
-i32.mul
 i32.add
 i32.load
 i32.const 5
-i32.eq
-if
-i32.const 0
+i32.ge_s
+br_if 1
+i32.const 148
 get_local $localsStart
 i32.add
 i32.const 0
 i32.store
 
-
-
-end
-
 i32.const 0
+i32.const 7
+i32.le_s
+if
+block
+loop
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
+i32.const 7
+i32.ge_s
+br_if 1
+i32.const 0
+get_local $localsStart
+i32.add
 i32.const 4
-i32.const 0
+i32.const 144
+get_local $localsStart
+i32.add
+i32.load
 i32.mul
 i32.add
 
 i32.const 4
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
+
+i32.const 140
+get_local $localsStart
+i32.add
+i32.load
+i32.store
+
+i32.const 140
+get_local $localsStart
+i32.add
+i32.const 140
+get_local $localsStart
+i32.add
+i32.load
+i32.const 1
+i32.add
+i32.store
+
 i32.const 0
+get_local $localsStart
+i32.add
+i32.const 4
+i32.const 144
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
 i32.mul
 i32.add
 i32.load
 call $print
 
 
+i32.const 148
+get_local $localsStart
+i32.add
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
+i32.const 1
+i32.add
+i32.store
 br 0
 end
 end
+else
+block
+loop
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
+i32.const 7
+i32.le_s
+br_if 1
+i32.const 0
+get_local $localsStart
+i32.add
+i32.const 4
+i32.const 144
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
+
+i32.const 140
+get_local $localsStart
+i32.add
+i32.load
+i32.store
+
+i32.const 140
+get_local $localsStart
+i32.add
+i32.const 140
+get_local $localsStart
+i32.add
+i32.load
+i32.const 1
+i32.add
+i32.store
+
+i32.const 0
+get_local $localsStart
+i32.add
+i32.const 4
+i32.const 144
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
+i32.load
+call $print
+
+
+i32.const 148
+get_local $localsStart
+i32.add
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
+i32.const 1
+i32.add
+i32.store
+br 0
+end
+end
+end
+
+
+i32.const 144
+get_local $localsStart
+i32.add
+i32.const 144
+get_local $localsStart
+i32.add
+i32.load
+i32.const 1
+i32.add
+i32.store
+br 0
+end
+end
+else
+block
+loop
+i32.const 144
+get_local $localsStart
+i32.add
+i32.load
+i32.const 5
+i32.le_s
+br_if 1
+i32.const 148
+get_local $localsStart
+i32.add
+i32.const 0
+i32.store
+
+i32.const 0
+i32.const 7
+i32.le_s
+if
+block
+loop
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
+i32.const 7
+i32.ge_s
+br_if 1
+i32.const 0
+get_local $localsStart
+i32.add
+i32.const 4
+i32.const 144
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
+
+i32.const 140
+get_local $localsStart
+i32.add
+i32.load
+i32.store
+
+i32.const 140
+get_local $localsStart
+i32.add
+i32.const 140
+get_local $localsStart
+i32.add
+i32.load
+i32.const 1
+i32.add
+i32.store
+
+i32.const 0
+get_local $localsStart
+i32.add
+i32.const 4
+i32.const 144
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
+i32.load
+call $print
+
+
+i32.const 148
+get_local $localsStart
+i32.add
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
+i32.const 1
+i32.add
+i32.store
+br 0
+end
+end
+else
+block
+loop
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
+i32.const 7
+i32.le_s
+br_if 1
+i32.const 0
+get_local $localsStart
+i32.add
+i32.const 4
+i32.const 144
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
+
+i32.const 140
+get_local $localsStart
+i32.add
+i32.load
+i32.store
+
+i32.const 140
+get_local $localsStart
+i32.add
+i32.const 140
+get_local $localsStart
+i32.add
+i32.load
+i32.const 1
+i32.add
+i32.store
+
+i32.const 0
+get_local $localsStart
+i32.add
+i32.const 4
+i32.const 144
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
+i32.load
+call $print
+
+
+i32.const 148
+get_local $localsStart
+i32.add
+i32.const 148
+get_local $localsStart
+i32.add
+i32.load
+i32.const 1
+i32.add
+i32.store
+br 0
+end
+end
+end
+
+
+i32.const 144
+get_local $localsStart
+i32.add
+i32.const 144
+get_local $localsStart
+i32.add
+i32.load
+i32.const 1
+i32.add
+i32.store
+br 0
+end
+end
+end
+
+i32.const 0
+get_local $localsStart
+i32.add
+i32.const 4
+i32.const 0
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 1
+i32.mul
+i32.add
+i32.load
+call $print
+
 
    call $freeStack
 i32.const 0
@@ -221,5 +537,63 @@ i32.const 0
        br 0
      end
    end
+)
+(func $potInt ;; para calcular potencias de base entera
+   (param $base i32)
+   (param $exp i32)
+   (result i32)
+   (local $i i32)
+   (local $pot i32)
+   i32.const 0
+   set_local $i
+   i32.const 1
+   set_local $pot
+   block
+       loop
+           get_local $i
+           get_local $exp
+           i32.ge_s
+           br_if 1
+           get_local $base
+           get_local $pot
+           i32.mul
+           set_local $pot
+           get_local $i
+           i32.const 1
+           i32.add
+           set_local $i
+           br 0
+       end
+   end
+   get_local $pot
+)
+(func $potFloat ;; para calcular potencias de base real
+   (param $base f32)
+   (param $exp i32)
+   (result f32)
+   (local $i i32)
+   (local $pot f32)
+   i32.const 0
+   set_local $i
+   f32.const 1
+   set_local $pot
+   block
+       loop
+           get_local $i
+           get_local $exp
+           i32.ge_s
+           br_if 1
+           get_local $base
+           get_local $pot
+           f32.mul
+           set_local $pot
+           get_local $i
+           i32.const 1
+           i32.add
+           set_local $i
+           br 0
+       end
+   end
+   get_local $pot
 )
 )

@@ -56,7 +56,8 @@ async function start() {
 }
 
 async function run() {
-    start();
+    await start();
+    process.exit(0);
 }
 
 run();
