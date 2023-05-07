@@ -19,7 +19,7 @@ set_global $SP
 (func $main
 (local $temp i32)
    (local $localsStart i32)
-   i32.const 20
+   i32.const 24
    call $reserveStack  ;; returns old MP (dynamic link)
    set_local $temp
    get_global $MP
@@ -173,6 +173,35 @@ br 0
 end
 end
 end
+
+i32.const 12
+get_local $localsStart
+i32.add
+i32.const 4
+i32.const 1
+i32.mul
+call $reserveHeap
+get_global $NP
+i32.store
+
+i32.const 12
+get_local $localsStart
+i32.add
+i32.load
+i32.const 0
+i32.add
+
+i32.const 888
+i32.store
+
+i32.const 12
+get_local $localsStart
+i32.add
+i32.load
+i32.const 0
+i32.add
+i32.load
+call $print
 
 
    call $freeStack

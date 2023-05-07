@@ -13,13 +13,11 @@ int a = 7;
 	p[i] = i;
 	print(p[i]);
 	}
-	/*
 	persona* javis = memspace(1);
 	
 	javis->uno = 888;
 	
 	print(javis->uno);
-	*/
 	/*
 	int arr[8];
 	arr[0] = 1;

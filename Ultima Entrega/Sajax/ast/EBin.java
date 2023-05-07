@@ -134,6 +134,9 @@ public class EBin extends E{
                 }
             }
             case PUNTO -> {
+                if(!opnd1.type() || !opnd2.type()){
+                    System.out.println("Error: los tipos de " + opnd1.num() + " y " + opnd2.num() + " no coinciden");
+                }
                 if(opnd2.kind().equals(KindE.CORCHETES)){
                     EBin eb = new EBin(new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO), opnd2.opnd2(), KindE.CORCHETES);
                     boolean res = eb.type();
@@ -160,6 +163,9 @@ public class EBin extends E{
                 }
             }
             case FLECHA -> {
+                if(!opnd1.type() || !opnd2.type()){
+                    System.out.println("Error: los tipos de " + opnd1.num() + " y " + opnd2.num() + " no coinciden");
+                }
                 if(!opnd1.isType().isPointer()){
                     System.out.println("Error: el operando izquierdo de una flecha debe ser un puntero en " + num());
                     return false;
@@ -389,19 +395,44 @@ public class EBin extends E{
                     }
                     return eb.codeDesig();
                 }
-                int offset = ((Struct)((TipoStruct)((Dec)opnd1.getDef()).getTipo()).getDef()).getOffset((Ident)opnd2);
+                int offset;
+                if(opnd1.getDef().nodeKind().equals(NodeKind.DEC)) {
+                    Tipo auxt = ((Dec) opnd1.getDef()).getTipo();
+                    if(auxt.getTipo().equals(TipoEnum.PUNTERO)){
+                        auxt = ((Puntero)auxt).getTipoPointer();
+                    }
+                    offset = ((Struct) ((TipoStruct) auxt).getDef()).getOffset((Ident) opnd2);
+                }
+                else{
+                    offset = ((Struct) ((TipoStruct) ((DecArray) opnd1.getDef()).getTipo()).getDef()).getOffset((Ident) opnd2);
+                }
                 return opnd1.codeDesig() + "\ni32.const " + offset + "\ni32.add\n";
             }
             case FLECHA -> {
                 // d->id es azúcar sintáctico de (*d).id
                 if(opnd2.kind().equals(KindE.CORCHETES)){
-                    return new EBin(new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO), opnd2.opnd2(), KindE.CORCHETES).codeDesig();
+                    EBin eb2 = new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO);
+                    EBin eb = new EBin(eb2, opnd2.opnd2(), KindE.CORCHETES);
+                    eb.setDef(def);
+                    eb2.setDef(def);
+                    eb.setTipoOp(tipoOp);
+                    return eb.codeDesig();
                 }
-                int offset = ((Struct)opnd1.getDef()).getOffset((Ident)opnd2);
+                int offset;
+                if(opnd1.getDef().nodeKind().equals(NodeKind.DEC)) {
+                    Tipo auxt = ((Dec) opnd1.getDef()).getTipo();
+                    if(auxt.getTipo().equals(TipoEnum.PUNTERO)){
+                        auxt = ((Puntero)auxt).getTipoPointer();
+                    }
+                    offset = ((Struct) ((TipoStruct) auxt).getDef()).getOffset((Ident) opnd2);
+                }
+                else{
+                    offset = ((Struct) ((TipoStruct) ((DecArray) opnd1.getDef()).getTipo()).getDef()).getOffset((Ident) opnd2);
+                }
+                //int offset = ((Struct)opnd1.getDef()).getOffset((Ident)opnd2);
                 return opnd1.codeDesig() + "\ni32.load\ni32.const " + offset + "\ni32.add\n";
             }
             case CORCHETES -> {
-                //def es DecArray
                 if(!tipoOp.getTipo().equals(TipoEnum.ARRAY)) {
                     if (opnd1.getDef().nodeKind().equals(NodeKind.DEC)) { // Es un puntero
                         return opnd1.codeDesig() + "\ni32.load\ni32.const " + tipoOp.size() + "\n"
