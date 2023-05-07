@@ -119,7 +119,7 @@ public class Dec extends Statement implements ASTNode{
 
     public E getExp() { return exp; }
 
-    public String code(){
+    public String code(){ //TODO: Los structs podrian tener valor inicial, eso no lo tengo en cuenta
         String s = "";
         if(exp == null){
             return "";

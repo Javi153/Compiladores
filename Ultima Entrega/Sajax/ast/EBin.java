@@ -313,7 +313,7 @@ public class EBin extends E{
                     else{
                         res = false;
                     }
-                    res = res & opnd2.bind();
+                    res = res & opnd2.opnd2().bind();
                     return res;
                 }
                 else{
@@ -404,7 +404,20 @@ public class EBin extends E{
         switch(k) {
             case PUNTO -> {
                 if(opnd2.kind().equals(KindE.CORCHETES)){
-                    return new EBin(new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO), opnd2.opnd2(), KindE.CORCHETES).codeDesig();
+                    EBin eb2 = new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO);
+                    EBin eb = new EBin(eb2, opnd2.opnd2(), KindE.CORCHETES);
+                    eb.setDef(def);
+                    eb2.setDef(def);
+                    eb.setTipoOp(tipoOp);
+                    if(tipoOp.getTipo().equals(TipoEnum.ARRAY)) {
+                        TipoArray aux = new TipoArray(((TipoArray)tipoOp).getTipoBasico(), ((TipoArray) tipoOp).getTam() + 1);
+                        eb2.setTipoOp(aux);
+                    }
+                    else{
+                        TipoArray aux = new TipoArray(tipoOp, 1);
+                        eb2.setTipoOp(aux);
+                    }
+                    return eb.codeDesig();
                 }
                 int offset = ((Struct)((TipoStruct)((Dec)opnd1.getDef()).getTipo()).getDef()).getOffset((Ident)opnd2);
                 return opnd1.codeDesig() + "\ni32.const " + offset + "\ni32.add\n";
@@ -457,6 +470,10 @@ public class EBin extends E{
 
     public Tipo getTipoOp() {
         return tipoOp;
+    }
+
+    public void setTipoOp(Tipo t) {
+        tipoOp = t;
     }
 
     public void setDelta(int prof){

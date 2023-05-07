@@ -1,20 +1,30 @@
+struct Pito{
+	int medida = 1;
+}
+
 struct Persona{
 	float DNI;
-	float otracosa;
+	int algo[5][6];
 	float otramas;
+	Pito pit;
 }
 
 int main(){
 Persona p;
 p.DNI = 8.325;
-p.otracosa = 9.325;
+p.algo[3][4] = 3;
+p.algo[1][5] = 9;
 Persona p2 = p;
 print(p.DNI);
-print(p.otracosa);
+print(p.algo[3][4]);
+print(p.algo[1][5]);
 print(p.otramas);
+print(p.pit.medida);
 print(p2.DNI);
-print(p2.otracosa);
+print(p2.algo[3][4]);
+print(p2.algo[1][5]);
 print(p2.otramas);
+print(p2.pit.medida);
 /*int a[5][7];
 int c = 0;
 for (int i = 0; 5) {

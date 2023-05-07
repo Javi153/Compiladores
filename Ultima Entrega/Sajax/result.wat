@@ -19,7 +19,7 @@ set_global $SP
 (func $main
 (local $temp i32)
    (local $localsStart i32)
-   i32.const 32
+   i32.const 272
    call $reserveStack  ;; returns old MP (dynamic link)
    set_local $temp
    get_global $MP
@@ -48,16 +48,45 @@ i32.add
 i32.const 4
 i32.add
 
-f32.const 9.325
-f32.store
+i32.const 24
+i32.const 3
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 4
+i32.mul
+i32.add
+
+i32.const 3
+i32.store
 
 i32.const 0
 get_local $localsStart
 i32.add
-i32.const 12
+i32.const 4
+i32.add
+
+i32.const 24
+i32.const 1
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 5
+i32.mul
+i32.add
+
+i32.const 9
+i32.store
+
+i32.const 0
 get_local $localsStart
 i32.add
-i32.const 3
+i32.const 132
+get_local $localsStart
+i32.add
+i32.const 33
  call $copyn
 
 
@@ -74,40 +103,118 @@ get_local $localsStart
 i32.add
 i32.const 4
 i32.add
-f32.load
-call $print2
+
+i32.const 24
+i32.const 3
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 4
+i32.mul
+i32.add
+i32.load
+call $print
 
 i32.const 0
-get_local $localsStart
-i32.add
-i32.const 8
-i32.add
-f32.load
-call $print2
-
-i32.const 12
-get_local $localsStart
-i32.add
-i32.const 0
-i32.add
-f32.load
-call $print2
-
-i32.const 12
 get_local $localsStart
 i32.add
 i32.const 4
 i32.add
+
+i32.const 24
+i32.const 1
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 5
+i32.mul
+i32.add
+i32.load
+call $print
+
+i32.const 0
+get_local $localsStart
+i32.add
+i32.const 124
+i32.add
 f32.load
 call $print2
 
-i32.const 12
+i32.const 0
 get_local $localsStart
 i32.add
-i32.const 8
+i32.const 128
+i32.add
+
+i32.const 0
+i32.add
+i32.load
+call $print
+
+i32.const 132
+get_local $localsStart
+i32.add
+i32.const 0
 i32.add
 f32.load
 call $print2
+
+i32.const 132
+get_local $localsStart
+i32.add
+i32.const 4
+i32.add
+
+i32.const 24
+i32.const 3
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 4
+i32.mul
+i32.add
+i32.load
+call $print
+
+i32.const 132
+get_local $localsStart
+i32.add
+i32.const 4
+i32.add
+
+i32.const 24
+i32.const 1
+i32.mul
+i32.add
+
+i32.const 4
+i32.const 5
+i32.mul
+i32.add
+i32.load
+call $print
+
+i32.const 132
+get_local $localsStart
+i32.add
+i32.const 124
+i32.add
+f32.load
+call $print2
+
+i32.const 132
+get_local $localsStart
+i32.add
+i32.const 128
+i32.add
+
+i32.const 0
+i32.add
+i32.load
+call $print
 
 
    call $freeStack
