@@ -10,7 +10,7 @@
 (global $NP (mut i32) (i32.const 131071996)) ;; heap 2000*64*1024-4
 (start $init)
 (func $init
-i32.const 280
+i32.const 8
 set_global $SP
 call $main
 i32.const 0
@@ -19,7 +19,7 @@ set_global $SP
 (func $main
 (local $temp i32)
    (local $localsStart i32)
-   i32.const 140
+   i32.const 20
    call $reserveStack  ;; returns old MP (dynamic link)
    set_local $temp
    get_global $MP
@@ -32,170 +32,147 @@ set_global $SP
    i32.const 8
    i32.add
    set_local $localsStart
-i32.const 8
 i32.const 0
+get_local $localsStart
 i32.add
+i32.const 7
+i32.store
 
-f32.const 8.325
-f32.store
-
-i32.const 8
 i32.const 4
+get_local $localsStart
 i32.add
-
-i32.const 24
-i32.const 3
+i32.const 4
+i32.const 0
+get_local $localsStart
+i32.add
+i32.load
 i32.mul
-i32.add
-
-i32.const 4
-i32.const 4
-i32.mul
-i32.add
-
-i32.const 3
+call $reserveHeap
+get_global $NP
 i32.store
 
 i32.const 8
-i32.const 4
+get_local $localsStart
 i32.add
-
-i32.const 24
-i32.const 1
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 5
-i32.mul
-i32.add
-
-i32.const 9
+i32.const 0
 i32.store
 
-i32.const 8
 i32.const 0
+i32.const 7
+i32.le_s
+if
+block
+loop
+i32.const 8
 get_local $localsStart
 i32.add
-i32.const 33
- call $copyn
-
-
-i32.const 8
-i32.const 0
-i32.add
-f32.load
-call $print2
-
-i32.const 8
+i32.load
+i32.const 7
+i32.ge_s
+br_if 1
 i32.const 4
+get_local $localsStart
 i32.add
-
-i32.const 24
-i32.const 3
+i32.load
+i32.const 4
+i32.const 8
+get_local $localsStart
+i32.add
+i32.load
 i32.mul
 i32.add
 
+i32.const 8
+get_local $localsStart
+i32.add
+i32.load
+i32.store
+
 i32.const 4
+get_local $localsStart
+i32.add
+i32.load
 i32.const 4
+i32.const 8
+get_local $localsStart
+i32.add
+i32.load
 i32.mul
 i32.add
 i32.load
 call $print
 
-i32.const 8
-i32.const 4
-i32.add
 
-i32.const 24
+i32.const 8
+get_local $localsStart
+i32.add
+i32.const 8
+get_local $localsStart
+i32.add
+i32.load
 i32.const 1
-i32.mul
 i32.add
-
-i32.const 4
-i32.const 5
-i32.mul
+i32.store
+br 0
+end
+end
+else
+block
+loop
+i32.const 8
+get_local $localsStart
 i32.add
 i32.load
-call $print
+i32.const 7
+i32.le_s
+br_if 1
+i32.const 4
+get_local $localsStart
+i32.add
+i32.load
+i32.const 4
+i32.const 8
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
 
 i32.const 8
-i32.const 124
+get_local $localsStart
 i32.add
-f32.load
-call $print2
+i32.load
+i32.store
+
+i32.const 4
+get_local $localsStart
+i32.add
+i32.load
+i32.const 4
+i32.const 8
+get_local $localsStart
+i32.add
+i32.load
+i32.mul
+i32.add
+i32.load
+call $print
+
 
 i32.const 8
-i32.const 128
+get_local $localsStart
 i32.add
-
-i32.const 0
+i32.const 8
+get_local $localsStart
 i32.add
 i32.load
-call $print
-
-i32.const 0
-get_local $localsStart
-i32.add
-i32.const 0
-i32.add
-f32.load
-call $print2
-
-i32.const 0
-get_local $localsStart
-i32.add
-i32.const 4
-i32.add
-
-i32.const 24
-i32.const 3
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 4
-i32.mul
-i32.add
-i32.load
-call $print
-
-i32.const 0
-get_local $localsStart
-i32.add
-i32.const 4
-i32.add
-
-i32.const 24
 i32.const 1
-i32.mul
 i32.add
-
-i32.const 4
-i32.const 5
-i32.mul
-i32.add
-i32.load
-call $print
-
-i32.const 0
-get_local $localsStart
-i32.add
-i32.const 124
-i32.add
-f32.load
-call $print2
-
-i32.const 0
-get_local $localsStart
-i32.add
-i32.const 128
-i32.add
-
-i32.const 0
-i32.add
-i32.load
-call $print
+i32.store
+br 0
+end
+end
+end
 
 
    call $freeStack
@@ -231,11 +208,11 @@ i32.const 0
 )
 (func $reserveHeap ;;funcion que reserva memoria en el heap para un nuevo ambito
    (param $size i32)
-   get_global $NP
-   set_global $MP
+   ;;get_global $NP
+   ;;set_global $MP
    get_global $NP
    get_local $size
-   i32.add
+   i32.sub
    set_global $NP
 )
 (func $freeHeap ;;funcion que libera memoria del heap del ultimo ambito en el que nos encontrasemos

@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 public class Memspace extends LlamadaFuncion implements ASTNode{
     private E arg;
+    private Tipo tipoDatos;
 
     public Memspace(E arg){
         super("memspace", new ArrayList<E>(Arrays.asList(arg)));
@@ -39,5 +40,20 @@ public class Memspace extends LlamadaFuncion implements ASTNode{
     @Override
     public Tipo isType() {
         return new Tipo(TipoEnum.PUNTERO);
+    }
+
+    @Override
+    public String code() {
+        //return "get_global $NP\n" + sizeCode() + "\ncall $reserveHeap";
+        return sizeCode() + "\ncall $reserveHeap\nget_global $NP"; // Le asigna al puntero la dirección de memoria de la
+                                                                    // última posición del heap
+    }
+
+    private String sizeCode() {
+        return "i32.const " + tipoDatos.size() + "\n" + arg.code() + "\ni32.mul";
+    }
+
+    public void setTipoDatos(Tipo t) {
+        tipoDatos = t;
     }
 }

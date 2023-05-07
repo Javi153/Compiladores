@@ -35,11 +35,11 @@ public class Programa implements ASTNode{
             ")\n" +
             "(func $reserveHeap ;;funcion que reserva memoria en el heap para un nuevo ambito\n" +
             "   (param $size i32)\n" +
-            "   get_global $NP\n" +
-            "   set_global $MP\n" +
+            "   ;;get_global $NP\n" +
+            "   ;;set_global $MP\n" +
             "   get_global $NP\n" +
             "   get_local $size\n" +
-            "   i32.add\n" +
+            "   i32.sub\n" +
             "   set_global $NP\n" +
             ")\n" +
             "(func $freeHeap ;;funcion que libera memoria del heap del ultimo ambito en el que nos encontrasemos\n" +

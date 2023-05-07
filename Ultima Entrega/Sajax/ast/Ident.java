@@ -81,6 +81,8 @@ public class Ident extends E implements ASTNode, Designador {
         if(((Statement)def).getProf() == 1){
             s = s.concat("\nget_local $localsStart\ni32.add");
         }
+        //if (def.nodeKind().equals(NodeKind.DEC) && ((Dec) def).getTipo().getTipo().equals(TipoEnum.PUNTERO))
+        //    s = s.concat("\ni32.load aqui no entro oke");
         return s;
     }
 

@@ -80,6 +80,7 @@ public class Dec extends Statement implements ASTNode{
                 return true;
             }
             if(tipo.isPointer() && exp.nodeKind() == NodeKind.MEMSPACE){
+                ((Memspace) exp).setTipoDatos(((Puntero) tipo).getTipoPointer());
                 return true;
             }
             if(tipo.isPointer() && exp.isType().isPointer()){
