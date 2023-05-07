@@ -32,6 +32,9 @@ int a = 7;
 	}
 
 	print (p[4][3]);
+	
+	input(c);
+	print(c);
 
 basura[5]=2.1^7;
 
@@ -47,13 +50,7 @@ for (int i = 0; 7) {
 	}
 	}
 print(basura[5]);
-	/*
-	int arr[8];
-	arr[0] = 1;
-	int a = arr[0] + 2;
-	print(a);
-	return 0;
-	*/
+	print(true);
 	
 	return 0;
 }

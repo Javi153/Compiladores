@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 public class Input extends LlamadaFuncion implements ASTNode{
     private E expresion;
+    private Tipo tipo;
 
     public Input(E expresion){
         super("input", new ArrayList<E>(Arrays.asList(expresion)));
@@ -19,6 +20,7 @@ public class Input extends LlamadaFuncion implements ASTNode{
             System.out.println("Error: input solo acepta enteros y floats en la expresion " + expresion.num());
             return false;
         }
+        tipo = tipaux;
         return true;
     }
 
@@ -45,5 +47,10 @@ public class Input extends LlamadaFuncion implements ASTNode{
     @Override
     public ASTNode getDef() {
         return null;
+    }
+
+    @Override
+    public String code() {
+        return expresion.codeDesig() + "\ncall $read\ni32.store";
     }
 }

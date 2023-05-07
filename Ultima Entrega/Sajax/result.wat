@@ -797,6 +797,17 @@ i32.add
 i32.load
 call $print
 
+i32.const 16
+get_local $localsStart
+i32.add
+call $read
+i32.store
+i32.const 16
+get_local $localsStart
+i32.add
+i32.load
+call $print
+
 i32.const 8
 get_local $localsStart
 i32.add
@@ -1119,6 +1130,9 @@ i32.mul
 i32.add
 f32.load
 call $print2
+
+i32.const 1
+call $print
 
 
    call $freeStack
