@@ -2,13 +2,14 @@
 (type $_sig_i32i32i32 (func (param i32 i32 i32) ))
 (type $_sig_i32i32 (func (param i32 i32) ))
 (type $_sig_i32i32ri32 (func (param i32 i32) (result i32)))
-(type $_sig_i32i32ri32ri32 (func (param i32 i32) (result i32 i32)))
+;;(type $_sig_i32i32ri32ri32 (func (param i32 i32) (result i32 i32)))
 (type $_sig_i32ri32 (func (param i32) (result i32)))
 (type $_sig_i32 (func (param i32)))
 (type $_sig_ri32 (func (result i32)))
 (type $_sig_void (func ))
 (import "runtime" "exceptionHandler" (func $exception (type $_sig_i32)))
 (import "runtime" "print" (func $print (type $_sig_i32)))
+(import "runtime" "print" (func $print2 (param f32)))
 (import "runtime" "read" (func $read (type $_sig_ri32)))
 (memory 2000)
 (global $SP (mut i32) (i32.const 0)) ;; start of stack
@@ -18,7 +19,6 @@
 (func $main  (type $_sig_void)
    (local $localsStart i32)
    (local $temp i32)
-   (local $n i32)
    i32.const 200  ;; let this be the stack size needed (params+locals+2)*4
    call $reserveStack  ;; returns old MP (dynamic link)
    set_local $temp
@@ -33,6 +33,21 @@
    i32.add
    set_local $localsStart
    ;; instructions
+   get_local $localsStart
+   f32.const 1.54
+   f32.store
+   get_local $localsStart
+   i32.const 4
+   i32.add
+   get_local $localsStart
+   i32.load
+   i32.store
+   get_local $localsStart
+   i32.const 4
+   i32.add
+   f32.load
+   call $print2
+
    ;;get_local $localsStart
    ;;call $read
    ;;set_local $n

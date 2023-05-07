@@ -4,7 +4,7 @@ public class EBin extends E{
     private E opnd1;
     private E opnd2;
     private KindE k;
-    private ASTNode def;
+    private ASTNode def; //Definicion de la expresion para los operadores sobre identificadores principalmente
     private Tipo tipoOp;
 
     public EBin(E opnd1, E opnd2, KindE k) {
@@ -15,7 +15,7 @@ public class EBin extends E{
         tipoOp = null;
     }
 
-    public String num(){
+    public String num(){ //Expresion mas visual del operador
         String simbolo = "";
         switch(k){
             case SUMA -> {
@@ -294,6 +294,7 @@ public class EBin extends E{
                         return false;
                     } else{
                         opnd2.setDef(aux);
+                        def = opnd2.getDef();
                         return res;
                     }
                 }
@@ -388,6 +389,11 @@ public class EBin extends E{
                     c = c.concat(tipoOp.getTipo().alias() + ".load");
                 }
             }
+            case PUNTO, FLECHA -> {
+                c = codeDesig();
+                c = c.concat(tipoOp.getTipo().alias() + ".load");
+                return c;
+            }
             default -> {}
         }
         return c;
@@ -397,11 +403,19 @@ public class EBin extends E{
         String c = "";
         switch(k) {
             case PUNTO -> {
-                return opnd1.codeDesig() + "\ni32.const" + opnd2.getDelta() + "\ni32.add\n";
+                if(opnd2.kind().equals(KindE.CORCHETES)){
+                    return new EBin(new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO), opnd2.opnd2(), KindE.CORCHETES).codeDesig();
+                }
+                int offset = ((Struct)((TipoStruct)((Dec)opnd1.getDef()).getTipo()).getDef()).getOffset((Ident)opnd2);
+                return opnd1.codeDesig() + "\ni32.const " + offset + "\ni32.add\n";
             }
             case FLECHA -> {
                 // d->id es azúcar sintáctico de (*d).id
-                return opnd1.codeDesig() + "\ni32.load\ni32.const" + opnd2.getDelta() + "\ni32.add\n";
+                if(opnd2.kind().equals(KindE.CORCHETES)){
+                    return new EBin(new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO), opnd2.opnd2(), KindE.CORCHETES).codeDesig();
+                }
+                int offset = ((Struct)opnd1.getDef()).getOffset((Ident)opnd2);
+                return opnd1.codeDesig() + "\ni32.load\ni32.const " + offset + "\ni32.add\n";
             }
             case CORCHETES -> {
                 //def es DecArray

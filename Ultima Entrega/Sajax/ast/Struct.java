@@ -82,8 +82,9 @@ public class Struct extends Definicion implements ASTNode{
 
     @Override
     public void setDelta(int prof) {
-        for (ASTNode a : atributos.getList())
-            a.setDelta(prof);
+        this.prof = prof;
+        //for (ASTNode a : atributos.getList())
+        //    a.setDelta(prof);
     }
 
     @Override
@@ -97,5 +98,37 @@ public class Struct extends Definicion implements ASTNode{
 
     public Bloque<ASTNode> getAtt(){
         return atributos;
+    }
+
+    public int size(){
+        int s = 0;
+        for(ASTNode atr : atributos.getList()){
+            if(atr.nodeKind() == NodeKind.DECARRAY)
+                s += ((DecArray)atr).size();
+            else if(atr.nodeKind() == NodeKind.DEC)
+                s += ((Dec)atr).getTipo().size();
+        }
+        return s;
+    }
+
+    public int getOffset(Ident a){
+        int offset = 0;
+        for(ASTNode atr : atributos.getList()){
+            if(atr.nodeKind() == NodeKind.DECARRAY){
+                DecArray d = (DecArray)atr;
+                if(d.getName().equals(a.num()))
+                    return offset;
+                else
+                    offset += d.size();
+            }
+            else if(atr.nodeKind() == NodeKind.DEC){
+                Dec d = (Dec)atr;
+                if(d.getName().equals(a.num()))
+                    return offset;
+                else
+                    offset += d.getTipo().size();
+            }
+        }
+        return offset;
     }
 }

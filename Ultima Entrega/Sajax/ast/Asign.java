@@ -15,6 +15,10 @@ public class Asign extends Statement implements ASTNode {
             System.out.println("Error: No se puede asignar a un array");
             return false;
         }
+        if(designador.getDef() != null && designador.getDef().nodeKind().equals(NodeKind.FUNCIONDEC)){
+            System.out.println("Error: No se puede asignar valores a una funcion");
+            return false;
+        }
         boolean aux = expresion.type() & designador.type();
         if(designador.isType().isPointer() && expresion.kind() == KindE.NULL){
             return true;
@@ -48,15 +52,17 @@ public class Asign extends Statement implements ASTNode {
 
     @Override
     public String code() {
-
         switch(designador.getDef().nodeKind()) {
             case DEC -> {
                 TipoEnum t = ((Dec) designador.getDef()).getTipo().getTipo();
                 switch (t) {
                     case INT, BOOL, FLOAT -> {return designador.codeDesig() + "\n" + expresion.code() + "\n" + t.alias() + ".store\n"; }
+                    case STRUCT ->{
+                        int s = ((Dec) designador.getDef()).getTipo().size();
+                        return expresion.codeDesig() + "\n" + designador.codeDesig() + "\ni32.const " + s/4 + "\n call $copyn\n";
+                    }
                 }
             }
-            case STRUCT -> {}
             case DECARRAY -> {
                 TipoEnum t = ((DecArray) designador.getDef()).getTipo().getTipo();
                 switch (t) {

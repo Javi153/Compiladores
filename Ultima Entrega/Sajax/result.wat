@@ -19,7 +19,7 @@ set_global $SP
 (func $main
 (local $temp i32)
    (local $localsStart i32)
-   i32.const 168
+   i32.const 32
    call $reserveStack  ;; returns old MP (dynamic link)
    set_local $temp
    get_global $MP
@@ -33,633 +33,81 @@ set_global $SP
    i32.add
    set_local $localsStart
 
-i32.const 140
-get_local $localsStart
-i32.add
-i32.const 0
-i32.store
-
-i32.const 144
-get_local $localsStart
-i32.add
-i32.const 0
-i32.store
-
-i32.const 0
-i32.const 5
-i32.le_s
-if
-block
-loop
-i32.const 144
-get_local $localsStart
-i32.add
-i32.load
-i32.const 5
-i32.ge_s
-br_if 1
-i32.const 148
-get_local $localsStart
-i32.add
-i32.const 0
-i32.store
-
-i32.const 0
-i32.const 7
-i32.le_s
-if
-block
-loop
-i32.const 148
-get_local $localsStart
-i32.add
-i32.load
-i32.const 7
-i32.ge_s
-br_if 1
 i32.const 0
 get_local $localsStart
 i32.add
-i32.const 28
-i32.const 144
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
+i32.const 0
 i32.add
 
+f32.const 8.325
+f32.store
+
+i32.const 0
+get_local $localsStart
+i32.add
 i32.const 4
-i32.const 148
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
 i32.add
 
-i32.const 140
-get_local $localsStart
-i32.add
-i32.load
-i32.store
+f32.const 9.325
+f32.store
 
 i32.const 0
 get_local $localsStart
 i32.add
-i32.const 28
-i32.const 144
+i32.const 12
 get_local $localsStart
 i32.add
-i32.load
-i32.mul
-i32.add
+i32.const 3
+ call $copyn
 
+
+i32.const 0
+get_local $localsStart
+i32.add
+i32.const 0
+i32.add
+f32.load
+call $print2
+
+i32.const 0
+get_local $localsStart
+i32.add
 i32.const 4
-i32.const 148
-get_local $localsStart
 i32.add
-i32.load
-i32.mul
-i32.add
-i32.load
-call $print
+f32.load
+call $print2
 
-
-i32.const 148
-get_local $localsStart
-i32.add
-i32.const 148
-get_local $localsStart
-i32.add
-i32.load
-i32.const 1
-i32.add
-i32.store
-br 0
-end
-end
-else
-block
-loop
-i32.const 148
-get_local $localsStart
-i32.add
-i32.load
-i32.const 7
-i32.le_s
-br_if 1
 i32.const 0
 get_local $localsStart
 i32.add
-i32.const 28
-i32.const 144
+i32.const 8
+i32.add
+f32.load
+call $print2
+
+i32.const 12
 get_local $localsStart
 i32.add
-i32.load
-i32.mul
+i32.const 0
 i32.add
+f32.load
+call $print2
 
+i32.const 12
+get_local $localsStart
+i32.add
 i32.const 4
-i32.const 148
-get_local $localsStart
 i32.add
-i32.load
-i32.mul
-i32.add
+f32.load
+call $print2
 
-i32.const 140
+i32.const 12
 get_local $localsStart
 i32.add
-i32.load
-i32.store
-
-i32.const 0
-get_local $localsStart
-i32.add
-i32.const 28
-i32.const 144
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 148
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-i32.load
-call $print
-
-
-i32.const 148
-get_local $localsStart
-i32.add
-i32.const 148
-get_local $localsStart
-i32.add
-i32.load
-i32.const 1
-i32.add
-i32.store
-br 0
-end
-end
-end
-
-
-i32.const 144
-get_local $localsStart
-i32.add
-i32.const 144
-get_local $localsStart
-i32.add
-i32.load
-i32.const 1
-i32.add
-i32.store
-br 0
-end
-end
-else
-block
-loop
-i32.const 144
-get_local $localsStart
-i32.add
-i32.load
-i32.const 5
-i32.le_s
-br_if 1
-i32.const 148
-get_local $localsStart
-i32.add
-i32.const 0
-i32.store
-
-i32.const 0
-i32.const 7
-i32.le_s
-if
-block
-loop
-i32.const 148
-get_local $localsStart
-i32.add
-i32.load
-i32.const 7
-i32.ge_s
-br_if 1
-i32.const 0
-get_local $localsStart
-i32.add
-i32.const 28
-i32.const 144
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 148
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-
-i32.const 140
-get_local $localsStart
-i32.add
-i32.load
-i32.store
-
-i32.const 0
-get_local $localsStart
-i32.add
-i32.const 28
-i32.const 144
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 148
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-i32.load
-call $print
-
-
-i32.const 148
-get_local $localsStart
-i32.add
-i32.const 148
-get_local $localsStart
-i32.add
-i32.load
-i32.const 1
-i32.add
-i32.store
-br 0
-end
-end
-else
-block
-loop
-i32.const 148
-get_local $localsStart
-i32.add
-i32.load
-i32.const 7
-i32.le_s
-br_if 1
-i32.const 0
-get_local $localsStart
-i32.add
-i32.const 28
-i32.const 144
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 148
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-
-i32.const 140
-get_local $localsStart
-i32.add
-i32.load
-i32.store
-
-i32.const 0
-get_local $localsStart
-i32.add
-i32.const 28
-i32.const 144
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 148
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-i32.load
-call $print
-
-
-i32.const 148
-get_local $localsStart
-i32.add
-i32.const 148
-get_local $localsStart
-i32.add
-i32.load
-i32.const 1
-i32.add
-i32.store
-br 0
-end
-end
-end
-
-
-i32.const 144
-get_local $localsStart
-i32.add
-i32.const 144
-get_local $localsStart
-i32.add
-i32.load
-i32.const 1
-i32.add
-i32.store
-br 0
-end
-end
-end
-
-i32.const 152
-get_local $localsStart
-i32.add
-i32.const 0
-i32.store
-
-i32.const 0
-i32.const 5
-i32.le_s
-if
-block
-loop
-i32.const 152
-get_local $localsStart
-i32.add
-i32.load
-i32.const 5
-i32.ge_s
-br_if 1
-i32.const 156
-get_local $localsStart
-i32.add
-i32.const 0
-i32.store
-
-i32.const 0
-i32.const 7
-i32.le_s
-if
-block
-loop
-i32.const 156
-get_local $localsStart
-i32.add
-i32.load
-i32.const 7
-i32.ge_s
-br_if 1
-i32.const 0
-get_local $localsStart
-i32.add
-i32.const 28
-i32.const 152
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 156
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-i32.load
-call $print
-
-
-i32.const 156
-get_local $localsStart
-i32.add
-i32.const 156
-get_local $localsStart
-i32.add
-i32.load
-i32.const 1
-i32.add
-i32.store
-br 0
-end
-end
-else
-block
-loop
-i32.const 156
-get_local $localsStart
-i32.add
-i32.load
-i32.const 7
-i32.le_s
-br_if 1
-i32.const 0
-get_local $localsStart
-i32.add
-i32.const 28
-i32.const 152
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 156
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-i32.load
-call $print
-
-
-i32.const 156
-get_local $localsStart
-i32.add
-i32.const 156
-get_local $localsStart
-i32.add
-i32.load
-i32.const 1
-i32.add
-i32.store
-br 0
-end
-end
-end
-
-
-i32.const 152
-get_local $localsStart
-i32.add
-i32.const 152
-get_local $localsStart
-i32.add
-i32.load
-i32.const 1
-i32.add
-i32.store
-br 0
-end
-end
-else
-block
-loop
-i32.const 152
-get_local $localsStart
-i32.add
-i32.load
-i32.const 5
-i32.le_s
-br_if 1
-i32.const 156
-get_local $localsStart
-i32.add
-i32.const 0
-i32.store
-
-i32.const 0
-i32.const 7
-i32.le_s
-if
-block
-loop
-i32.const 156
-get_local $localsStart
-i32.add
-i32.load
-i32.const 7
-i32.ge_s
-br_if 1
-i32.const 0
-get_local $localsStart
-i32.add
-i32.const 28
-i32.const 152
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 156
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-i32.load
-call $print
-
-
-i32.const 156
-get_local $localsStart
-i32.add
-i32.const 156
-get_local $localsStart
-i32.add
-i32.load
-i32.const 1
-i32.add
-i32.store
-br 0
-end
-end
-else
-block
-loop
-i32.const 156
-get_local $localsStart
-i32.add
-i32.load
-i32.const 7
-i32.le_s
-br_if 1
-i32.const 0
-get_local $localsStart
-i32.add
-i32.const 28
-i32.const 152
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-
-i32.const 4
-i32.const 156
-get_local $localsStart
-i32.add
-i32.load
-i32.mul
-i32.add
-i32.load
-call $print
-
-
-i32.const 156
-get_local $localsStart
-i32.add
-i32.const 156
-get_local $localsStart
-i32.add
-i32.load
-i32.const 1
-i32.add
-i32.store
-br 0
-end
-end
-end
-
-
-i32.const 152
-get_local $localsStart
-i32.add
-i32.const 152
-get_local $localsStart
-i32.add
-i32.load
-i32.const 1
+i32.const 8
 i32.add
-i32.store
-br 0
-end
-end
-end
+f32.load
+call $print2
 
 
    call $freeStack
@@ -715,6 +163,10 @@ i32.const 0
    (param $src i32)
    (param $dest i32)
    (param $n i32)
+   (local $localsStart i32)
+   i32.const 16
+call $reserveStack
+   set_local $localsStart
    block
      loop
        get_local $n
@@ -739,6 +191,7 @@ i32.const 0
        br 0
      end
    end
+   call $freeStack
 )
 (func $potInt ;; para calcular potencias de base entera
    (param $base i32)

@@ -1,8 +1,8 @@
 package ast;
 
 public class TipoArray extends Tipo{
-    private Tipo t;
-    private int tam;
+    private Tipo t; //Encapsula el tipo mas basico del array
+    private int tam; //Numero de dimensiones del array, es decir, las que quedan hasta el basico
     public TipoArray(Tipo t, int tam) {
         super(TipoEnum.ARRAY);
         this.t = t;

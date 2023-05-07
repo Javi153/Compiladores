@@ -1,8 +1,8 @@
 package ast;
 
 public class TipoStruct extends Tipo implements ASTNode, Designador{
-    private String id;
-    private ASTNode def;
+    private String id; //Identificador asociado al struct
+    private ASTNode def; //Declaracion del struct
 
     public TipoStruct(String s){
         super(TipoEnum.STRUCT);
@@ -55,7 +55,7 @@ public class TipoStruct extends Tipo implements ASTNode, Designador{
                     s += ((DecArray)atr).size();
                     break;
                 case FUNCIONDEC:
-                    //s += ((FuncionDec)atr).getTipo().size(); //TODO Esto si que no se como funciona
+                    //s += ((FuncionDec)atr).getTipo().size(); //Creo que las funciones en principio no ocupan espacio
                     break;
             }
         }

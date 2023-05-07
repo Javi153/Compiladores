@@ -130,6 +130,9 @@ public class Dec extends Statement implements ASTNode{
                 s = s.concat(exp.code()) + "\n";
                 s = s.concat(tipo.getTipo().alias() + ".store\n");
             }
+            else{
+                s = new Asign(iden, exp).code() + "\n";
+            }
             return s;
         }
     }

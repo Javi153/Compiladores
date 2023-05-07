@@ -1,9 +1,26 @@
+struct Persona{
+	float DNI;
+	float otracosa;
+	float otramas;
+}
+
 int main(){
-int a[5][7];
+Persona p;
+p.DNI = 8.325;
+p.otracosa = 9.325;
+Persona p2 = p;
+print(p.DNI);
+print(p.otracosa);
+print(p.otramas);
+print(p2.DNI);
+print(p2.otracosa);
+print(p2.otramas);
+/*int a[5][7];
 int c = 0;
 for (int i = 0; 5) {
 	for (int j = 0; 7) {
 		a[i][j] = c;
+c = c + 1;
 		print(a[i][j]);
 	}
 }
@@ -12,7 +29,7 @@ for (int k = 0; 5) {
 		print(a[k][l]);
 	}
 }
-/*
+
 for (int i = 4; -1; -1) {
 	for (int j = 7; -1; -1) {
 		print(a[i][j]);
