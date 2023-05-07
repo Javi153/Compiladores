@@ -57,10 +57,14 @@ public class Asign extends Statement implements ASTNode {
             case DEC -> {
                 TipoEnum t = ((Dec) designador.getDef()).getTipo().getTipo();
                 switch (t) {
-                    case INT, BOOL, FLOAT, PUNTERO -> {return designador.codeDesig() + "\n" + expresion.code() + "\n" + t.alias() + ".store\n"; }
+                    case INT, BOOL, FLOAT -> {return designador.codeDesig() + "\n" + expresion.code() + "\n" + t.alias() + ".store\n"; }
                     case STRUCT ->{
                         int s = ((Dec) designador.getDef()).getTipo().size();
                         return expresion.codeDesig() + "\n" + designador.codeDesig() + "\ni32.const " + s/4 + "\n call $copyn\n";
+                    }
+                    case PUNTERO -> {
+                        Tipo tBas = ((Puntero) ((Dec) designador.getDef()).getTipo()).getTipoPointer();
+                        return designador.codeDesig() + "\n" + expresion.code() + "\n" + tBas.getTipo().alias() + ".store\n";
                     }
                 }
             }
