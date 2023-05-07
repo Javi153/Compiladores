@@ -1,3 +1,4 @@
+ 
 struct Pito{
 	int medida = 1;
 }
@@ -9,12 +10,16 @@ struct Persona{
 	Pito pit;
 }
 
-int main(){
 Persona p;
+
+int a[5][7];
+
+int main(){
 p.DNI = 8.325;
 p.algo[3][4] = 3;
 p.algo[1][5] = 9;
 Persona p2 = p;
+//print(w);
 print(p.DNI);
 print(p.algo[3][4]);
 print(p.algo[1][5]);
@@ -25,8 +30,7 @@ print(p2.algo[3][4]);
 print(p2.algo[1][5]);
 print(p2.otramas);
 print(p2.pit.medida);
-/*int a[5][7];
-int c = 0;
+/*int c = 0;
 for (int i = 0; 5) {
 	for (int j = 0; 7) {
 		a[i][j] = c;
@@ -38,13 +42,6 @@ for (int k = 0; 5) {
 	for (int l = 0; 7) {
 		print(a[k][l]);
 	}
-}
-
-for (int i = 4; -1; -1) {
-	for (int j = 7; -1; -1) {
-		print(a[i][j]);
-	}
-}
-*/
+}*/
 return 0;
 }

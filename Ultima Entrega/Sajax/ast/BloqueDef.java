@@ -47,7 +47,7 @@ public class BloqueDef extends Bloque<Definicion> implements ASTNode{
             }
         }
         c = "(func $init\n";
-        c = c.concat("i32.const " + size + "\n");
+        c = c.concat("i32.const " + (size + 8) + "\n");
         c = c.concat("set_global $SP\n");
         for (Definicion d : stlist) {
             if(d.nodeKind().equals(NodeKind.GLOBVAR)) {

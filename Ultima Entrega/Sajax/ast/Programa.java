@@ -212,7 +212,7 @@ public class Programa implements ASTNode{
 
     @Override
     public void setDelta(int prof){
-        sDeltaCont.push(0);
+        sDeltaCont.push(8);
         defs.setDelta(0);
         main.setDelta(0);
         sDeltaCont.pop();
