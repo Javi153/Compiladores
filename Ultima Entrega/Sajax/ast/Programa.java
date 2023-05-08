@@ -202,7 +202,7 @@ public class Programa implements ASTNode{
         s = s.concat("(start $init)\n");
         s = s.concat(defs.code() + main.code());
         s = s.concat(funciones);
-        s = s.concat(")\n");
+        s = s.concat("\n)\n");
         return s;
     }
     

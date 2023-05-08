@@ -56,6 +56,7 @@ async function start() {
 }
 
 async function run() {
+    await readInput(1);
     await start();
     process.exit(0);
 }

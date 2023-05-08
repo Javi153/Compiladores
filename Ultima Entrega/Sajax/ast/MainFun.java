@@ -82,7 +82,7 @@ public class MainFun implements ASTNode {
         s = s.concat("   call $freeStack\n");
         s = s.concat(ret.code() + "\n");
         s = s.concat("   call $print\n");
-        s = s.concat(")\n");
+        s = s.concat("return\n)\n");
         return s;
     }
 }

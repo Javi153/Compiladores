@@ -51,6 +51,11 @@ public class Input extends LlamadaFuncion implements ASTNode{
 
     @Override
     public String code() {
-        return expresion.codeDesig() + "\ncall $read\ni32.store";
+        if(tipo.getTipo().equals(TipoEnum.INT) || tipo.getTipo().equals(TipoEnum.BOOL)){
+            return expresion.codeDesig() + "\n call $read\ni32.store\n";
+        }
+        else{
+            return expresion.codeDesig() + "\n call $read2\nf32.store\n";
+        }
     }
 }

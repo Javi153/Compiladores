@@ -46,7 +46,7 @@ public class BloqueDef extends Bloque<Definicion> implements ASTNode{
                 size += ((VarGlobal)d).size();
             }
         }
-        c = "(func $init\n";
+        c = c.concat("(func $init\n");
         c = c.concat("i32.const " + (size + 8) + "\n");
         c = c.concat("set_global $SP\n");
         for (Definicion d : stlist) {
@@ -54,7 +54,7 @@ public class BloqueDef extends Bloque<Definicion> implements ASTNode{
                 c = c.concat(d.code());
             }
         }
-        c = c.concat("call $main\ni32.const 0\nset_global $SP\n)\n");
+        c = c.concat("call $main\ni32.const 0\nset_global $SP\nreturn\n)\n");
         return c;
     }
 }

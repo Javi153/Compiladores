@@ -9,7 +9,7 @@ public class Return extends Statement implements ASTNode{
 
     @Override
     public boolean type() {
-        return true;
+        return ret.type();
     }
 
     public Tipo getTipo(){

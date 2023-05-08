@@ -360,14 +360,16 @@ public class EBin extends E{
                 return tipoOp.getTipo() == TipoEnum.FLOAT ? c + "\n" : c + "_s\n";
             }
             case CORCHETES -> {
+                c = codeDesig();
                 if(!tipoOp.getTipo().equals(TipoEnum.STRUCT)){
-                    c = codeDesig();
                     c = c.concat(tipoOp.getTipo().alias() + ".load");
                 }
             }
             case PUNTO, FLECHA -> {
                 c = codeDesig();
-                c = c.concat(tipoOp.getTipo().alias() + ".load");
+                if(!tipoOp.getTipo().equals(TipoEnum.STRUCT)) {
+                    c = c.concat(tipoOp.getTipo().alias() + ".load");
+                }
                 return c;
             }
             default -> {}
@@ -385,14 +387,14 @@ public class EBin extends E{
                     eb.setDef(def);
                     eb2.setDef(def);
                     eb.setTipoOp(tipoOp);
+                    TipoArray aux;
                     if(tipoOp.getTipo().equals(TipoEnum.ARRAY)) {
-                        TipoArray aux = new TipoArray(((TipoArray)tipoOp).getTipoBasico(), ((TipoArray) tipoOp).getTam() + 1);
-                        eb2.setTipoOp(aux);
+                        aux = new TipoArray(((TipoArray) tipoOp).getTipoBasico(), ((TipoArray) tipoOp).getTam() + 1);
                     }
                     else{
-                        TipoArray aux = new TipoArray(tipoOp, 1);
-                        eb2.setTipoOp(aux);
+                        aux = new TipoArray(tipoOp, 1);
                     }
+                    eb2.setTipoOp(aux);
                     return eb.codeDesig();
                 }
                 int offset;

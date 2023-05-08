@@ -62,6 +62,7 @@ public class DecFuncion extends Definicion implements ASTNode{
                 aux = cuerpo.type();
             }
             if(ret != null){
+                aux = aux & ret.type();
                 if(!ret.getTipo().getTipo().equals(tipo.getTipo())){
                     aux = false;
                     System.out.println("Error: El tipo de retorno de la funcion " + name + " no coincide con el tipo de la declaracion");
@@ -175,6 +176,10 @@ public class DecFuncion extends Definicion implements ASTNode{
         return parlist.size();
     }
 
+    public ArrayList<Parametro> getParams(){
+        return parlist;
+    }
+
     public String getName(){
         return name.toString();
     }
@@ -189,5 +194,32 @@ public class DecFuncion extends Definicion implements ASTNode{
             cuerpo.setDelta(this.prof);
         }
         size = sDeltaCont.pop();
+    }
+
+    public String code(){
+        if(cuerpo == null){
+            return "";
+        }
+        else {
+            String s = "(func $" + name.num() + '\n';
+            for (Parametro p : parlist) {
+                s = s.concat("(param i32)\n"); //Aqui falta por copiar los structs que sean por valor
+            }                                       //Tb queda por ingeniarselas para hacer un load de los numeritos por referencia y trabajar con eso
+            if (ret != null) {                      //Y aun no tengo ni idea de como abordar ninguno de los dos
+                s = s.concat("(result i32)\n");
+            }
+            s = s.concat("(local $localsStart i32)\n");
+            s = s.concat("i32.const "+(size+8)+"\n");
+            s = s.concat("call $reserveStack\n");
+            s = s.concat("i32.const 8\ni32.add\n");
+            s = s.concat("set_local $localsStart\n");
+            s = s.concat(cuerpo.code());
+            if(ret != null){
+                s = s.concat(ret.code());
+            }
+            s = s.concat("call $freeStack\n");
+            s = s.concat(")\n");
+            return s;
+        }
     }
 }
