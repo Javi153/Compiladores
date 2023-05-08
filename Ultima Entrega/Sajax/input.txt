@@ -2,8 +2,18 @@ struct persona {
 int uno;
 }
 
-int main() {
+int suma(int& a, int b){
+return a + b;
+}
 
+int main() {
+int a = 0;
+for(int i = 0; 7){
+print(suma(a, 7));
+a = a + 1;
+}
+
+/*
 int a = 7;
 
 	int** p = memspace(a);
@@ -50,7 +60,10 @@ for (int i = 0; 7) {
 	}
 print(basura[5]);
 	print(true);
-	
+	float f;
+	input(f);
+	print(f);
+*/
 	return 0;
 }
 

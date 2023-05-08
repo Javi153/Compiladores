@@ -133,4 +133,20 @@ public class LlamadaFuncion extends E implements ASTNode{
     public void setDef(ASTNode def) {
         this.def = def;
     }
+
+    @Override
+    public String code(){
+        String s = "";
+        DecFuncion dec = (DecFuncion) def;
+        for(int i = 0; i < parlist.size(); i++){
+            if(((TipoParam)dec.getParams().get(i).getTipo()).isRef()){
+                 s = s.concat(parlist.get(i).codeDesig() + "\n");
+            }
+            else{
+                s = s.concat(parlist.get(i).code() + "\n");
+            }
+        }
+        s = s.concat("call $" + name + "\n");
+        return s;
+    }
 }

@@ -1,10 +1,8 @@
 package ast;
 
-public class Parametro implements ASTNode{
+public class Parametro extends Statement implements ASTNode{
     private Ident name;
     private TipoParam tipo;
-    private int prof;
-    private int delta;
 
     public Parametro(Tipo tipo, boolean ref, String name){
         this.tipo = new TipoParam(tipo, ref);
@@ -54,7 +52,7 @@ public class Parametro implements ASTNode{
             sDeltaCont.push(delta + 4);
         }
         else{
-            sDeltaCont.push(delta + tipo.getTipo().size());
+            sDeltaCont.push(delta + tipo.getTipo().size() + 4);
         }
     }
 
