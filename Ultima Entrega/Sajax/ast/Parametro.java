@@ -49,10 +49,10 @@ public class Parametro extends Statement implements ASTNode{
         this.prof = prof;
         delta = sDeltaCont.peek();
         if(tipo.isRef()){
-            sDeltaCont.push(delta + 4);
+            sDeltaCont.push(delta);
         }
         else{
-            sDeltaCont.push(delta + tipo.getTipo().size() + 4);
+            sDeltaCont.push(delta + tipo.getTipo().size());
         }
     }
 

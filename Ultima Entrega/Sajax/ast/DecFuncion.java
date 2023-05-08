@@ -202,17 +202,41 @@ public class DecFuncion extends Definicion implements ASTNode{
         }
         else {
             String s = "(func $" + name.num() + '\n';
-            for (Parametro p : parlist) {
-                s = s.concat("(param i32)\n"); //Aqui falta por copiar los structs que sean por valor
-            }                                       //Tb queda por ingeniarselas para hacer un load de los numeritos por referencia y trabajar con eso
+            //for (Parametro p : parlist) {
+            //    s = s.concat("(param i32)\n"); //Aqui falta por copiar los structs que sean por valor
+            //}                                       //Tb queda por ingeniarselas para hacer un load de los numeritos por referencia y trabajar con eso
             if (ret != null) {                      //Y aun no tengo ni idea de como abordar ninguno de los dos
                 s = s.concat("(result i32)\n");
-            }
+            } // TODO esto igual hay que quitarlo también aunque las diapos dicen que no
+            // porque al parecer el profe dice que sí
+
+            s = s.concat("(local $temp i32)\n");
             s = s.concat("(local $localsStart i32)\n");
+
+
+            s = s.concat("   i32.const " + (size + 8) + "\n" +
+                    "   call $reserveStack  ;; returns old MP (dynamic link)\n" +
+                    "   set_local $temp\n" +
+                    "   get_global $MP\n" +
+                    "   get_local $temp\n" +
+                    "   i32.store\n" +
+                    "   get_global $MP\n" +
+                    "   get_global $SP\n" +
+                    "   i32.store offset=4\n" +
+                    "   get_global $MP\n" +
+                    "   i32.const 8\n" +
+                    "   i32.add\n" +
+                    "   set_local $localsStart\n");
+
+            /*
             s = s.concat("i32.const "+(size+8)+"\n");
             s = s.concat("call $reserveStack\n");
             s = s.concat("i32.const 8\ni32.add\n");
             s = s.concat("set_local $localsStart\n");
+            */
+
+
+
             s = s.concat(cuerpo.code());
             if(ret != null){
                 s = s.concat(ret.code());

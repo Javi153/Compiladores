@@ -1,69 +1,17 @@
-struct persona {
-int uno;
-}
-
-int suma(int& a, int b){
+int suma(int a, int b){
 return a + b;
 }
 
 int main() {
 int a = 0;
-for(int i = 0; 7){
-print(suma(a, 7));
-a = a + 1;
-}
-
-/*
-int a = 7;
-
-	int** p = memspace(a);
-	//int p[7];
-	float *basura = memspace(8);
-	for (int i = 0; 7) {
-	
-	p[i] = memspace(6);
-	}
-	
-	int c = 0;
-	basura[5]=2.1^7;
-	for (int i = 0; 7) {
-	for (int j = 0; 6) {
-	p[i][j] = c;
-	c = c+1;
-	}
-	}
-	
-	p[4][3]=456;
-	
-	for (int i = 0; 7) {
-	for (int j = 0; 6) {
-	print(p[i][j]);
-	}
-	}
-
-	print (p[4][3]);
-	
-	input(c);
-	print(c);
+//for(int i = 0; 7){
+//print(suma(a, 7));
+//a = a + 1;
 
 
+print(suma(3,4));
 
-persona* alg = memspace(1);
 
-alg->uno = 555555;
-print(alg->uno);
-
-for (int i = 0; 7) {
-	for (int j = 0; 6) {
-	print(p[i][j]);
-	}
-	}
-print(basura[5]);
-	print(true);
-	float f;
-	input(f);
-	print(f);
-*/
 	return 0;
 }
 
