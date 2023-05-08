@@ -164,6 +164,20 @@ i32.add
 i32.const 0
 i32.store
 
+i32.const 8
+get_local $localsStart
+i32.add
+i32.load
+i32.const 4
+i32.const 5
+i32.mul
+i32.add
+
+f32.const 2.1
+i32.const 7
+call $potFloat
+f32.store
+
 i32.const 20
 get_local $localsStart
 i32.add
@@ -807,20 +821,6 @@ get_local $localsStart
 i32.add
 i32.load
 call $print
-
-i32.const 8
-get_local $localsStart
-i32.add
-i32.load
-i32.const 4
-i32.const 5
-i32.mul
-i32.add
-
-f32.const 2.1
-i32.const 7
-call $potFloat
-f32.store
 
 i32.const 36
 get_local $localsStart
