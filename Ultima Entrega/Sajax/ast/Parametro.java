@@ -22,6 +22,10 @@ public class Parametro extends Statement implements ASTNode{
         return true;
     }
 
+    public Tipo isType(){
+        return tipo.getTipoParam();
+    }
+
     @Override
     public boolean bind() {
         boolean aux = tipo.bind();
@@ -31,7 +35,7 @@ public class Parametro extends Statement implements ASTNode{
         }
         else{
             insertaId(name.toString(), this);
-            aux = aux & name.bind();
+            aux = aux & name.bind() & tipo.bind();
             return aux;
         }
     }
@@ -49,10 +53,10 @@ public class Parametro extends Statement implements ASTNode{
         this.prof = prof;
         delta = sDeltaCont.peek();
         if(tipo.isRef()){
-            sDeltaCont.push(delta);
+            sDeltaCont.push(delta + 4);
         }
         else{
-            sDeltaCont.push(delta + tipo.getTipo().size());
+            sDeltaCont.push(delta + tipo.getTipoParam().size());
         }
     }
 

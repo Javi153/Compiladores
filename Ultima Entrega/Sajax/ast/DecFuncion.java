@@ -206,7 +206,12 @@ public class DecFuncion extends Definicion implements ASTNode{
             //    s = s.concat("(param i32)\n"); //Aqui falta por copiar los structs que sean por valor
             //}                                       //Tb queda por ingeniarselas para hacer un load de los numeritos por referencia y trabajar con eso
             if (ret != null) {                      //Y aun no tengo ni idea de como abordar ninguno de los dos
-                s = s.concat("(result i32)\n");
+                if(ret.getTipo().getTipo().equals(TipoEnum.FLOAT)){
+                    s = s.concat("(result f32)\n");
+                }
+                else{
+                    s = s.concat("(result i32)\n");
+                }
             } // TODO esto igual hay que quitarlo también aunque las diapos dicen que no
             // porque al parecer el profe dice que sí
 
@@ -245,5 +250,9 @@ public class DecFuncion extends Definicion implements ASTNode{
             s = s.concat(")\n");
             return s;
         }
+    }
+
+    public int getSize(){
+        return size;
     }
 }

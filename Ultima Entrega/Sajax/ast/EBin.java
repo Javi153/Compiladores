@@ -134,21 +134,27 @@ public class EBin extends E{
                 }
             }
             case PUNTO -> {
-                if(!opnd1.type() || !opnd2.type()){
-                    System.out.println("Error: los tipos de " + opnd1.num() + " y " + opnd2.num() + " no coinciden");
-                }
                 if(opnd2.kind().equals(KindE.CORCHETES)){
                     EBin eb = new EBin(new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO), opnd2.opnd2(), KindE.CORCHETES);
                     boolean res = eb.type();
                     tipoOp = eb.isType();
                     return res;
                 }
+                if(!opnd1.type() || !opnd2.type()){
+                    System.out.println("Error: los tipos de " + opnd1.num() + " y " + opnd2.num() + " no coinciden");
+                }
                 Tipo t = opnd1.isType();
                 if(t == null || t.getTipo() != TipoEnum.STRUCT){
                     System.out.println("Error: el operando izquierdo de un punto debe ser un struct");
                     return false;
                 }
-                String auxname = ((TipoStruct)t).getId();
+                String auxname;
+                if(!t.isParam()) {
+                        auxname=((TipoStruct) t).getId();
+                }
+                else{
+                        auxname = ((TipoStruct)((TipoParam)t).getTipoParam()).getId();
+                }
                 if(opnd2.kind().equals(KindE.CALLFUN)){
                     LlamadaFuncion f = new LlamadaFuncion(auxname + "." + ((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist());
                     boolean res = f.type();
@@ -166,7 +172,11 @@ public class EBin extends E{
                 if(!opnd1.type() || !opnd2.type()){
                     System.out.println("Error: los tipos de " + opnd1.num() + " y " + opnd2.num() + " no coinciden");
                 }
-                if(!opnd1.isType().isPointer()){
+                Tipo t = opnd1.isType();
+                if(t.isParam()){
+                    t = ((TipoParam)t).getTipoParam();
+                }
+                if(!t.isPointer()){
                     System.out.println("Error: el operando izquierdo de una flecha debe ser un puntero en " + num());
                     return false;
                 }
@@ -208,7 +218,13 @@ public class EBin extends E{
                 if(t == null || t.getTipo() != TipoEnum.STRUCT){
                     return new Tipo(TipoEnum.VOID);
                 }
-                String auxname = ((TipoStruct)t).getId();
+                String auxname;
+                if(!t.isParam()) {
+                    auxname=((TipoStruct) t).getId();
+                }
+                else{
+                    auxname = ((TipoStruct)((TipoParam)t).getTipoParam()).getId();
+                }
                 if(opnd2.kind().equals(KindE.CALLFUN)){
                     LlamadaFuncion f = new LlamadaFuncion(auxname + "." + ((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist());
                     Tipo taux = buscaTipo(f.getName());
@@ -224,7 +240,11 @@ public class EBin extends E{
                 }
             }
             case FLECHA -> {
-                if(!opnd1.isType().isPointer()){
+                Tipo t = opnd1.isType();
+                if(t.isParam()){
+                    t = ((TipoParam)t).getTipoParam();
+                }
+                if(!t.isPointer()){
                     return new Tipo(TipoEnum.VOID);
                 }
                 return new EBin(new EUnar(opnd1, KindE.ASTERISCO), opnd2, KindE.PUNTO).isType();
@@ -405,8 +425,11 @@ public class EBin extends E{
                     }
                     offset = ((Struct) ((TipoStruct) auxt).getDef()).getOffset((Ident) opnd2);
                 }
-                else{
+                else if (opnd1.getDef().nodeKind().equals(NodeKind.DECARRAY)){
                     offset = ((Struct) ((TipoStruct) ((DecArray) opnd1.getDef()).getTipo()).getDef()).getOffset((Ident) opnd2);
+                }
+                else{
+                    offset = ((Struct) ((TipoStruct) ((TipoParam)((Parametro)opnd1.getDef()).getTipo()).getTipoParam()).getDef()).getOffset((Ident) opnd2);
                 }
                 return opnd1.codeDesig() + "\ni32.const " + offset + "\ni32.add\n";
             }
@@ -428,9 +451,19 @@ public class EBin extends E{
                     }
                     offset = ((Struct) ((TipoStruct) auxt).getDef()).getOffset((Ident) opnd2);
                 }
-                else{
+                else if (opnd1.getDef().nodeKind().equals(NodeKind.DECARRAY)){
                     offset = ((Struct) ((TipoStruct) ((DecArray) opnd1.getDef()).getTipo()).getDef()).getOffset((Ident) opnd2);
                 }
+                else{
+                    Tipo auxt = ((TipoParam)((Parametro)opnd1.getDef()).getTipo()).getTipoParam();
+                    if(auxt.isPointer()){
+                        auxt = ((Puntero)auxt).getTipoPointer();
+                    }
+                    offset = ((Struct) ((TipoStruct) auxt).getDef()).getOffset((Ident) opnd2);
+                }
+                /*else{
+                    offset = ((Struct) ((TipoStruct) ((DecArray) opnd1.getDef()).getTipo()).getDef()).getOffset((Ident) opnd2);
+                }*/
                 //int offset = ((Struct)opnd1.getDef()).getOffset((Ident)opnd2);
                 return opnd1.codeDesig() + "\ni32.load\ni32.const " + offset + "\ni32.add\n";
             }

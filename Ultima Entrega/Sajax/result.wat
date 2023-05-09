@@ -13,7 +13,7 @@
 (result i32)
 (local $temp i32)
 (local $localsStart i32)
-   i32.const 16
+   i32.const 48
    call $reserveStack  ;; returns old MP (dynamic link)
    set_local $temp
    get_global $MP
@@ -29,9 +29,20 @@
 i32.const 0
 get_local $localsStart
 i32.add
+
+i32.const 0
+i32.add
+
 i32.const 4
+i32.const 0
+i32.mul
+i32.add
+i32.load
+i32.const 36
 get_local $localsStart
 i32.add
+
+i32.load
 i32.add
 call $freeStack
 )
@@ -46,7 +57,7 @@ return
 (func $main
 (local $temp i32)
    (local $localsStart i32)
-   i32.const 12
+   i32.const 52
    call $reserveStack  ;; returns old MP (dynamic link)
    set_local $temp
    get_global $MP
@@ -59,25 +70,67 @@ return
    i32.const 8
    i32.add
    set_local $localsStart
+
 i32.const 0
 get_local $localsStart
 i32.add
+
 i32.const 0
+i32.add
+
+i32.const 4
+i32.const 0
+i32.mul
+i32.add
+
+i32.const 5
 i32.store
 
-get_global $MP
+i32.const 0
+get_local $localsStart
+i32.add
+
+i32.const 32
+i32.add
+
+i32.const 8
+i32.store
+
+i32.const 36
+get_local $localsStart
+i32.add
+
+i32.const 2
+i32.store
+
+i32.const 40
+get_local $localsStart
+i32.add
+
+i32.const 7
+i32.store
+
+i32.const 0
+get_local $localsStart
+i32.add
+
+get_global $SP
 i32.const 8
 i32.add
 i32.const 0
 i32.add
-i32.const 3
-i32.store
-get_global $MP
+i32.const 9
+call $copyn
+get_global $SP
 i32.const 8
 i32.add
-i32.const 4
+i32.const 36
 i32.add
-i32.const 4
+i32.const 40
+get_local $localsStart
+i32.add
+
+i32.load
 i32.store
 call $suma
 
@@ -138,10 +191,6 @@ return
    (param $src i32)
    (param $dest i32)
    (param $n i32)
-   (local $localsStart i32)
-   i32.const 16
-call $reserveStack
-   set_local $localsStart
    block
      loop
        get_local $n
@@ -166,7 +215,6 @@ call $reserveStack
        br 0
      end
    end
-   call $freeStack
 )
 (func $potInt ;; para calcular potencias de base entera
    (param $base i32)

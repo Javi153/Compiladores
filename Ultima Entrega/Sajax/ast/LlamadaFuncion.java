@@ -140,19 +140,38 @@ public class LlamadaFuncion extends E implements ASTNode{
         DecFuncion dec = (DecFuncion) def; // Con esto se puede acceder a los deltas de los parámetros del marco nuevo
         for(int i = 0; i < parlist.size(); i++) {
             //s = s.concat("get_global $MP\ncall $print\n"); //TODO QUITAR
-            s = s.concat("get_global $SP\ni32.const 8\ni32.add\n"); // pila <- SP + 8
-            s = s.concat("i32.const " + dec.getParams().get(i).getDelta() + "\ni32.add\n"); // pila <- delta(param, marco nuevo) + SP + 8
+            //s = s.concat("get_global $SP\ni32.const 8\ni32.add\n"); // pila <- SP + 8
+            //s = s.concat("i32.const " + dec.getParams().get(i).getDelta() + "\ni32.add\n"); // pila <- delta(param, marco nuevo) + SP + 8
 
             TipoParam t = ((TipoParam)dec.getParams().get(i).getTipo());
             if(t.isRef()) {
+                s = s.concat("get_global $SP\ni32.const 8\ni32.add\n"); // pila <- SP + 8
+                s = s.concat("i32.const " + dec.getParams().get(i).getDelta() + "\ni32.add\n"); // pila <- delta(param, marco nuevo) + SP + 8
                 s = s.concat(parlist.get(i).codeDesig() + "\n"); // Son direcciones de memoria (pila <- mem_dir)
                 s = s.concat("i32.store\n"); // mem(SP+8+delta) = mem_dir
             }
             else {
-                s = s.concat(parlist.get(i).code() + "\n"); // pila <- evaluación de expresión (parámetro por valor)
                 TipoEnum tipo = t.getTipoParam().getTipo();
                 switch(tipo) {
                     case INT, BOOL, FLOAT -> {
+                        s = s.concat("get_global $SP\ni32.const 8\ni32.add\n"); // pila <- SP + 8
+                        s = s.concat("i32.const " + dec.getParams().get(i).getDelta() + "\ni32.add\n"); // pila <- delta(param, marco nuevo) + SP + 8
+                        s = s.concat(parlist.get(i).code() + "\n"); // pila <- evaluación de expresión (parámetro por valor)
+                        s = s.concat(tipo.alias() + ".store\n"); // mem(SP+8+delta) = valor
+                    }
+                    case STRUCT -> {
+                        s = s.concat(parlist.get(i).codeDesig() + "\n");
+                        s = s.concat("get_global $SP\ni32.const 8\ni32.add\n"); // pila <- SP + 8
+                        s = s.concat("i32.const " + dec.getParams().get(i).getDelta() + "\ni32.add\n"); // pila <- delta(param, marco nuevo) + SP + 8
+                        s = s.concat("i32.const " + ((TipoStruct)t.getTipoParam()).size()/4 + "\n");
+                        //s = s.concat("get_global $SP\ni32.const " + (dec.getSize() + 8) +"\ni32.add\nset_global $SP\n");
+                        s = s.concat("call $copyn\n");
+                        //s = s.concat("get_global $SP\ni32.const " + (dec.getSize() + 8) +"\ni32.sub\nset_global $SP\n");
+                    }
+                    case PUNTERO ->{
+                        s = s.concat("get_global $SP\ni32.const 8\ni32.add\n"); // pila <- SP + 8
+                        s = s.concat("i32.const " + dec.getParams().get(i).getDelta() + "\ni32.add\n"); // pila <- delta(param, marco nuevo) + SP + 8
+                        s = s.concat(parlist.get(i).code() + "\n"); // pila <- evaluación de expresión (parámetro por valor)
                         s = s.concat(tipo.alias() + ".store\n"); // mem(SP+8+delta) = valor
                     }
                     default -> {}

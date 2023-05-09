@@ -57,6 +57,13 @@ public class Ident extends E implements ASTNode, Designador {
                     default -> {}
                 }
             }
+            case PARAM -> {
+                switch(((Parametro) def).getTipo().getTipo()) {
+                    case INT, BOOL -> { c = c.concat("\ni32.load"); }
+                    case FLOAT -> { c = c.concat("\nf32.load"); }
+                    default -> {}
+                }
+            }
             case DECARRAY -> {}
             case FUNCIONDEC -> {}
             case STRUCT -> {}
@@ -79,7 +86,10 @@ public class Ident extends E implements ASTNode, Designador {
     public String codeDesig() {
         String s = "i32.const " + def.getDelta();
         if(((Statement)def).getProf() == 1){
-            s = s.concat("\nget_local $localsStart\ni32.add");
+            s = s.concat("\nget_local $localsStart\ni32.add\n");
+        }
+        if(def.nodeKind().equals(NodeKind.PARAM) && ((TipoParam)((Parametro) def).getTipo()).isRef()){
+            s = s.concat("i32.load\n");
         }
         //if (def.nodeKind().equals(NodeKind.DEC) && ((Dec) def).getTipo().getTipo().equals(TipoEnum.PUNTERO))
         //    s = s.concat("\ni32.load aqui no entro oke");

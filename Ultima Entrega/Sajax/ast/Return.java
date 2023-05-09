@@ -2,6 +2,7 @@ package ast;
 
 public class Return extends Statement implements ASTNode{
     private E ret;
+    private Tipo t;
 
     public Return(E ret){
         this.ret = ret;
@@ -9,11 +10,17 @@ public class Return extends Statement implements ASTNode{
 
     @Override
     public boolean type() {
-        return ret.type();
+        boolean aux = ret.type();
+        t = ret.isType();
+        return aux;
+    }
+
+    public Tipo isType(){
+        return ret.isType();
     }
 
     public Tipo getTipo(){
-        return ret.isType();
+        return t;
     }
 
     @Override

@@ -1,15 +1,24 @@
-int suma(int a, int b){
-return a + b;
+struct Persona{
+	int otraCosa[8];
+	int DNI;
+}
+
+int suma(Persona a, int b){
+return a.otraCosa[0] + b;
 }
 
 int main() {
-int a = 0;
+Persona p;
+p.otraCosa[0] = 5;
+p.DNI = 8;
+int a = 2;
+int b = 7;
 //for(int i = 0; 7){
 //print(suma(a, 7));
 //a = a + 1;
 
 
-print(suma(3,4));
+print(suma(p, b));
 
 
 	return 0;

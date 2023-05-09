@@ -20,7 +20,7 @@ public class MainFun implements ASTNode {
 
     @Override
     public boolean type() {
-        boolean aux =  bloque.type();
+        boolean aux =  bloque.type() & ret.type();
         if(!ret.getTipo().getTipo().equals(TipoEnum.INT)){
             aux = false;
             System.out.println("Error: El tipo de retorno de la funcion main debe ser de tipo int");

@@ -4,6 +4,7 @@ public class TipoStruct extends Tipo implements ASTNode, Designador{
     private String id; //Identificador asociado al struct
     private ASTNode def; //Declaracion del struct
 
+
     public TipoStruct(String s){
         super(TipoEnum.STRUCT);
         this.id = s;

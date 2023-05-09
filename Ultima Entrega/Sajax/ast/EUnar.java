@@ -41,7 +41,11 @@ public class EUnar extends E {
         switch(k){
             case ASTERISCO -> {
                 if(opnd.isType().getTipo().equals(TipoEnum.PUNTERO)){
-                    return ((Puntero)opnd.isType()).getTipoPointer();
+                    Tipo t = opnd.isType();
+                    if(t.isParam()){
+                        t = ((TipoParam) t).getTipoParam();
+                    }
+                    return ((Puntero)t).getTipoPointer();
                 }
                 else{
                     return new Tipo(TipoEnum.VOID);
