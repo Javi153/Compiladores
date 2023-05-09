@@ -30,20 +30,6 @@ i32.const 0
 get_local $localsStart
 i32.add
 
-i32.const 0
-i32.add
-
-i32.const 4
-i32.const 0
-i32.mul
-i32.add
-i32.load
-i32.const 36
-get_local $localsStart
-i32.add
-
-i32.load
-i32.add
 call $freeStack
 )
 (func $init
@@ -57,7 +43,7 @@ return
 (func $main
 (local $temp i32)
    (local $localsStart i32)
-   i32.const 52
+   i32.const 80
    call $reserveStack  ;; returns old MP (dynamic link)
    set_local $temp
    get_global $MP
@@ -75,6 +61,16 @@ i32.const 0
 get_local $localsStart
 i32.add
 
+i32.const 32
+i32.add
+
+i32.const 8
+i32.store
+
+i32.const 0
+get_local $localsStart
+i32.add
+
 i32.const 0
 i32.add
 
@@ -83,31 +79,7 @@ i32.const 0
 i32.mul
 i32.add
 
-i32.const 5
-i32.store
-
-i32.const 0
-get_local $localsStart
-i32.add
-
-i32.const 32
-i32.add
-
-i32.const 8
-i32.store
-
-i32.const 36
-get_local $localsStart
-i32.add
-
 i32.const 2
-i32.store
-
-i32.const 40
-get_local $localsStart
-i32.add
-
-i32.const 7
 i32.store
 
 i32.const 0
@@ -126,14 +98,39 @@ i32.const 8
 i32.add
 i32.const 36
 i32.add
-i32.const 40
-get_local $localsStart
-i32.add
-
-i32.load
+i32.const 7
 i32.store
 call $suma
 
+i32.const 36
+get_local $localsStart
+i32.add
+
+i32.const 9
+ call $copyn
+
+
+i32.const 36
+get_local $localsStart
+i32.add
+
+i32.const 32
+i32.add
+i32.load
+call $print
+
+i32.const 36
+get_local $localsStart
+i32.add
+
+i32.const 0
+i32.add
+
+i32.const 4
+i32.const 0
+i32.mul
+i32.add
+i32.load
 call $print
 
 

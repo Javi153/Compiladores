@@ -134,6 +134,10 @@ public class LlamadaFuncion extends E implements ASTNode{
         this.def = def;
     }
 
+    public String codeDesig(){
+        return code();
+    }
+
     @Override
     public String code(){
         String s = "";
