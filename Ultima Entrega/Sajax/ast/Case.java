@@ -3,9 +3,9 @@ package ast;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Case extends DefaultCase implements ASTNode {
+public class Case extends DefaultCase implements ASTNode { //Vemos que funciona como un caso especifico del default
 
-    private Ent ent;
+    private Ent ent; //el numero entero asociado al case de un switch
 
     public Case(Ent ent, ArrayList<Statement> stlist, boolean breakPresence) {
         super(stlist, breakPresence);
@@ -29,7 +29,7 @@ public class Case extends DefaultCase implements ASTNode {
         return s;
     }
 
-    //No implementes bind, type ni code, coge el de default
+    //No se implementa bind, type ni code, coge el de default
 
     public Ent getEnt() { return ent; }
 
