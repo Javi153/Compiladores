@@ -74,6 +74,12 @@ public class Asign extends Statement implements ASTNode {
                     case INT, BOOL, FLOAT -> {return designador.codeDesig() + "\n" + expresion.code() + "\n" + t.alias() + ".store\n"; }
                 }
             }
+            case PARAM -> {
+                TipoEnum t = ((TipoParam)((Parametro) designador.getDef()).getTipo()).getTipoParam().getTipo();
+                switch (t) {
+                    case INT, BOOL, FLOAT -> {return designador.codeDesig() + "\n" + expresion.code() + "\n" + t.alias() + ".store\n"; }
+                }
+            }
             default -> {}
         }
 

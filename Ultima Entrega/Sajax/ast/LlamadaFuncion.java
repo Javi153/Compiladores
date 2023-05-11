@@ -57,6 +57,7 @@ public class LlamadaFuncion extends E implements ASTNode{
         }
         else{
             for(int i = 0; i < parlist.size(); i++){
+                parlist.get(i).type();
                 KindE naux = parlist.get(i).kind();
                 boolean paraux = parlist.get(i).isType().getTipo().equals(((TipoParam)buscaTipo(name + "." + (i+1))).getTipoParam().getTipo());
                 if(((TipoParam)buscaTipo(name + "." + (i+1))).isRef()){

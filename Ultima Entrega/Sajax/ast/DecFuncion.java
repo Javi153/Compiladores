@@ -59,8 +59,8 @@ public class DecFuncion extends Definicion implements ASTNode{
             sTipo.push(new HashMap<>());
             for(Parametro p : parlist){
                 sTipo.peek().put(p.getName(), p.getTipo());
-                aux = cuerpo.type();
             }
+            aux = cuerpo.type();
             if(ret != null){
                 aux = aux & ret.type();
                 if(!ret.getTipo().getTipo().equals(tipo.getTipo())){
