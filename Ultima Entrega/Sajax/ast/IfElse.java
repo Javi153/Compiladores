@@ -9,6 +9,8 @@ public class IfElse extends Statement implements ASTNode{
     private ArrayList<Elsif> Elsifs;
     private boolean hayelse;
 
+    //Contiene varios bloques y una condicion, se aplica cada funcion sobre estos elementos en todos los casos
+
     public IfElse(E cond, BloqueIns S1, ArrayList<Elsif> Elsifs){
         this.cond = cond;
         this.S1 = S1;

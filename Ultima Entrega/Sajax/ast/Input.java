@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class Input extends LlamadaFuncion implements ASTNode{
     private E expresion;
-    private Tipo tipo;
+    private Tipo tipo; //Funcion de entrada, solo acepta enteros y floats
 
     public Input(E expresion){
         super("input", new ArrayList<E>(Arrays.asList(expresion)));

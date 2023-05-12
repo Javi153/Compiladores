@@ -4,14 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class DefaultCase extends Bloque<Statement> implements ASTNode {
-    protected boolean breakPresence;
+    protected boolean breakPresence; //Informa de si hay o no break
 
     public DefaultCase(ArrayList<Statement> stlist, boolean breakPresence){
         super(stlist);
-        tipoBloque = "defaultCase";
+        tipoBloque = "defaultCase"; //Es un caso especial de bloque
 	    this.breakPresence = breakPresence;
     }
 
+    //Funciona practicamente igual que bloque
     @Override
     public boolean type(){
         boolean aux = true;

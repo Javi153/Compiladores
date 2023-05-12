@@ -53,6 +53,79 @@ i32.load
 i32.load
 call $freeStack
 )
+(func $fact
+(result i32)
+(local $temp i32)
+(local $localsStart i32)
+   i32.const 16
+   call $reserveStack  ;; returns old MP (dynamic link)
+   set_local $temp
+   get_global $MP
+   get_local $temp
+   i32.store
+   get_global $MP
+   get_global $SP
+   i32.store offset=4
+   get_global $MP
+   i32.const 8
+   i32.add
+   set_local $localsStart
+
+i32.const 0
+get_local $localsStart
+i32.add
+
+i32.load
+i32.const 1
+i32.eq
+if
+i32.const 4
+get_local $localsStart
+i32.add
+
+i32.const 1
+i32.store
+
+
+
+else
+i32.const 4
+get_local $localsStart
+i32.add
+
+i32.const 0
+get_local $localsStart
+i32.add
+
+i32.load
+get_global $SP
+i32.const 8
+i32.add
+i32.const 0
+i32.add
+i32.const 0
+get_local $localsStart
+i32.add
+
+i32.load
+i32.const 1
+i32.sub
+i32.store
+call $fact
+
+i32.mul
+i32.store
+
+
+end
+
+i32.const 4
+get_local $localsStart
+i32.add
+
+i32.load
+call $freeStack
+)
 (func $init
 i32.const 8
 set_global $SP
@@ -137,6 +210,17 @@ i32.add
 i32.const 32
 i32.add
 i32.load
+call $print
+
+get_global $SP
+i32.const 8
+i32.add
+i32.const 0
+i32.add
+i32.const 4
+i32.store
+call $fact
+
 call $print
 
 
