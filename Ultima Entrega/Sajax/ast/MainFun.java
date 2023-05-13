@@ -12,6 +12,8 @@ public class MainFun implements ASTNode {
     private Return ret;
     private int size;
 
+    //El main funciona como un bloque terminado en return, por lo que sus funciones son similares a las de bloque
+
     public MainFun(/*ArrayList<Parametro> args, */ BloqueIns bloque, Return ret) {
         //this.args = args;
         this.bloque = bloque;
@@ -64,7 +66,7 @@ public class MainFun implements ASTNode {
     }
 
     @Override
-    public String code(){
+    public String code(){ //Usamos las funciones proporcionadas por el profesor para reservar la memoria necesaria y liberarla
         String s ="(func $main\n"+"(local $temp i32)\n   (local $localsStart i32)\n"+ "   i32.const " + (size + 8) + "\n" +
                 "   call $reserveStack  ;; returns old MP (dynamic link)\n" +
                 "   set_local $temp\n" +
@@ -81,7 +83,7 @@ public class MainFun implements ASTNode {
         s = s.concat(bloque.code() + "\n");
         s = s.concat("   call $freeStack\n");
         s = s.concat(ret.code() + "\n");
-        s = s.concat("   call $print\n");
+        s = s.concat("   call $print\n"); //El return del main se imprime por pantalla para comprobar que t0d0 ha ido bien
         s = s.concat("return\n)\n");
         return s;
     }

@@ -25,7 +25,7 @@ public class Print extends LlamadaFuncion implements ASTNode{
     }
 
     @Override
-    public boolean type() {
+    public boolean type() { //La expresion debe ser de tipo entero/bool o float, no se aceptan tipos complejos
         boolean aux = expresion.type();
         Tipo tipaux = expresion.isType();
         if(!aux || (!tipaux.getTipo().equals(TipoEnum.INT) && !tipaux.getTipo().equals(TipoEnum.FLOAT) && !tipaux.getTipo().equals(TipoEnum.BOOL))){
@@ -55,7 +55,7 @@ public class Print extends LlamadaFuncion implements ASTNode{
     public String code(){
         String s = expresion.code() + "\n";
         if(tipo.getTipo().equals(TipoEnum.INT) || tipo.getTipo().equals(TipoEnum.BOOL)) {
-            s = s.concat("call $print\n");
+            s = s.concat("call $print\n"); //Hay dos funcionesl, una para print de i32 y otra para print de f32
         }
         else{
             s = s.concat("call $print2\n");

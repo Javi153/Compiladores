@@ -45,23 +45,23 @@ public class LlamadaFuncion extends E implements ASTNode{
     }*/
 
     @Override
-    public Tipo isType() {
+    public Tipo isType() { //Busca el tipo de la funcion en la tabla
         return buscaTipo(name);
     }
 
     @Override
     public boolean type() {
-        boolean aux = buscaTipo(name) != null;
+        boolean aux = buscaTipo(name) != null; //Comprueba que la funcion tiene el tipo esperado en su definicion
         if(!aux){
             System.out.println("Error: Función " + name + " no está definida");
         }
         else{
             for(int i = 0; i < parlist.size(); i++){
-                parlist.get(i).type();
+                parlist.get(i).type(); //Comprueba que los tipos en los parametros son coherentes
                 KindE naux = parlist.get(i).kind();
-                boolean paraux = parlist.get(i).isType().getTipo().equals(((TipoParam)buscaTipo(name + "." + (i+1))).getTipoParam().getTipo());
+                boolean paraux = parlist.get(i).isType().getTipo().equals(((TipoParam)buscaTipo(name + "." + (i+1))).getTipoParam().getTipo()); //Compruebas que el tipo del ma¡¡parametro coincide con el de la definicion
                 if(((TipoParam)buscaTipo(name + "." + (i+1))).isRef()){
-                    if(!naux.equals(KindE.IDEN) && !naux.equals(KindE.FLECHA) && !naux.equals(KindE.PUNTO) && !naux.equals(KindE.CORCHETES) && !naux.equals(KindE.ASTERISCO)){
+                    if(!naux.equals(KindE.IDEN) && !naux.equals(KindE.FLECHA) && !naux.equals(KindE.PUNTO) && !naux.equals(KindE.CORCHETES) && !naux.equals(KindE.ASTERISCO)){ //Si es parametro por referencia debe ser un designador
                         System.out.println("Error: Se esperaba un designador en el parámetro por referencia " + parlist.get(i).num() + " de la función " + name);
                         paraux = false;
                     }
@@ -77,22 +77,22 @@ public class LlamadaFuncion extends E implements ASTNode{
 
     @Override
     public boolean bind() {boolean res = true;
-        ASTNode aux = buscaId(name);
+        ASTNode aux = buscaId(name); //Comprueba que la funcion este definida
         if(aux == null){
             res = false;
             System.out.println("Error: Función " + name + " no está definida");
         }
-        else if(aux.nodeKind() != NodeKind.FUNCIONDEC){
+        else if(aux.nodeKind() != NodeKind.FUNCIONDEC){ //Comprueba que lo que ha sido definido es efectivamente una funcion
             res = false;
             System.out.println("Error: " + name + " no es una función");
         }
-        else if(((DecFuncion)aux).numParams() != parlist.size()){
+        else if(((DecFuncion)aux).numParams() != parlist.size()){ //Comprueba que coincide el numero de parametros
             res = false;
             System.out.println("Error: Función " + name + " no tiene el número de parámetros correcto");
         }
         def = aux;
         for(E elem : parlist){
-            res = res & elem.bind();
+            res = res & elem.bind(); //Comprueba que los parametros estan asociados a variables existentes
         }
         return res;
     }

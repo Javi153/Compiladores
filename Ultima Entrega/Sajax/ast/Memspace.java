@@ -10,6 +10,7 @@ public class Memspace extends LlamadaFuncion implements ASTNode{
     public Memspace(E arg){
         super("memspace", new ArrayList<E>(Arrays.asList(arg)));
         this.arg = arg;
+        tipoDatos = new Tipo(TipoEnum.VOID);
     }
 
     @Override
@@ -44,6 +45,9 @@ public class Memspace extends LlamadaFuncion implements ASTNode{
 
     @Override
     public String code() {
+        if(tipoDatos.getTipo().equals(TipoEnum.VOID)){
+            return "";
+        }
         //return "get_global $NP\n" + sizeCode() + "\ncall $reserveHeap";
         return sizeCode() + "\ncall $reserveHeap\nget_global $NP"; // Le asigna al puntero la dirección de memoria de la
                                                                     // última posición del heap
@@ -51,9 +55,9 @@ public class Memspace extends LlamadaFuncion implements ASTNode{
 
     private String sizeCode() {
         return "i32.const " + tipoDatos.size() + "\n" + arg.code() + "\ni32.mul";
-    }
+    } //Se calcula el tamaño a reservar en el heap dependiendo del tipo de datos y del argumento
 
     public void setTipoDatos(Tipo t) {
         tipoDatos = t;
-    }
+    } //Se asocia la funcion con el tipo de datos de la variable llamante
 }

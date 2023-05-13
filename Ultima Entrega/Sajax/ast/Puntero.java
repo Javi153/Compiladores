@@ -11,7 +11,7 @@ public class Puntero extends Tipo implements ASTNode{ //Igual hay que rehacerlo
 
     public Tipo getTipoPointer(){
         return t;
-    }
+    } //Devuelve el tipo envuelto por el puntero, por ejemplo para *int devolvera int
 
     @Override
     public TipoEnum getTipo(){

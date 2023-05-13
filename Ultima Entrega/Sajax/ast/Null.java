@@ -15,12 +15,12 @@ public class Null extends E {
     }*/
 
     @Override
-    public Tipo isType() { //Probablemente le metere puntero
+    public Tipo isType() {
         return tipo;
     }
 
     @Override
-    public boolean type() { //Ya veremos mas adelante
+    public boolean type() {
         return true;
     }
 
