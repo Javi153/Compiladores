@@ -65,6 +65,9 @@ public class EUnar extends E { //Clase de expresiones formadas con un operador u
             case ASTERISCO -> {
                 if(opnd.isType().getTipo().equals(TipoEnum.PUNTERO)){
                     tipoOp = opnd.isType();
+                    if (tipoOp.isParam()) {
+                        tipoOp = ((TipoParam) tipoOp).getTipoParam();
+                    }
                     return opnd.type();
                 }
                 else{
@@ -75,6 +78,9 @@ public class EUnar extends E { //Clase de expresiones formadas con un operador u
             case NOT -> {
                 if(opnd.isType().getTipo().equals(TipoEnum.BOOL)){
                     tipoOp = opnd.isType();
+                    if (tipoOp.isParam()) {
+                        tipoOp = ((TipoParam) tipoOp).getTipoParam();
+                    }
                     return opnd.type();
                 }
                 else{

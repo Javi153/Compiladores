@@ -1,75 +1,46 @@
-float resta(float a, float b) {
-	return a - b;
-}
-/*
-float suma(float a, float& b) {
+void insertion_sort(int * & array) {
 
-a = 3.9;
-print(a);
-b = resta(0.0, 45.0);
-return a + b;
-
-}
-
-int fac(int n) {
-int res;
-	if (n == 0) {
-		res = 1;
+int j;
+int aux;
+	for (int i = 1; 9) {
+		j = i - 1;
+		aux = array[i];
+		while ((j >= 0) && (aux < array[j])) {
+			array[j + 1] = array[j]; 
+			j = j-1;
+		}
+		array[j + 1] = aux;
 	}
-	else {
-	res = n * fac(n - 1);
-	print(res);
-	}
-	return res;
 }
-*/
-struct yo {
-int a;
-float b;
+
+void prueba(int * p) {
+print(p[0]);
 }
 
 int main() {
-/*
-	float* p = memspace(1);
-	*p = 98.9;
-	float* c;
-	
-	c = p;
-	
-	print(*c);
-	print(*p);
-	float v = 0.0;
-	float b = 92.2;
-	
-	print(suma(v,b));
-	print(b);
 
-int arr[7];
+int* a = memspace(9);
+a[0] = 7;
+a[1] = 1;
+a[2] = -7;
+a[3] = 10;
+a[4] = 0;
+a[5] = 1;
+a[6] = 2;
+a[7] = -1;
+a[8] = 34;
 
-for (int i = 1; 8) {
-arr[i - 1] = i - 1;
-}
+insertion_sort(a);
 
-for (int i = 0; 7; 2) {
-print(arr[i]);
-}
+int * b = memspace(1);
+b[0] = 2000;
+print(b[0]);
+print(80);
+prueba(b);
 
-for (int i = 5; -1; -2) {
-print(arr[i]);
-}
+for (int i = 0; 9) {
+	print(a[i]);
+	}
 
-yo* yomismo = memspace(1);
-yo otro;
-yomismo->a = 8;
-yomismo->b = 9.9;
-otro = *yomismo;
-print(otro.a);
-print(otro.b);
-
-print(*p);
-*/
-
-print(fac(8));
-
-	return 0;
+return 0;
 }

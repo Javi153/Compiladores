@@ -76,6 +76,9 @@ public class Dec extends Statement implements ASTNode{
         }
         if(exp != null) { //Si hay valor inicial usamos el codigo de las asignaciones
             boolean aux = exp.type();
+            Tipo tExp = exp.isType();
+            if (tExp.isParam())
+                tExp = ((TipoParam) tExp).getTipoParam();
             if(tipo.isPointer() && exp.kind() == KindE.NULL){
                 return true;
             }
@@ -83,9 +86,9 @@ public class Dec extends Statement implements ASTNode{
                 ((Memspace) exp).setTipoDatos(((Puntero) tipo).getTipoPointer());
                 return true;
             }
-            if(tipo.isPointer() && exp.isType().isPointer()){
+            if(tipo.isPointer() && tExp.isPointer()){
                 Tipo t1 = ((Puntero)tipo).getTipoPointer();
-                Tipo t2 = ((Puntero)exp.isType()).getTipoPointer();
+                Tipo t2 = ((Puntero)tExp).getTipoPointer();
                 while(t1.isPointer() && t2.isPointer()){
                     t1 = ((Puntero)t1).getTipoPointer();
                     t2 = ((Puntero)t2).getTipoPointer();
@@ -95,8 +98,8 @@ public class Dec extends Statement implements ASTNode{
                     System.out.println("Error: Los punteros " + iden.num() + " y " + exp.num() + " son de tipos distintos");
                 }
             }
-            else if(!tipo.getTipo().equals(exp.isType().getTipo())){
-                System.out.println("Error: se esperaba tipo "+tipo.getTipo().toString()+" pero se ha recibido tipo "+exp.isType().getTipo().toString() + " en la expresion " + tipo.getTipo().toString() +" " + iden.num() + " = " + exp.num());
+            else if(!tipo.getTipo().equals(tExp.getTipo())){
+                System.out.println("Error: se esperaba tipo "+tipo.getTipo().toString()+" pero se ha recibido tipo "+tExp.getTipo().toString() + " en la expresion " + tipo.getTipo().toString() +" " + iden.num() + " = " + exp.num());
                 aux = false;
             }
             return aux;

@@ -12,8 +12,12 @@ public class Asign extends Statement implements ASTNode {
 
     @Override
     public boolean type() {
-        tipoAsig = designador.isType();
-        if(designador.isType().getTipo().equals(TipoEnum.ARRAY)){ //No permitimos copia de arrays
+        Tipo tDesig = designador.isType();
+        Tipo tExp = expresion.isType();
+        if (tDesig.isParam()) tDesig = ((TipoParam) tDesig).getTipoParam();
+        if (tExp.isParam()) tExp = ((TipoParam) tExp).getTipoParam();
+        tipoAsig = tDesig;
+        if(tDesig.getTipo().equals(TipoEnum.ARRAY)){ //No permitimos copia de arrays
             System.out.println("Error: No se puede asignar a un array");
             return false;
         }
@@ -22,16 +26,16 @@ public class Asign extends Statement implements ASTNode {
             return false;
         }
         boolean aux = expresion.type() & designador.type(); //Comprobamos que los tipos de ambos terminos son correctos con su definicion
-        if(designador.isType().isPointer() && expresion.kind() == KindE.NULL){ //Null puede tiparse con cualquier clase de puntero
+        if(tDesig.isPointer() && expresion.kind() == KindE.NULL){ //Null puede tiparse con cualquier clase de puntero
             return true;
         }
-        if(designador.isType().isPointer() && expresion.nodeKind() == NodeKind.MEMSPACE){ //Tambien memspace puede adaptarse a cualquier tipo de puntero
-            ((Memspace) expresion).setTipoDatos(((Puntero) designador.isType()).getTipoPointer()); //Elegimos el tipo especifico de memspace en esta asignacion
+        if(tDesig.isPointer() && expresion.nodeKind() == NodeKind.MEMSPACE){ //Tambien memspace puede adaptarse a cualquier tipo de puntero
+            ((Memspace) expresion).setTipoDatos(((Puntero) tDesig).getTipoPointer()); //Elegimos el tipo especifico de memspace en esta asignacion
             return true;
         }
-        if(designador.isType().isPointer() && expresion.isType().isPointer()){
-            Tipo t1 = designador.isType(); //Si ambos son punteros comprobamos el tipo al que apuntan
-            Tipo t2 = expresion.isType();
+        if(tDesig.isPointer() && expresion.isType().isPointer()){
+            Tipo t1 = tDesig; //Si ambos son punteros comprobamos el tipo al que apuntan
+            Tipo t2 = tExp;
             while(t1.isPointer() && t2.isPointer()){ //Puede haber punteros multiples, aunque en codigo esto no se reflejara
                 t1 = ((Puntero)t1).getTipoPointer();
                 t2 = ((Puntero)t2).getTipoPointer();
@@ -41,9 +45,9 @@ public class Asign extends Statement implements ASTNode {
                 System.out.println("Error: Los punteros " + designador.num() + " y " + expresion.num() + " son de tipos distintos");
             }
         }
-        else if(!designador.isType().getTipo().equals(expresion.isType().getTipo())){ //Si no son punteros comprobamos la igualdad de tipos normales
+        else if(!tDesig.getTipo().equals(tExp.getTipo())){ //Si no son punteros comprobamos la igualdad de tipos normales
             aux = false;
-            System.out.println("Error: Se esperaba tipo " + designador.isType().toString() + " pero se ha recibido tipo " + expresion.isType().toString() + " en la expresion " + expresion.num());
+            System.out.println("Error: Se esperaba tipo " + tDesig.toString() + " pero se ha recibido tipo " + tExp.toString() + " en la expresion " + expresion.num());
         }
         return aux;
     }

@@ -59,7 +59,7 @@ public class Ident extends E implements ASTNode, Designador {
             }
             case PARAM -> {
                 switch(((Parametro) def).getTipo().getTipo()) {
-                    case INT, BOOL -> { c = c.concat("\ni32.load"); }
+                    case INT, BOOL, PUNTERO -> { c = c.concat("\ni32.load"); }
                     case FLOAT -> { c = c.concat("\nf32.load"); }
                     default -> {}
                 }

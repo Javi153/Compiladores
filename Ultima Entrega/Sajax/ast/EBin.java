@@ -251,6 +251,9 @@ public class EBin extends E{ //Superclase de las expresiones que usan operadores
             }
             case CORCHETES -> {
                 Tipo taux = opnd1.isType();
+                if(taux.isParam()){
+                    taux = ((TipoParam)taux).getTipoParam();
+                }
                 if(taux.getTipo() != TipoEnum.ARRAY && taux.getTipo() != TipoEnum.PUNTERO){
                     return new Tipo(TipoEnum.VOID);
                 }
@@ -467,25 +470,28 @@ public class EBin extends E{ //Superclase de las expresiones que usan operadores
                 return opnd1.codeDesig() + "\ni32.load\ni32.const " + offset + "\ni32.add\n";
             }
             case CORCHETES -> {
-                if(!tipoOp.getTipo().equals(TipoEnum.ARRAY)) {
-                    if (opnd1.getDef().nodeKind().equals(NodeKind.DEC)) { //Si la declaracion es DEC y no DECARRAY es que en vd es un puntero usando corchetes
-                        return opnd1.codeDesig() + "\ni32.load\ni32.const " + tipoOp.size() + "\n"
+                Tipo tOp = tipoOp;
+                if (tOp.isParam())
+                    tOp = ((TipoParam) tOp).getTipoParam();
+                if(!tOp.getTipo().equals(TipoEnum.ARRAY)) {
+                    if (opnd1.getDef().nodeKind().equals(NodeKind.DEC) || opnd1.getDef().nodeKind().equals(NodeKind.PARAM)) { //Si la declaracion es DEC y no DECARRAY es que en vd es un puntero usando corchetes
+                        return opnd1.codeDesig() + "\ni32.load\ni32.const " + tOp.size() + "\n"
                                 + opnd2.code() + "\ni32.mul\ni32.add\n";
                     }
                     else {
-                        return opnd1.codeDesig() + "\ni32.const " + tipoOp.size() + "\n"
+                        return opnd1.codeDesig() + "\ni32.const " + tOp.size() + "\n"
                                 + opnd2.code() + "\ni32.mul\ni32.add\n";
                     }
                 }
                 else {
-                    TipoArray aux = (TipoArray) tipoOp;
+                    TipoArray aux = (TipoArray) tOp;
                     int tam = aux.getTam();
                     DecArray auxdef = (DecArray) def;
                     int mult = 1;
                     for(int i = auxdef.dimSize() - 1; i > auxdef.dimSize() - tam - 1; --i){
                         mult = mult * auxdef.getDims().get(i).getInt(); //Iterativamente buscamos la direccion en cada dimension
                     }
-                    return opnd1.codeDesig() + "\ni32.const " + ((TipoArray) tipoOp).getTipoBasico().size() * mult + "\n"
+                    return opnd1.codeDesig() + "\ni32.const " + ((TipoArray) tOp).getTipoBasico().size() * mult + "\n"
                             + opnd2.code() + "\ni32.mul\ni32.add\n"; //Ahora opnd1 nos da la direccion basica del array y tenemos calculado el offset, añadimos el valor de opnd2 ahora
                 }
             }

@@ -158,7 +158,7 @@ public class LlamadaFuncion extends E implements ASTNode{
             else {
                 TipoEnum tipo = t.getTipoParam().getTipo();
                 switch(tipo) {
-                    case INT, BOOL, FLOAT -> {
+                    case INT, BOOL, FLOAT, PUNTERO -> {
                         s = s.concat("get_global $SP\ni32.const 8\ni32.add\n"); // pila <- SP + 8
                         s = s.concat("i32.const " + dec.getParams().get(i).getDelta() + "\ni32.add\n"); // pila <- delta(param, marco nuevo) + SP + 8
                         s = s.concat(parlist.get(i).code() + "\n"); // pila <- evaluación de expresión (parámetro por valor)
@@ -172,12 +172,6 @@ public class LlamadaFuncion extends E implements ASTNode{
                         //s = s.concat("get_global $SP\ni32.const " + (dec.getSize() + 8) +"\ni32.add\nset_global $SP\n");
                         s = s.concat("call $copyn\n");
                         //s = s.concat("get_global $SP\ni32.const " + (dec.getSize() + 8) +"\ni32.sub\nset_global $SP\n");
-                    }
-                    case PUNTERO ->{
-                        s = s.concat("get_global $SP\ni32.const 8\ni32.add\n"); // pila <- SP + 8
-                        s = s.concat("i32.const " + dec.getParams().get(i).getDelta() + "\ni32.add\n"); // pila <- delta(param, marco nuevo) + SP + 8
-                        s = s.concat(parlist.get(i).code() + "\n"); // pila <- evaluación de expresión (parámetro por valor)
-                        s = s.concat(tipo.alias() + ".store\n"); // mem(SP+8+delta) = valor
                     }
                     default -> {}
                 }
