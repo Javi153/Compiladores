@@ -9,8 +9,8 @@
 (global $MP (mut i32) (i32.const 0)) ;; mark pointer
 (global $NP (mut i32) (i32.const 131071996)) ;; heap 2000*64*1024-4
 (start $init)
-(func $suma
-(result i32)
+(func $resta
+(result f32)
 (local $temp i32)
 (local $localsStart i32)
    i32.const 16
@@ -29,31 +29,17 @@
 i32.const 0
 get_local $localsStart
 i32.add
-i32.load
 
-i32.const 0
-get_local $localsStart
-i32.add
-i32.load
-
-i32.load
+f32.load
 i32.const 4
 get_local $localsStart
 i32.add
 
-i32.load
-i32.add
-i32.store
-
-i32.const 0
-get_local $localsStart
-i32.add
-i32.load
-
-i32.load
+f32.load
+f32.sub
 call $freeStack
 )
-(func $fact
+(func $fac
 (result i32)
 (local $temp i32)
 (local $localsStart i32)
@@ -76,7 +62,7 @@ get_local $localsStart
 i32.add
 
 i32.load
-i32.const 1
+i32.const 0
 i32.eq
 if
 i32.const 4
@@ -111,10 +97,17 @@ i32.load
 i32.const 1
 i32.sub
 i32.store
-call $fact
+call $fac
 
 i32.mul
 i32.store
+
+i32.const 4
+get_local $localsStart
+i32.add
+
+i32.load
+call $print
 
 
 end
@@ -137,7 +130,7 @@ return
 (func $main
 (local $temp i32)
    (local $localsStart i32)
-   i32.const 224
+   i32.const 8
    call $reserveStack  ;; returns old MP (dynamic link)
    set_local $temp
    get_global $MP
@@ -150,76 +143,14 @@ return
    i32.const 8
    i32.add
    set_local $localsStart
-
-
-i32.const 0
-get_local $localsStart
-i32.add
-
-i32.const 36
-i32.const 3
-i32.mul
-i32.add
-
-i32.const 32
-i32.add
-
-i32.const 7
-i32.store
-
-i32.const 0
-get_local $localsStart
-i32.add
-
-i32.const 36
-i32.const 3
-i32.mul
-i32.add
-
-i32.const 0
-i32.add
-
-i32.const 4
-i32.const 0
-i32.mul
-i32.add
-
-i32.const 2
-i32.store
-
-i32.const 0
-get_local $localsStart
-i32.add
-
-i32.const 36
-i32.const 3
-i32.mul
-i32.add
-
-i32.const 180
-get_local $localsStart
-i32.add
-
-i32.const 9
- call $copyn
-
-i32.const 180
-get_local $localsStart
-i32.add
-
-i32.const 32
-i32.add
-i32.load
-call $print
-
 get_global $SP
 i32.const 8
 i32.add
 i32.const 0
 i32.add
-i32.const 4
+i32.const 8
 i32.store
-call $fact
+call $fac
 
 call $print
 

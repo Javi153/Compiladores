@@ -52,7 +52,7 @@ public class Ident extends E implements ASTNode, Designador {
         switch (def.nodeKind()) { //Buscamos el tipo y lo cargamos dependiendo si es int o float
             case DEC -> {
                 switch(((Dec) def).getTipo().getTipo()) {
-                    case INT, BOOL -> { c = c.concat("\ni32.load"); }
+                    case INT, BOOL, PUNTERO -> { c = c.concat("\ni32.load"); }
                     case FLOAT -> { c = c.concat("\nf32.load"); }
                     default -> {}
                 }

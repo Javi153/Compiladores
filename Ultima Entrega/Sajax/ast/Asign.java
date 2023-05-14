@@ -3,6 +3,7 @@ package ast;
 public class Asign extends Statement implements ASTNode {
     private E designador;
     private E expresion;
+    private Tipo tipoAsig;
 
     public Asign(E designador, E expresion) {
         this.designador = designador;
@@ -11,6 +12,7 @@ public class Asign extends Statement implements ASTNode {
 
     @Override
     public boolean type() {
+        tipoAsig = designador.isType();
         if(designador.isType().getTipo().equals(TipoEnum.ARRAY)){ //No permitimos copia de arrays
             System.out.println("Error: No se puede asignar a un array");
             return false;
@@ -53,6 +55,7 @@ public class Asign extends Statement implements ASTNode {
 
     @Override
     public String code() {
+        /*
         switch(designador.getDef().nodeKind()) { //Comprobamos la clase del nodo de la definicion del termino a la izquierda del igual
             case DEC -> {
                 TipoEnum t = ((Dec) designador.getDef()).getTipo().getTipo();
@@ -65,6 +68,7 @@ public class Asign extends Statement implements ASTNode {
                     case PUNTERO -> {
                         Tipo tBas = ((Puntero) ((Dec) designador.getDef()).getTipo()).getTipoPointer();
                         return designador.codeDesig() + "\n" + expresion.code() + "\n" + tBas.getTipo().alias() + ".store\n";
+                        //return designador.codeDesig() + "\n" + expresion.code() + "\n" + t.alias() + ".store\n";
                     }
                 } //En cada caso hacemos un casting a la clase correspondiente para obtener el tipo de la declaracion
             }
@@ -98,8 +102,15 @@ public class Asign extends Statement implements ASTNode {
             }
             default -> {}
         }
+        */
 
-        return "";
+        if (tipoAsig.getTipo().equals(TipoEnum.STRUCT)) {
+            int s = tipoAsig.size();
+            return expresion.codeDesig() + "\n" + designador.codeDesig() + "\ni32.const " + s/4 + "\n call $copyn\n";
+        }
+        else { // Tipo INT, BOOL, FLOAT, PUNTERO
+            return designador.codeDesig() + "\n" + expresion.code() + "\n" + tipoAsig.getTipo().alias() + ".store\n";
+        }
     }
 
     @Override

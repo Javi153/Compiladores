@@ -3,6 +3,7 @@ package ast;
 public class EUnar extends E { //Clase de expresiones formadas con un operador unario
     private E opnd;
     private KindE k;
+    private Tipo tipoOp;
 
     public String num(){
         String simbolo = "";
@@ -63,6 +64,7 @@ public class EUnar extends E { //Clase de expresiones formadas con un operador u
         switch(k){
             case ASTERISCO -> {
                 if(opnd.isType().getTipo().equals(TipoEnum.PUNTERO)){
+                    tipoOp = opnd.isType();
                     return opnd.type();
                 }
                 else{
@@ -72,6 +74,7 @@ public class EUnar extends E { //Clase de expresiones formadas con un operador u
             }
             case NOT -> {
                 if(opnd.isType().getTipo().equals(TipoEnum.BOOL)){
+                    tipoOp = opnd.isType();
                     return opnd.type();
                 }
                 else{
@@ -91,10 +94,20 @@ public class EUnar extends E { //Clase de expresiones formadas con un operador u
     @Override
     public String code() {
         switch(k) {
-            case ASTERISCO -> {} //TODO aqui deberia llamar al code siempre que el operando tenga tipo basico
+            case ASTERISCO -> {
+                Tipo t = ((Puntero) tipoOp).getTipoPointer();
+                return opnd.code() + "\n" + t.getTipo().alias() + ".load";
+            } //TODO aqui deberia llamar al code siempre que el operando tenga tipo basico
             case NOT -> {return opnd.code() + "\ni32.eqz"; }
         }
         return null;
+    }
+
+    public String codeDesig() {
+        if (k.equals(KindE.ASTERISCO)) {  // Solo se debería invocar a codeDesig en este caso (*p = exp;)
+            return opnd.code();
+        }
+        else return "";
     }
 
     public String toString() {

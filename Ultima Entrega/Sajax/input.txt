@@ -1,23 +1,75 @@
-struct Persona{
-	int otraCosa[8];
-	int DNI;
+float resta(float a, float b) {
+	return a - b;
+}
+/*
+float suma(float a, float& b) {
+
+a = 3.9;
+print(a);
+b = resta(0.0, 45.0);
+return a + b;
+
 }
 
-int suma(int& a, int b){
-	a = a + b;
-	return a;
+int fac(int n) {
+int res;
+	if (n == 0) {
+		res = 1;
+	}
+	else {
+	res = n * fac(n - 1);
+	print(res);
+	}
+	return res;
+}
+*/
+struct yo {
+int a;
+float b;
 }
 
 int main() {
-Persona p[5];
-Persona aux;
-p[3].DNI = 7;
-p[3].otraCosa[0] = 2;
-aux = p[3];
-print(aux.DNI);
-//for(int i = 0; 7){
-//print(suma(a, 7));
-//a = a + 1;
-return 0;
+/*
+	float* p = memspace(1);
+	*p = 98.9;
+	float* c;
+	
+	c = p;
+	
+	print(*c);
+	print(*p);
+	float v = 0.0;
+	float b = 92.2;
+	
+	print(suma(v,b));
+	print(b);
+
+int arr[7];
+
+for (int i = 1; 8) {
+arr[i - 1] = i - 1;
 }
 
+for (int i = 0; 7; 2) {
+print(arr[i]);
+}
+
+for (int i = 5; -1; -2) {
+print(arr[i]);
+}
+
+yo* yomismo = memspace(1);
+yo otro;
+yomismo->a = 8;
+yomismo->b = 9.9;
+otro = *yomismo;
+print(otro.a);
+print(otro.b);
+
+print(*p);
+*/
+
+print(fac(8));
+
+	return 0;
+}
