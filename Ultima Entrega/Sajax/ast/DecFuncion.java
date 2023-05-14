@@ -85,9 +85,9 @@ public class DecFuncion extends Definicion implements ASTNode{
                 System.out.println("Error: Funcion " + name + " ya declarada");
                 return false;
             } else {
-                boolean aux;
+                boolean aux = tipo.bind();
                 m.put(name.toString(), this);
-                aux = name.bind();
+                aux = aux & name.bind();
                 s.push(new HashMap<>());
                 for (Parametro p : parlist) {
                     aux = aux & p.bind();
@@ -104,7 +104,7 @@ public class DecFuncion extends Definicion implements ASTNode{
             if(m.containsKey(name.toString())){
                 ASTNode original = m.get(name.toString());
                 if(original.nodeKind() == NodeKind.FUNCIONDEC && ((DecFuncion)original).sinCuerpo()){
-                    boolean aux = ((DecFuncion)original).numParams() == parlist.size();
+                    boolean aux = tipo.bind() & ((DecFuncion)original).numParams() == parlist.size();
                     if(!aux) {
                         System.out.println("Error: Funcion " + name + " no coincide en el número de parámetros");
                     }
@@ -126,7 +126,7 @@ public class DecFuncion extends Definicion implements ASTNode{
                 }
             }
             else{
-                boolean aux = true;
+                boolean aux = tipo.bind();
                 m.put(name.toString(), this);
                 s.push(new HashMap<>());
                 for(Parametro p : parlist){
@@ -250,5 +250,9 @@ public class DecFuncion extends Definicion implements ASTNode{
 
     public int getSize(){
         return size;
+    }
+
+    public Tipo getTipo(){
+        return tipo;
     }
 }

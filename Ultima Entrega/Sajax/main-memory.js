@@ -8,17 +8,18 @@ const insrc = readline.createInterface({
 });
 
 entrada = [];
-i = 0; 
+i = 0;
 
 
 async function readInput(n){
     var line;
+    insrc.readline;
 //    console.log(line);
     for await (line of insrc) {
-//	console.log(line);
-	entrada.push(parseInt(line));
+// 	console.log(line);
+	entrada.push(line);
 	n--;
-	if (n==0) return;
+	if (n==0) break;
     }
     insrc.close();
 }
@@ -56,7 +57,7 @@ async function start() {
 }
 
 async function run() {
-    //await readInput(1);
+    await readInput(8);
     await start();
     process.exit(0);
 }

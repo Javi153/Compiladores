@@ -1,6 +1,6 @@
 package ast;
 
-public class VarGlobal extends Definicion implements ASTNode{
+public class VarGlobal extends Definicion implements ASTNode{ //Wrapper de una declaracion o declaracion de array para convertirlo en definicion
     private Statement var;
 
     public VarGlobal(Statement var){

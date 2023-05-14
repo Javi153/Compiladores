@@ -12,7 +12,7 @@ public enum TipoEnum {
         return name;
     }
 
-    public String alias() {
+    public String alias() { //Alias para facilitar la generacion de codigo
         switch (this) {
             case INT, BOOL, PUNTERO -> {return "i32";}
             case FLOAT -> {return "f32";}
@@ -20,7 +20,7 @@ public enum TipoEnum {
         }
     }
 
-    public int size() {     //TODO esto no se puede hacer aqui
+    public int size() { //Tamaño del tipo
         switch(this) {
             case INT, BOOL, FLOAT -> {return 4;}
             default -> {return 0;}

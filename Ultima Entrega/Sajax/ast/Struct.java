@@ -11,25 +11,21 @@ public class Struct extends Definicion implements ASTNode{
         this.atributos = atributos;
     }
 
-    public Struct(String name, Struct s){
+    public Struct(String name, Struct s){ //Constructor de copia
         this.name = name;
         this.atributos = s.getAtt();
     }
 
     @Override
     public boolean type() {
-        /*Javi del pasado igual no te acuerdas pero ya pensamos en eso. Si, en las funciones de structs
-        La clave sera guardar t0d0 como struct.funcion.1 etc. Para ello quiza lo mejor es que escribas las cosas
-        de funcion desde aqui, sin llamar a su type*/
-        // supongo que querrías decir Javi del futuro :)
         boolean aux = true;
-        sTipo.peek().put(name, new TipoStruct(name));
+        sTipo.peek().put(name, new TipoStruct(name)); //Guardamos el tipo del struct con su nombre
         for(ASTNode n : atributos.getList()){
             switch(n.nodeKind()){
                 case DEC -> {
                     Dec d = (Dec)n;
-                    aux = aux & (new Dec(name + "." + d.getName(), d)).type();
-                }
+                    aux = aux & (new Dec(name + "." + d.getName(), d)).type(); //Para reconocer que el atributo forma parte de este strutc, lo guardaremos como nombrestruct.nombreatrib
+                }                                                                   //De esta manera podemos buscarlo independientemente del operando izquierdo
                 case DECARRAY -> {
                     DecArray d = (DecArray)n;
                     aux = aux & (new DecArray(name + "." + d.getName(), d)).type();
@@ -45,16 +41,16 @@ public class Struct extends Definicion implements ASTNode{
 
     @Override
     public boolean bind() {
-        if(buscaId(name) != null){
+        if(buscaId(name) != null){ //Comprobamos que no hay un struct con el mismo nombre
             System.out.println("Error: ya existe una variable con el nombre "+name);
             return false;
         }
         else{
-            insertaId(name, this);
+            insertaId(name, this); //Asociamos el struct a este nodo
             s.push(new HashMap<>());
-            boolean aux = atributos.bind();
+            boolean aux = atributos.bind(); //Creamos los nodos de asociacion de los atributos
             s.pop();
-            for(ASTNode a : atributos.getList()){
+            for(ASTNode a : atributos.getList()){ //Para hacer el binding, guardaremos estos atributos como .nombreatrib, paara comprobar que al menos existe un atributo de algun struct con ese nombre
                 if(a.nodeKind() == NodeKind.DEC){
                     Dec d = (Dec)a;
                     insertaId("." + d.getName(), d);
@@ -70,21 +66,9 @@ public class Struct extends Definicion implements ASTNode{
         }
     }
 
-    /*@Override
-    public void setDelta() {
-        sDelta.push(new HashMap<>());
-        sDeltaCont.push(0);
-        for (ASTNode a : atributos.getList())
-            a.setDelta(); // Esto tal vez no me hace el casting sino que llama a la setDelta() default de ASTNode
-        sDeltaCont.pop(); // Cosas de TP1
-        sDelta.pop();
-    }*/
-
     @Override
     public void setDelta(int prof) {
         this.prof = prof;
-        //for (ASTNode a : atributos.getList())
-        //    a.setDelta(prof);
     }
 
     @Override
@@ -100,7 +84,7 @@ public class Struct extends Definicion implements ASTNode{
         return atributos;
     }
 
-    public int size(){
+    public int size(){ //Calculamos el tamaño en bytes que necesitas para guardar todos los atributos del struct
         int s = 0;
         for(ASTNode atr : atributos.getList()){
             if(atr.nodeKind() == NodeKind.DECARRAY)
@@ -111,7 +95,7 @@ public class Struct extends Definicion implements ASTNode{
         return s;
     }
 
-    public int getOffset(Ident a){
+    public int getOffset(Ident a){ //Funcion que dice la posicion relativa del atributo dentro del struct en bytes
         int offset = 0;
         for(ASTNode atr : atributos.getList()){
             if(atr.nodeKind() == NodeKind.DECARRAY){

@@ -15,10 +15,15 @@ public class TipoArray extends Tipo{
 
     public Tipo getTipoBasico(){
         return t;
-    }
+    } //Devuelve el tipo de los elementos del array
 
     @Override
     public boolean bind() {
         return t.bind();
+    }
+
+    @Override
+    public boolean type() {
+        return t.type();
     }
 }

@@ -27,7 +27,7 @@ public class TipoStruct extends Tipo implements ASTNode, Designador{
             return false;
         }
         else{
-            def = aux;
+            def = aux; //Simplemente guardamos la declaracion del struct si existe
             return true;
         }
     }
@@ -45,9 +45,9 @@ public class TipoStruct extends Tipo implements ASTNode, Designador{
         return def;
     }
 
-    public int size(){
+    public int size(){ //Solo
         int s = 0;
-        for(ASTNode atr : ((Struct)def).getAtt().getList()){
+        for(ASTNode atr : ((Struct)def).getAtt().getList()){ //El tamaño del array, las funciones no ocupan espacio
             switch(atr.nodeKind()){
                 case DEC:
                     s += ((Dec)atr).getTipo().size();
@@ -55,8 +55,7 @@ public class TipoStruct extends Tipo implements ASTNode, Designador{
                 case DECARRAY:
                     s += ((DecArray)atr).size();
                     break;
-                case FUNCIONDEC:
-                    //s += ((FuncionDec)atr).getTipo().size(); //Creo que las funciones en principio no ocupan espacio
+                case FUNCIONDEC: //Finalmente los metodos de struct no se implmentaran a nivel de codiogo
                     break;
             }
         }

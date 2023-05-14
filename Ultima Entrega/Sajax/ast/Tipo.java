@@ -1,6 +1,6 @@
 package ast;
 
-public class Tipo implements ASTNode{
+public class Tipo implements ASTNode{ //Superclase de los tipos
     protected TipoEnum t;
     protected boolean isPointer;
     protected boolean isParam;

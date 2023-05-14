@@ -149,19 +149,33 @@ public class EBin extends E{ //Superclase de las expresiones que usan operadores
                     return false;
                 }
                 String auxname;
+                TipoStruct t2;
                 if(!t.isParam()) { //Buscamos el nombre del struct al que se refiere opnd1
                         auxname=((TipoStruct) t).getId();
+                        t2 = (TipoStruct) t;
                 }
                 else{
                         auxname = ((TipoStruct)((TipoParam)t).getTipoParam()).getId();
+                        t2 = (TipoStruct)((TipoParam)t).getTipoParam();
                 }
                 if(opnd2.kind().equals(KindE.CALLFUN)){ //Para las funciones haremos el tipado sobre nombreDelStruct.funcion() pues asi esta guardado en la tabla de tipos
+                    for(ASTNode a : ((Struct)t2.getDef()).getAtt().getList()){
+                        if(a.nodeKind().equals(NodeKind.FUNCIONDEC) && ((DecFuncion)a).getName().equals(((LlamadaFuncion)opnd2).getName())){
+                            opnd2.setDef(a); //Reemplazamos la defincion para evitar mal asociamiento en binding por nombres repetidos de atributos de distintos structs
+                        }
+                    }
                     LlamadaFuncion f = new LlamadaFuncion(auxname + "." + ((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist());
                     boolean res = f.type();
                     tipoOp = f.isType();
                     return res;
                 }
                 else{ //Para los atributos del struct hacemos lo mismo, cambiamos el opnd1 por el nombre del struct para tipar
+                    for(ASTNode a : ((Struct)t2.getDef()).getAtt().getList()){
+                        if((a.nodeKind().equals(NodeKind.DEC) && ((Dec)a).getName().equals((opnd2.num()))) ||
+                                (a.nodeKind().equals(NodeKind.DECARRAY) && ((DecArray)a).getName().equals((opnd2).num()))){
+                            opnd2.setDef(a); //Reemplazamos la defincion para evitar mal asociamiento en binding por nombres repetidos de atributos de distintos structs
+                        }
+                    }
                     Ident Id = new Ident(auxname + "." + ((Ident)opnd2).num());
                     boolean res = Id.type();
                     tipoOp = Id.isType();
@@ -430,6 +444,9 @@ public class EBin extends E{ //Superclase de las expresiones que usan operadores
                 else if (opnd1.getDef().nodeKind().equals(NodeKind.DECARRAY)){
                     offset = ((Struct) ((TipoStruct) ((DecArray) opnd1.getDef()).getTipo()).getDef()).getOffset((Ident) opnd2);
                 }
+                else if(opnd1.getDef().nodeKind().equals(NodeKind.FUNCIONDEC)){
+                    offset = ((Struct) ((TipoStruct) ((DecFuncion)opnd1.getDef()).getTipo()).getDef()).getOffset((Ident) opnd2);
+                }
                 else{
                     offset = ((Struct) ((TipoStruct) ((TipoParam)((Parametro)opnd1.getDef()).getTipo()).getTipoParam()).getDef()).getOffset((Ident) opnd2);
                 }
@@ -455,6 +472,9 @@ public class EBin extends E{ //Superclase de las expresiones que usan operadores
                 }
                 else if (opnd1.getDef().nodeKind().equals(NodeKind.DECARRAY)){
                     offset = ((Struct) ((TipoStruct) ((DecArray) opnd1.getDef()).getTipo()).getDef()).getOffset((Ident) opnd2);
+                }
+                else if(opnd1.getDef().nodeKind().equals(NodeKind.FUNCIONDEC)){
+                    offset = ((Struct) ((TipoStruct) ((DecFuncion)opnd1.getDef()).getTipo()).getDef()).getOffset((Ident) opnd2);
                 }
                 else{
                     Tipo auxt = ((TipoParam)((Parametro)opnd1.getDef()).getTipo()).getTipoParam();

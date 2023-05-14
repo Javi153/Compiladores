@@ -23,7 +23,7 @@ public class Switch extends Statement implements ASTNode {
         br_table_init();
     }
 
-    public Switch(E exp, ArrayList<Case> cases, DefaultCase defaultCase) {
+    public Switch(E exp, ArrayList<Case> cases, DefaultCase defaultCase) { //Diferenciamos el caso en que hay default
         this.exp = exp;
         this.cases = cases;
         this.defaultCase = defaultCase;
@@ -34,7 +34,7 @@ public class Switch extends Statement implements ASTNode {
     }
 
     @Override
-    public boolean type() {
+    public boolean type() { //Para el tipado funciona como dos bloques, solo comprobamos que la expresion es un entero
         boolean aux = exp.type() & exp.isType().getTipo().equals(TipoEnum.INT);
         if(!aux){
             System.out.println("Error: la expresion del switch " + exp.num() + " no es de tipo entero");
@@ -49,7 +49,7 @@ public class Switch extends Statement implements ASTNode {
     }
 
     @Override
-    public boolean bind() {
+    public boolean bind() { //Para le binding asociamos cada una de sus partes
         boolean aux = exp.bind();
         for (Case c : cases) {
             aux = aux & c.bind();
@@ -95,7 +95,7 @@ public class Switch extends Statement implements ASTNode {
 
         c = c.concat(exp.code() + "\ni32.const " + minimo + "\ni32.sub\n");
 
-        c = c.concat("br_table");
+        c = c.concat("br_table"); //Se codifican todos los saltos
 
         for (Integer num : br_table)
             c = c.concat(" " + num.toString());
@@ -105,7 +105,7 @@ public class Switch extends Statement implements ASTNode {
         int tam = cases.size();
         for (int i = 0; i < tam; ++i) {
             Case caso = cases.get(i);
-            c = c.concat(caso.code() + "\n");
+            c = c.concat(caso.code() + "\n"); //se añade el codigo de cada caso
             if (caso.getBreakPresence())
                 c = c.concat("br " + (n - i) + "\n");
             c = c.concat("end\n");
@@ -114,7 +114,7 @@ public class Switch extends Statement implements ASTNode {
         for (int i = 0; i < n - tam; ++i)
             c = c.concat("end\n");
 
-        if (defaultCase != null) {
+        if (defaultCase != null) { //Si hay default se añade
             c = c.concat(defaultCase.code() + "\n");
             if (defaultCase.getBreakPresence())
                 c = c.concat("br 0\n");
@@ -125,7 +125,7 @@ public class Switch extends Statement implements ASTNode {
         return c;
     }
 
-    private int buscaMinimo() {
+    private int buscaMinimo() { //Busca el minimo de los cases
         int min = cases.get(0).getEnt().getInt();
         for (Case c : cases) {
             int aux = c.getEnt().getInt();
@@ -135,7 +135,7 @@ public class Switch extends Statement implements ASTNode {
         return min;
     }
 
-    private int buscaMaximo() {
+    private int buscaMaximo() { //Busca el maximo de los cases
         int max = cases.get(0).getEnt().getInt();
         for (Case c : cases) {
             int aux = c.getEnt().getInt();
@@ -145,7 +145,7 @@ public class Switch extends Statement implements ASTNode {
         return max;
     }
 
-    private void br_table_init() {
+    private void br_table_init() { //Inicializa la tabla de saltos poniendo los cases en orden desde el minimo siendo el 0 en adelante
         br_table = new ArrayList<Integer>(Collections.nCopies(n + 1, n));
 
         int num = cases.size();
