@@ -19,7 +19,7 @@ public class DecFuncion extends Definicion implements ASTNode{
         this.ret = ret;
     }
 
-    public DecFuncion(String name, DecFuncion d){
+    public DecFuncion(String name, DecFuncion d){  //Constructor de copia
         this.name = new Ident(name);
         this.tipo = d.tipo;
         this.parlist = d.parlist;
@@ -34,7 +34,7 @@ public class DecFuncion extends Definicion implements ASTNode{
     @Override
     public boolean type() {
         boolean aux = true;
-        if(cuerpo != null && sTipo.peek().get(name.toString()) != null){
+        if(cuerpo != null && sTipo.peek().get(name.toString()) != null){ //Si ya ha sido definida tenemos que ver que los parametros de la definicion coinciden
             if(!sTipo.peek().get(name.toString()).getTipo().equals(tipo.getTipo())){
                 aux = false;
                 System.out.println("El tipo de la funcion " + name + " no coincide con el tipo de la declaracion");
@@ -47,7 +47,7 @@ public class DecFuncion extends Definicion implements ASTNode{
                 }
             }
         }
-        else {
+        else { //Ademas guardamos los tipos de los parametros, posiblemente sobreescribiendolos si ya estaban declarados
             sTipo.peek().put(name.toString(), tipo);
             int count = 1;
             for (Parametro p : parlist) {
@@ -55,12 +55,12 @@ public class DecFuncion extends Definicion implements ASTNode{
                 count++;
             }
         }
-        if(cuerpo != null){
+        if(cuerpo != null){ //Si ademas esta definicion ya tiene el cuerpo, debemos tipar laas insctrucciones en su interior, asi como el return, que debe coincidir con el tipo de la funcion
             sTipo.push(new HashMap<>());
-            for(Parametro p : parlist){
+            for(Parametro p : parlist){ //Guardamos los parametros con su nombre real dentro del marco de la funcion
                 sTipo.peek().put(p.getName(), p.getTipo());
-                aux = cuerpo.type();
             }
+            aux = cuerpo.type();
             if(ret != null){
                 aux = aux & ret.type();
                 if(!ret.getTipo().getTipo().equals(tipo.getTipo())){
@@ -174,20 +174,20 @@ public class DecFuncion extends Definicion implements ASTNode{
 
     public int numParams(){
         return parlist.size();
-    }
+    } //Devuelve numero de parametros, puede ser util
 
     public ArrayList<Parametro> getParams(){
         return parlist;
-    }
+    } //Tambien hay ocasiones que necesitaremos los parametros enteros para revisar cosas
 
     public String getName(){
         return name.toString();
     }
 
-    public void setDelta(int prof){
+    public void setDelta(int prof){ //La funcione estara a profundidad mayor desde donde se le llama
         this.prof = prof + 1;
         sDeltaCont.push(0);
-        for(Parametro p : parlist){
+        for(Parametro p : parlist){ //Los parametros estaran a la misma profundidad que la funcion
             p.setDelta(this.prof);
         }
         if(cuerpo != null){
@@ -202,16 +202,17 @@ public class DecFuncion extends Definicion implements ASTNode{
         }
         else {
             String s = "(func $" + name.num() + '\n';
-            //for (Parametro p : parlist) {
-            //    s = s.concat("(param i32)\n"); //Aqui falta por copiar los structs que sean por valor
-            //}                                       //Tb queda por ingeniarselas para hacer un load de los numeritos por referencia y trabajar con eso
-            if (ret != null) {                      //Y aun no tengo ni idea de como abordar ninguno de los dos
-                s = s.concat("(result i32)\n");
-            } // TODO esto igual hay que quitarlo también aunque las diapos dicen que no
-            // porque al parecer el profe dice que sí
+            if (ret != null) {
+                if(ret.getTipo().getTipo().equals(TipoEnum.FLOAT)){ //el resturn depende de si devolvemos un float o un int. Tenemos en cuenta que siempre devolvemos una copia, no referencia
+                    s = s.concat("(result f32)\n");
+                }
+                else{
+                    s = s.concat("(result i32)\n");
+                }
+            }
 
             s = s.concat("(local $temp i32)\n");
-            s = s.concat("(local $localsStart i32)\n");
+            s = s.concat("(local $localsStart i32)\n"); //Usaremos estas locales para guardar el marco y el SP
 
 
             s = s.concat("   i32.const " + (size + 8) + "\n" +
@@ -226,7 +227,7 @@ public class DecFuncion extends Definicion implements ASTNode{
                     "   get_global $MP\n" +
                     "   i32.const 8\n" +
                     "   i32.add\n" +
-                    "   set_local $localsStart\n");
+                    "   set_local $localsStart\n"); //Mismo codigo que en el main para inicializar localsStart
 
             /*
             s = s.concat("i32.const "+(size+8)+"\n");
@@ -237,13 +238,17 @@ public class DecFuncion extends Definicion implements ASTNode{
 
 
 
-            s = s.concat(cuerpo.code());
+            s = s.concat(cuerpo.code()); //Codigo de las instrucciones
             if(ret != null){
-                s = s.concat(ret.code());
+                s = s.concat(ret.code()); //Codigo del valor del return
             }
-            s = s.concat("call $freeStack\n");
+            s = s.concat("call $freeStack\n"); //Liberamos la memoria
             s = s.concat(")\n");
             return s;
         }
+    }
+
+    public int getSize(){
+        return size;
     }
 }

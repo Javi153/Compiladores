@@ -19,7 +19,7 @@ public class Struct extends Definicion implements ASTNode{
     @Override
     public boolean type() {
         /*Javi del pasado igual no te acuerdas pero ya pensamos en eso. Si, en las funciones de structs
-        La clave sera guardar todo como struct.funcion.1 etc. Para ello quiza lo mejor es que escribas las cosas
+        La clave sera guardar t0d0 como struct.funcion.1 etc. Para ello quiza lo mejor es que escribas las cosas
         de funcion desde aqui, sin llamar a su type*/
         // supongo que querrías decir Javi del futuro :)
         boolean aux = true;

@@ -1,6 +1,6 @@
 package ast;
 
-public class EUnar extends E {
+public class EUnar extends E { //Clase de expresiones formadas con un operador unario
     private E opnd;
     private KindE k;
 
@@ -40,15 +40,19 @@ public class EUnar extends E {
     public Tipo isType() {
         switch(k){
             case ASTERISCO -> {
-                if(opnd.isType().getTipo().equals(TipoEnum.PUNTERO)){
-                    return ((Puntero)opnd.isType()).getTipoPointer();
+                if(opnd.isType().getTipo().equals(TipoEnum.PUNTERO)){ //Si el operando es un puntero, el tipo del unario sera el tipo del puntero
+                    Tipo t = opnd.isType();
+                    if(t.isParam()){
+                        t = ((TipoParam) t).getTipoParam();
+                    }
+                    return ((Puntero)t).getTipoPointer();
                 }
                 else{
                     return new Tipo(TipoEnum.VOID);
                 }
             }
-            case NOT -> {
-                return new Tipo(TipoEnum.BOOL);
+            case NOT -> { //El tipo del not sera el mismo que el de su operador, que deberia ser bool
+                return opnd.isType();
             }
         }
         return opnd.isType();
@@ -87,7 +91,7 @@ public class EUnar extends E {
     @Override
     public String code() {
         switch(k) {
-            case ASTERISCO -> {}
+            case ASTERISCO -> {} //TODO aqui deberia llamar al code siempre que el operando tenga tipo basico
             case NOT -> {return opnd.code() + "\ni32.eqz"; }
         }
         return null;

@@ -1,6 +1,6 @@
 package ast;
 
-public class Ent extends E {
+public class Ent extends E { //Clase de los numeros enteros
   private String v;
   public Ent(String v) {
    this.v = v;   

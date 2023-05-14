@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class Ident extends E implements ASTNode, Designador {
     private String v;
-    private ASTNode def;
+    private ASTNode def; //Declaracion asociada al identificador
     public Ident(String v) {
         this.v = v;
         this.def = null;
@@ -49,7 +49,7 @@ public class Ident extends E implements ASTNode, Designador {
     @Override
     public String code() {
         String c = codeDesig();
-        switch (def.nodeKind()) {
+        switch (def.nodeKind()) { //Buscamos el tipo y lo cargamos dependiendo si es int o float
             case DEC -> {
                 switch(((Dec) def).getTipo().getTipo()) {
                     case INT, BOOL -> { c = c.concat("\ni32.load"); }
@@ -57,7 +57,14 @@ public class Ident extends E implements ASTNode, Designador {
                     default -> {}
                 }
             }
-            case DECARRAY -> {}
+            case PARAM -> {
+                switch(((Parametro) def).getTipo().getTipo()) {
+                    case INT, BOOL -> { c = c.concat("\ni32.load"); }
+                    case FLOAT -> { c = c.concat("\nf32.load"); }
+                    default -> {}
+                }
+            }
+            case DECARRAY -> {} //En estos casos no se llamara directamente a su code, sino que se aplicara algo mas sobre el iden
             case FUNCIONDEC -> {}
             case STRUCT -> {}
             case GLOBVAR -> {}
@@ -76,10 +83,13 @@ public class Ident extends E implements ASTNode, Designador {
     public void setDef(ASTNode def) {this.def = def;}
 
     @Override
-    public String codeDesig() {
+    public String codeDesig() { //Buscmos la direccion del ident dependienndo de la profundidad
         String s = "i32.const " + def.getDelta();
         if(((Statement)def).getProf() == 1){
-            s = s.concat("\nget_local $localsStart\ni32.add");
+            s = s.concat("\nget_local $localsStart\ni32.add\n");
+        }
+        if(def.nodeKind().equals(NodeKind.PARAM) && ((TipoParam)((Parametro) def).getTipo()).isRef()){ //Tambien debemos hacer una segunda carga si es un parametro pasado por referencia
+            s = s.concat("i32.load\n"); //Esto es asi porque un parametro por referencia es una direccion que apunta a otra direccion donde esta el contenido real de las varibales, asiq cargamos y tenemos la direccion real
         }
         //if (def.nodeKind().equals(NodeKind.DEC) && ((Dec) def).getTipo().getTipo().equals(TipoEnum.PUNTERO))
         //    s = s.concat("\ni32.load aqui no entro oke");

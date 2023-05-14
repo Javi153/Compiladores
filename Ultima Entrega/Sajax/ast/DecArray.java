@@ -9,7 +9,7 @@ public class DecArray extends Statement implements ASTNode {
 
     Tipo tipo;
     Ident iden;
-    ArrayList<Ent> dims;
+    ArrayList<Ent> dims; //Guardamos los limites de las dimensiones
 
     public DecArray(Tipo tipo, String iden, ArrayList<Ent> dims) {
         this.tipo = tipo;
@@ -17,7 +17,7 @@ public class DecArray extends Statement implements ASTNode {
         this.dims = dims;
     }
 
-    public DecArray(String name, DecArray d){
+    public DecArray(String name, DecArray d){ //Constructor de copia
         this.iden = new Ident(name);
         this.tipo = d.tipo;
         this.dims = d.dims;
@@ -39,7 +39,7 @@ public class DecArray extends Statement implements ASTNode {
     }
 
     @Override
-    public boolean bind() {
+    public boolean bind() { //metemos en la pila el identificador y esta definicion comprobamos que todas las dimensiones esten vinculadas
         boolean aux = tipo.bind();
         HashMap<String, ASTNode> m = s.peek();
         if(m.containsKey(iden.toString())){
@@ -61,7 +61,7 @@ public class DecArray extends Statement implements ASTNode {
         sTipo.peek().put(iden.toString(), new TipoArray(tipo, dims.size()));
         boolean aux = true;
         for(E e : dims){
-                aux = aux & e.type() && e.isType().getTipo().equals(TipoEnum.INT);
+                aux = aux & e.type() && e.isType().getTipo().equals(TipoEnum.INT); //Todas las dimensiones deben ser de tipo entero
                 if (!aux) {
                     String s = "Error: la dimensión de un array debe ser de tipo entero en la expresion " + tipo.getTipo().toString() + " " + iden;
                     for (E e2 : dims) {
@@ -74,10 +74,10 @@ public class DecArray extends Statement implements ASTNode {
         for(int i = 0; i < dims.size(); i++){
             s = s.concat("[]");
             if(i != dims.size() - 1) {
-                sTipo.peek().put(new String(s), new TipoArray(tipo, dims.size() - i - 1));
+                sTipo.peek().put(new String(s), new TipoArray(tipo, dims.size() - i - 1)); //Añadimos iden con cada numero posible de [], cada uno como un array con una dimension menos
             }
         }
-        sTipo.peek().put(new String(s), tipo);
+        sTipo.peek().put(new String(s), tipo); //Tambien añadimos el ultimo como el tipo basico del array
         return aux;
     }
 
@@ -87,14 +87,14 @@ public class DecArray extends Statement implements ASTNode {
         Integer cima = sDeltaCont.pop();
         sDeltaCont.push(cima + size());
     }*/
-    public void setDelta(int prof) {
+    public void setDelta(int prof) { //Decidimos la profundidad y los deltas como en el resto de calses
         this.prof = prof;
         delta = sDeltaCont.pop();
         sDeltaCont.push(delta + size());
         iden.setDelta(prof);
     }
 
-    public int size() {
+    public int size() { //El tamaño del array es el tamaño del tipo por cada maximo de dimension
         int s = tipo.size();
         for (Ent d : dims) {
             s = s * d.getInt();

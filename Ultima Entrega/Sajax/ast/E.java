@@ -1,7 +1,7 @@
 package ast;
 
 public abstract class E extends Statement implements ASTNode, Designador {
-    private Tipo tipo;
+    private Tipo tipo; //Superclase de las expresiones
     public abstract KindE kind();
 
     public abstract Tipo isType();

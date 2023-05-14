@@ -7,6 +7,7 @@ public class Real extends E {
     }
     public String num() {return v;}
     public KindE kind() {return KindE.REAL;}
+    //Clase asociada a los floats del programa
 
     /*@Override
     public boolean isBound() {

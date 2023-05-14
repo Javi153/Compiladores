@@ -2,18 +2,26 @@ package ast;
 
 public class Return extends Statement implements ASTNode{
     private E ret;
+    private Tipo t;
+    //Aplica todas las funciones basicas sobre ret
 
     public Return(E ret){
         this.ret = ret;
     }
 
     @Override
-    public boolean type() {
-        return ret.type();
+    public boolean type() { //Comprueba que el tipo de ret es el esperado
+        boolean aux = ret.type();
+        t = ret.isType();
+        return aux;
+    }
+
+    public Tipo isType(){
+        return ret.isType();
     }
 
     public Tipo getTipo(){
-        return ret.isType();
+        return t;
     }
 
     @Override

@@ -2,12 +2,12 @@ package ast;
 
 import org.w3c.dom.Node;
 
-public class EBin extends E{
+public class EBin extends E{ //Superclase de las expresiones que usan operadores binarios
     private E opnd1;
     private E opnd2;
-    private KindE k;
+    private KindE k; //Clase de operador
     private ASTNode def; //Definicion de la expresion para los operadores sobre identificadores principalmente
-    private Tipo tipoOp;
+    private Tipo tipoOp; //Tipo asociado a la operacion
 
     public EBin(E opnd1, E opnd2, KindE k) {
         this.opnd1 = opnd1;
@@ -88,7 +88,7 @@ public class EBin extends E{
     }
 
     @Override
-    public boolean type(){
+    public boolean type(){ //En general se basa en tipar los operandos y comprobar que sean del tipo esperado en cada caso
         boolean aux = true;
         switch (k){
 
@@ -133,40 +133,50 @@ public class EBin extends E{
                     tipoOp = opnd1.isType();
                 }
             }
-            case PUNTO -> {
-                if(!opnd1.type() || !opnd2.type()){
-                    System.out.println("Error: los tipos de " + opnd1.num() + " y " + opnd2.num() + " no coinciden");
-                }
-                if(opnd2.kind().equals(KindE.CORCHETES)){
+            case PUNTO -> { //Punto, flecha y corchetes son mas complicados
+                if(opnd2.kind().equals(KindE.CORCHETES)){ //En el caso de opnd1.(opnd2[]) cambiamos la estructura del arbol por (opnd1.opnd2)[] porque resulta mas facil
                     EBin eb = new EBin(new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO), opnd2.opnd2(), KindE.CORCHETES);
                     boolean res = eb.type();
                     tipoOp = eb.isType();
                     return res;
+                }
+                if(!opnd1.type() || !opnd2.type()){
+                    System.out.println("Error: los tipos de " + opnd1.num() + " y " + opnd2.num() + " no coinciden");
                 }
                 Tipo t = opnd1.isType();
                 if(t == null || t.getTipo() != TipoEnum.STRUCT){
                     System.out.println("Error: el operando izquierdo de un punto debe ser un struct");
                     return false;
                 }
-                String auxname = ((TipoStruct)t).getId();
-                if(opnd2.kind().equals(KindE.CALLFUN)){
+                String auxname;
+                if(!t.isParam()) { //Buscamos el nombre del struct al que se refiere opnd1
+                        auxname=((TipoStruct) t).getId();
+                }
+                else{
+                        auxname = ((TipoStruct)((TipoParam)t).getTipoParam()).getId();
+                }
+                if(opnd2.kind().equals(KindE.CALLFUN)){ //Para las funciones haremos el tipado sobre nombreDelStruct.funcion() pues asi esta guardado en la tabla de tipos
                     LlamadaFuncion f = new LlamadaFuncion(auxname + "." + ((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist());
                     boolean res = f.type();
                     tipoOp = f.isType();
                     return res;
                 }
-                else{
+                else{ //Para los atributos del struct hacemos lo mismo, cambiamos el opnd1 por el nombre del struct para tipar
                     Ident Id = new Ident(auxname + "." + ((Ident)opnd2).num());
                     boolean res = Id.type();
                     tipoOp = Id.isType();
                     return res;
                 }
             }
-            case FLECHA -> {
+            case FLECHA -> { //La flecha funciona igual que el punto, solo que el operando izquierdo debe ser un puntero
                 if(!opnd1.type() || !opnd2.type()){
                     System.out.println("Error: los tipos de " + opnd1.num() + " y " + opnd2.num() + " no coinciden");
                 }
-                if(!opnd1.isType().isPointer()){
+                Tipo t = opnd1.isType();
+                if(t.isParam()){
+                    t = ((TipoParam)t).getTipoParam();
+                }
+                if(!t.isPointer()){
                     System.out.println("Error: el operando izquierdo de una flecha debe ser un puntero en " + num());
                     return false;
                 }
@@ -175,7 +185,7 @@ public class EBin extends E{
                 tipoOp = eb.isType();
                 return res;
             }
-            case CORCHETES -> {
+            case CORCHETES -> { //Para los corchetes comprobamos que el operando izquierdo sea un array y que el derecho sea un entero
                 if(!opnd1.type() || !opnd2.type() || opnd2.isType().getTipo() != TipoEnum.INT){
                     System.out.println("Error: el operando derecho de corchetes debe ser un entero en " + num());
                     aux = false;
@@ -192,7 +202,7 @@ public class EBin extends E{
     }
 
     @Override
-    public Tipo isType(){
+    public Tipo isType(){ //Esta funcion devuelve el tipo de la operacion
         switch(k){
             case SUMA, RESTA, MUL, DIV, MOD, POT, OR, AND -> {
                 return opnd1.isType();
@@ -200,7 +210,7 @@ public class EBin extends E{
             case MENOR, MAYOR, MENIGUAL, MAYIGUAL, ID, DISTINTO -> {
                 return new Tipo(TipoEnum.BOOL);
             }
-            case PUNTO -> {
+            case PUNTO -> {//Procedemos igual que en type
                 if(opnd2.kind().equals(KindE.CORCHETES)){
                     return new EBin(new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO),opnd2.opnd2(), KindE.CORCHETES).isType();
                 }
@@ -208,7 +218,13 @@ public class EBin extends E{
                 if(t == null || t.getTipo() != TipoEnum.STRUCT){
                     return new Tipo(TipoEnum.VOID);
                 }
-                String auxname = ((TipoStruct)t).getId();
+                String auxname;
+                if(!t.isParam()) {
+                    auxname=((TipoStruct) t).getId();
+                }
+                else{
+                    auxname = ((TipoStruct)((TipoParam)t).getTipoParam()).getId();
+                }
                 if(opnd2.kind().equals(KindE.CALLFUN)){
                     LlamadaFuncion f = new LlamadaFuncion(auxname + "." + ((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist());
                     Tipo taux = buscaTipo(f.getName());
@@ -223,8 +239,12 @@ public class EBin extends E{
                     return buscaTipo(auxname + "." + opnd2.num());
                 }
             }
-            case FLECHA -> {
-                if(!opnd1.isType().isPointer()){
+            case FLECHA -> { //Flecha es azucar sintactico de (*struct).atributo
+                Tipo t = opnd1.isType();
+                if(t.isParam()){
+                    t = ((TipoParam)t).getTipoParam();
+                }
+                if(!t.isPointer()){
                     return new Tipo(TipoEnum.VOID);
                 }
                 return new EBin(new EUnar(opnd1, KindE.ASTERISCO), opnd2, KindE.PUNTO).isType();
@@ -245,7 +265,6 @@ public class EBin extends E{
                 }
             }
         }
-        //TODO QUITA ESTO DE AQUI ERA SOLO PARA QUE NO SALIESE EL ERROR
         return new Tipo(TipoEnum.VOID);
     }
 
@@ -341,14 +360,14 @@ public class EBin extends E{
     public String code() {
         String c = "";
         switch(k) {
-            case SUMA, RESTA, MUL, MOD, ID, DISTINTO -> {
+            case SUMA, RESTA, MUL, MOD, ID, DISTINTO -> { //Valores de los operando y la operacion guardada en el alias
                 return opnd1.code() + "\n" + opnd2.code() + "\n" + tipoOp.getTipo().alias() + "." + k.alias();
             }
             case DIV -> {
                 c = opnd1.code() + "\n" + opnd2.code() + "\n" + tipoOp.getTipo().alias() + "." + k.alias();
                 return tipoOp.getTipo() == TipoEnum.FLOAT ? c : c + "_s";
             }
-            case POT -> {
+            case POT -> { //Para las potencias hemos desarrollado una funcion especifica, la llamamos
                 c = opnd1.code() + "\n" + opnd2.code() + "\n";
                 return tipoOp.getTipo() == TipoEnum.INT ? c + "call $potInt" : c + "call $potFloat";
             }
@@ -359,13 +378,13 @@ public class EBin extends E{
                 c = opnd1.code() + "\n" + opnd2.code() + "\n" + tipoOp.getTipo().alias() + "." + k.alias();
                 return tipoOp.getTipo() == TipoEnum.FLOAT ? c + "\n" : c + "_s\n";
             }
-            case CORCHETES -> {
+            case CORCHETES -> { //Para los corchetes buscamos la direccion con codeDesig y hacemos un load
                 c = codeDesig();
                 if(!tipoOp.getTipo().equals(TipoEnum.STRUCT)){
                     c = c.concat(tipoOp.getTipo().alias() + ".load");
                 }
             }
-            case PUNTO, FLECHA -> {
+            case PUNTO, FLECHA -> { //Igual con estos dos
                 c = codeDesig();
                 if(!tipoOp.getTipo().equals(TipoEnum.STRUCT)) {
                     c = c.concat(tipoOp.getTipo().alias() + ".load");
@@ -377,18 +396,18 @@ public class EBin extends E{
         return c;
     }
 
-    public String codeDesig() {
+    public String codeDesig() { //Codigo para obtener la direccion de memoria de un designador
         String c = "";
         switch(k) {
             case PUNTO -> {
-                if(opnd2.kind().equals(KindE.CORCHETES)){
+                if(opnd2.kind().equals(KindE.CORCHETES)){ //Hacemos igual que en tipado de punto
                     EBin eb2 = new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO);
                     EBin eb = new EBin(eb2, opnd2.opnd2(), KindE.CORCHETES);
-                    eb.setDef(def);
+                    eb.setDef(def); //Hacemos que las clases nuevas tengan las mismas definciones pues lo necesitamos en otro punto
                     eb2.setDef(def);
                     eb.setTipoOp(tipoOp);
                     TipoArray aux;
-                    if(tipoOp.getTipo().equals(TipoEnum.ARRAY)) {
+                    if(tipoOp.getTipo().equals(TipoEnum.ARRAY)) { //Si hay corchetes debemos ver si estan en el tipo mas basico o no
                         aux = new TipoArray(((TipoArray) tipoOp).getTipoBasico(), ((TipoArray) tipoOp).getTam() + 1);
                     }
                     else{
@@ -398,20 +417,23 @@ public class EBin extends E{
                     return eb.codeDesig();
                 }
                 int offset;
-                if(opnd1.getDef().nodeKind().equals(NodeKind.DEC)) {
+                if(opnd1.getDef().nodeKind().equals(NodeKind.DEC)) { //Dependiendo de la definicion, buscamos el atributo en el struct y veremos cual es su delta asociado dentro del struct, pues esa es la direccion especifica que queremos
                     Tipo auxt = ((Dec) opnd1.getDef()).getTipo();
                     if(auxt.getTipo().equals(TipoEnum.PUNTERO)){
                         auxt = ((Puntero)auxt).getTipoPointer();
                     }
                     offset = ((Struct) ((TipoStruct) auxt).getDef()).getOffset((Ident) opnd2);
                 }
-                else{
+                else if (opnd1.getDef().nodeKind().equals(NodeKind.DECARRAY)){
                     offset = ((Struct) ((TipoStruct) ((DecArray) opnd1.getDef()).getTipo()).getDef()).getOffset((Ident) opnd2);
+                }
+                else{
+                    offset = ((Struct) ((TipoStruct) ((TipoParam)((Parametro)opnd1.getDef()).getTipo()).getTipoParam()).getDef()).getOffset((Ident) opnd2);
                 }
                 return opnd1.codeDesig() + "\ni32.const " + offset + "\ni32.add\n";
             }
             case FLECHA -> {
-                // d->id es azúcar sintáctico de (*d).id
+                // d->id es azúcar sintáctico de (*d).id, se procede practicamente igual que en punto
                 if(opnd2.kind().equals(KindE.CORCHETES)){
                     EBin eb2 = new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO);
                     EBin eb = new EBin(eb2, opnd2.opnd2(), KindE.CORCHETES);
@@ -428,15 +450,25 @@ public class EBin extends E{
                     }
                     offset = ((Struct) ((TipoStruct) auxt).getDef()).getOffset((Ident) opnd2);
                 }
-                else{
+                else if (opnd1.getDef().nodeKind().equals(NodeKind.DECARRAY)){
                     offset = ((Struct) ((TipoStruct) ((DecArray) opnd1.getDef()).getTipo()).getDef()).getOffset((Ident) opnd2);
                 }
+                else{
+                    Tipo auxt = ((TipoParam)((Parametro)opnd1.getDef()).getTipo()).getTipoParam();
+                    if(auxt.isPointer()){
+                        auxt = ((Puntero)auxt).getTipoPointer();
+                    }
+                    offset = ((Struct) ((TipoStruct) auxt).getDef()).getOffset((Ident) opnd2);
+                }
+                /*else{
+                    offset = ((Struct) ((TipoStruct) ((DecArray) opnd1.getDef()).getTipo()).getDef()).getOffset((Ident) opnd2);
+                }*/
                 //int offset = ((Struct)opnd1.getDef()).getOffset((Ident)opnd2);
                 return opnd1.codeDesig() + "\ni32.load\ni32.const " + offset + "\ni32.add\n";
             }
             case CORCHETES -> {
                 if(!tipoOp.getTipo().equals(TipoEnum.ARRAY)) {
-                    if (opnd1.getDef().nodeKind().equals(NodeKind.DEC)) { // Es un puntero
+                    if (opnd1.getDef().nodeKind().equals(NodeKind.DEC)) { //Si la declaracion es DEC y no DECARRAY es que en vd es un puntero usando corchetes
                         return opnd1.codeDesig() + "\ni32.load\ni32.const " + tipoOp.size() + "\n"
                                 + opnd2.code() + "\ni32.mul\ni32.add\n";
                     }
@@ -451,10 +483,10 @@ public class EBin extends E{
                     DecArray auxdef = (DecArray) def;
                     int mult = 1;
                     for(int i = auxdef.dimSize() - 1; i > auxdef.dimSize() - tam - 1; --i){
-                        mult = mult * auxdef.getDims().get(i).getInt();
+                        mult = mult * auxdef.getDims().get(i).getInt(); //Iterativamente buscamos la direccion en cada dimension
                     }
                     return opnd1.codeDesig() + "\ni32.const " + ((TipoArray) tipoOp).getTipoBasico().size() * mult + "\n"
-                            + opnd2.code() + "\ni32.mul\ni32.add\n";
+                            + opnd2.code() + "\ni32.mul\ni32.add\n"; //Ahora opnd1 nos da la direccion basica del array y tenemos calculado el offset, añadimos el valor de opnd2 ahora
                 }
             }
             default -> {}

@@ -3,15 +3,19 @@ package ast;
 public class Tipo implements ASTNode{
     protected TipoEnum t;
     protected boolean isPointer;
+    protected boolean isParam;
 
     public Tipo(TipoEnum t){
         this.t = t;
         isPointer = false;
+        isParam = false;
     }
 
     public boolean isPointer(){
         return isPointer;
     }
+
+    public boolean isParam(){return isParam;}
 
     public TipoEnum getTipo(){
         return t;

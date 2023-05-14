@@ -1,7 +1,7 @@
 package ast;
 
-public class False extends E {
-    private String v = "0";
+public class False extends E { //Clase del literal false
+    private String v = "0"; //A nivel de codigo, el false es un 0
 
     public False() {}
     public KindE kind(){

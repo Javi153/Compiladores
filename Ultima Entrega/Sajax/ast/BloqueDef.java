@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class BloqueDef extends Bloque<Definicion> implements ASTNode{
     private int size;
-    public BloqueDef(ArrayList<Definicion> stlist) {
+    public BloqueDef(ArrayList<Definicion> stlist) { //Este bloque contiene las definiciones de structs, funciones y variables globales fuera del main
         super(stlist);
         super.tipoBloque = "bloqueDefs";
     }
@@ -35,7 +35,7 @@ public class BloqueDef extends Bloque<Definicion> implements ASTNode{
     }
 
     @Override
-    public String code() {
+    public String code() { //en code calculamos el tamaño necesario para la funcion init del codigo wasm, antes de llamar a main para que pida su espacio
         size = 0;
         String c = "";
         for (Definicion d : stlist) {
@@ -54,7 +54,7 @@ public class BloqueDef extends Bloque<Definicion> implements ASTNode{
                 c = c.concat(d.code());
             }
         }
-        c = c.concat("call $main\ni32.const 0\nset_global $SP\nreturn\n)\n");
+        c = c.concat("call $main\ni32.const 0\nset_global $SP\nreturn\n)\n"); //Lo ultimo que hace es llamar al main de wasm
         return c;
     }
 }

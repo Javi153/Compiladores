@@ -6,6 +6,8 @@ public class Elsif extends Statement implements ASTNode{
     private E cond;
     private BloqueIns St;
 
+    //En general t0d0 funciona muy parecido a bloque, pero comprobando la condicion del elsif en cada caso
+
     public Elsif(E cond, BloqueIns St){
         this.cond = cond;
         this.St = St;

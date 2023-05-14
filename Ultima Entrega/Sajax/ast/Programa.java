@@ -7,6 +7,7 @@ public class Programa implements ASTNode{
     private BloqueDef defs;
     private MainFun main;
 
+    //Las funciones predefinidas que necesitaremos para el codigo
     private final String funciones = "(func $reserveStack (param $size i32) ;;funcion que reserva memoria para la pila para entrar en un ambito nuevo\n" +
             "   (result i32)\n" +
             "   get_global $MP\n" +
@@ -55,9 +56,9 @@ public class Programa implements ASTNode{
             "   (param $src i32)\n" +
             "   (param $dest i32)\n" +
             "   (param $n i32)\n" +
-            "   (local $localsStart i32)\n" +
-            "   i32.const 16\ncall $reserveStack\n" +
-            "   set_local $localsStart\n" +
+          //  "   (local $localsStart i32)\n" +
+          //  "   i32.const 16\ncall $reserveStack\n" +
+          //  "   set_local $localsStart\n" +
             "   block\n" +
             "     loop\n" +
             "       get_local $n\n" +
@@ -82,7 +83,7 @@ public class Programa implements ASTNode{
             "       br 0\n" +
             "     end\n" +
             "   end\n" +
-            "   call $freeStack\n" +
+           // "   call $freeStack\n" +
             ")\n" +
             "(func $potInt ;; para calcular potencias de base entera\n" +
             "   (param $base i32)\n" +
@@ -189,7 +190,7 @@ public class Programa implements ASTNode{
     }
 
     public String code(){
-        String s = "(module\n";
+        String s = "(module\n"; //Inicializacion importando funciones basicas y definiendo variables globales
         s = s.concat("(import \"runtime\" \"print\" (func $print (param i32)))\n" +
                 "(import \"runtime\" \"print\" (func $print2 (param f32)))\n" +
                 "(import \"runtime\" \"read\" (func $read (result i32)))\n" +
@@ -199,9 +200,9 @@ public class Programa implements ASTNode{
         s = s.concat("(global $SP (mut i32) (i32.const 0)) ;; start of stack\n");
         s = s.concat("(global $MP (mut i32) (i32.const 0)) ;; mark pointer\n");
         s = s.concat("(global $NP (mut i32) (i32.const 131071996)) ;; heap 2000*64*1024-4\n");
-        s = s.concat("(start $init)\n");
+        s = s.concat("(start $init)\n"); //Init tendra las variables globales del programa y llamara a main
         s = s.concat(defs.code() + main.code());
-        s = s.concat(funciones);
+        s = s.concat(funciones); //Añadimos las funciones basicas predefinidas
         s = s.concat("\n)\n");
         return s;
     }
@@ -212,7 +213,7 @@ public class Programa implements ASTNode{
 
     @Override
     public void setDelta(int prof){
-        sDeltaCont.push(8);
+        sDeltaCont.push(8); //Inicializamos en 8 para no tener problemas con reserveStack usando los primeros 8 bytes para los marcos antiguos
         defs.setDelta(0);
         main.setDelta(0);
         sDeltaCont.pop();

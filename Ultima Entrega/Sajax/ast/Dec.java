@@ -5,7 +5,7 @@ import java.util.HashMap;
 public class Dec extends Statement implements ASTNode{
     private Tipo tipo;
     private Ident iden;
-    private E exp;
+    private E exp; //Puede ser null, pues puedes declarar variables sin valor inicial
 
     public Dec(Tipo tipo, String iden){
         this.tipo = tipo;
@@ -19,7 +19,7 @@ public class Dec extends Statement implements ASTNode{
         this.exp = exp;
     }
 
-    public Dec(String name, Dec d){
+    public Dec(String name, Dec d){ //Constructor de copia
         this.iden = new Ident(name);
         this.tipo = d.tipo;
         this.exp = d.exp;
@@ -40,16 +40,16 @@ public class Dec extends Statement implements ASTNode{
     }
 
     @Override
-    public boolean bind() {
+    public boolean bind() { //Buscamos que la variable declarada no estuviese declarada previamente
         boolean aux = tipo.bind();
-        if(exp != null) { aux = aux & exp.bind(); }
+        if(exp != null) { aux = aux & exp.bind(); } //Si hay valor inicial vinculamos para ver que existe
         HashMap<String, ASTNode> m = s.peek();
         if(m.containsKey(iden.toString())){
             System.out.println("Error: variable "+iden.num()+" ya declarada");
             return false;
         }
         else{
-            m.put(iden.toString(), this);
+            m.put(iden.toString(), this); //Si no lo esta este nodo sera la vinculacion de esta variable
             aux = aux & iden.bind();
             return aux;
         }
@@ -57,24 +57,24 @@ public class Dec extends Statement implements ASTNode{
 
     @Override
     public boolean type() {
-        sTipo.peek().put(iden.num(), tipo);
+        sTipo.peek().put(iden.num(), tipo); //Añadimos el tipo de la declaracion a la pila, asignado al identificador
         if(tipo.isPointer()) {
             int count = 0;
             Tipo t = tipo;
             while(t.isPointer()){
                 count++;
-                t = ((Puntero)t).getTipoPointer();
+                t = ((Puntero)t).getTipoPointer(); //En caso de ser puntero, contamos el numero de punteros del tipo
             }
             String s = iden.num();
             for (int i = 0; i < count; i++) {
-                s = s.concat("[]");
+                s = s.concat("[]"); //En cada nivel de puntero añadimos un nuevo tipo
                 if (i != count - 1) {
-                    sTipo.peek().put(new String(s), new TipoArray(tipo, count - i - 1));
+                    sTipo.peek().put(new String(s), new TipoArray(tipo, count - i - 1)); //Lo guardaremos como un tipo array pues estos punteros seran accedido con []
                 }
             }
-            sTipo.peek().put(new String(s), t);
+            sTipo.peek().put(new String(s), t); //Tambien incluimos iden[][]...[] como el tipo basico detras de todos los punteros
         }
-        if(exp != null) {
+        if(exp != null) { //Si hay valor inicial usamos el codigo de las asignaciones
             boolean aux = exp.type();
             if(tipo.isPointer() && exp.kind() == KindE.NULL){
                 return true;
@@ -120,18 +120,18 @@ public class Dec extends Statement implements ASTNode{
 
     public E getExp() { return exp; }
 
-    public String code(){ //TODO: Los structs podrian tener valor inicial, eso no lo tengo en cuenta
+    public String code(){
         String s = "";
         if(exp == null){
             return "";
         }
         else{
-            if(!tipo.getTipo().equals(TipoEnum.STRUCT)){
+            if(!tipo.getTipo().equals(TipoEnum.STRUCT)){ //Si tenemos valores iniciales usamos el valor de exp y la direccion de iden
                 s = iden.codeDesig() + "\n";
                 s = s.concat(exp.code()) + "\n";
                 s = s.concat(tipo.getTipo().alias() + ".store\n");
             }
-            else{
+            else{ //Sin embargo, para structs hay que copiar grandes direcciones de memoria, asi que reusamos el codigo de asignacion
                 s = new Asign(iden, exp).code() + "\n";
             }
             return s;
@@ -139,10 +139,10 @@ public class Dec extends Statement implements ASTNode{
     }
 
     @Override
-    public void setDelta(int prof) {
+    public void setDelta(int prof) { //Asignamos la profundidad
         this.prof = prof;
-        delta = sDeltaCont.pop();
-        sDeltaCont.push(delta+tipo.size());
+        delta = sDeltaCont.pop(); //Recogemos el ultimo delta hasta el momento
+        sDeltaCont.push(delta+tipo.size()); //sumamos el size y lo colocamos de nuevo
         iden.setDelta(prof);
         if(exp != null) {
             exp.setDelta(prof);

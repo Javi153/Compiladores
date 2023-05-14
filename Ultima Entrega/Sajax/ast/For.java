@@ -7,6 +7,8 @@ public class For extends Statement implements ASTNode{
     private E fin, paso;
     private BloqueIns st;
 
+    //Funciona similar a un bloque pero comprobando lo necesario sobe inicio, fin y paso
+
     public For(Dec inicio, E fin, BloqueIns st){
         this.inicio = inicio;
         this.fin = fin;

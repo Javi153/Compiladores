@@ -3,14 +3,16 @@ package ast;
 import java.util.ArrayList;
 
 public class Bloque<T extends ASTNode> implements ASTNode {
-    protected ArrayList<T> stlist;
-    protected String tipoBloque;
+    protected ArrayList<T> stlist; //Conjunto de instrucciones
+    protected String tipoBloque; //Usamos esto para heredar en distintos tipos de bloques
 
     public Bloque(ArrayList<T> stlist){
         this.stlist = stlist;
         this.tipoBloque = "bloque";
     }
 
+
+    //Cada una de las funciones se basa en aplicar la misma funcion sobre cada instruccion de la lista
     @Override
     public boolean type() {
         boolean aux = true;

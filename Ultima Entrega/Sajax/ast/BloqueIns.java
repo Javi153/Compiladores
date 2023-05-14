@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class BloqueIns extends Bloque<Statement> implements ASTNode {
-    public BloqueIns(ArrayList<Statement> stlist) {
+    public BloqueIns(ArrayList<Statement> stlist) { //Este bloque contiene un conjunto de instrucciones que pueden estar en el main
+                                                    //o en el cuerpo de una funcion, o en el cuerpo de un if o un while
         super(stlist);
         super.tipoBloque = "bloqueInstrucciones";
     }
