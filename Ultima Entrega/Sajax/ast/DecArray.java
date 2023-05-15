@@ -1,6 +1,5 @@
 package ast;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.stream.Collectors;
@@ -80,13 +79,6 @@ public class DecArray extends Statement implements ASTNode {
         sTipo.peek().put(new String(s), tipo); //Tambien añadimos el ultimo como el tipo basico del array
         return aux;
     }
-
-    /*@Override
-    public void setDelta() {
-        sDelta.peek().put(iden.num(), sDeltaCont.peek());
-        Integer cima = sDeltaCont.pop();
-        sDeltaCont.push(cima + size());
-    }*/
     public void setDelta(int prof) { //Decidimos la profundidad y los deltas como en el resto de calses
         this.prof = prof;
         delta = sDeltaCont.pop();

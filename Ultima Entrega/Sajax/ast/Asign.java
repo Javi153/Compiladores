@@ -59,55 +59,6 @@ public class Asign extends Statement implements ASTNode {
 
     @Override
     public String code() {
-        /*
-        switch(designador.getDef().nodeKind()) { //Comprobamos la clase del nodo de la definicion del termino a la izquierda del igual
-            case DEC -> {
-                TipoEnum t = ((Dec) designador.getDef()).getTipo().getTipo();
-                switch (t) { //Para las declaraciones tomamos la direcion del termino izquierdo con codeDesig y el valor del termino derecho con code
-                    case INT, BOOL, FLOAT -> {return designador.codeDesig() + "\n" + expresion.code() + "\n" + t.alias() + ".store\n"; }
-                    case STRUCT ->{
-                        int s = ((Dec) designador.getDef()).getTipo().size();
-                        return expresion.codeDesig() + "\n" + designador.codeDesig() + "\ni32.const " + s/4 + "\n call $copyn\n";
-                    }
-                    case PUNTERO -> {
-                        Tipo tBas = ((Puntero) ((Dec) designador.getDef()).getTipo()).getTipoPointer();
-                        return designador.codeDesig() + "\n" + expresion.code() + "\n" + tBas.getTipo().alias() + ".store\n";
-                        //return designador.codeDesig() + "\n" + expresion.code() + "\n" + t.alias() + ".store\n";
-                    }
-                } //En cada caso hacemos un casting a la clase correspondiente para obtener el tipo de la declaracion
-            }
-            case DECARRAY -> {
-                TipoEnum t = ((DecArray) designador.getDef()).getTipo().getTipo();
-                switch (t) {
-                    case INT, BOOL, FLOAT -> {return designador.codeDesig() + "\n" + expresion.code() + "\n" + t.alias() + ".store\n"; }
-                    case STRUCT ->{
-                        int s = ((DecArray) designador.getDef()).getTipo().size();
-                        return expresion.codeDesig() + "\n" + designador.codeDesig() + "\ni32.const " + s/4 + "\n call $copyn\n";
-                    }
-                    case PUNTERO -> {
-                        Tipo tBas = ((Puntero) ((DecArray) designador.getDef()).getTipo()).getTipoPointer();
-                        return designador.codeDesig() + "\n" + expresion.code() + "\n" + tBas.getTipo().alias() + ".store\n";
-                    }
-                }
-            }
-            case PARAM -> { //Puede que la declaracion este en un parametro de una funcion, en ese caso el tipo sera TipoParam
-                TipoEnum t = ((TipoParam)((Parametro) designador.getDef()).getTipo()).getTipoParam().getTipo();
-                switch (t) {
-                    case INT, BOOL, FLOAT -> {return designador.codeDesig() + "\n" + expresion.code() + "\n" + t.alias() + ".store\n"; }
-                    case STRUCT ->{
-                        int s = ((TipoParam)((Parametro) designador.getDef()).getTipo()).getTipoParam().size();
-                        return expresion.codeDesig() + "\n" + designador.codeDesig() + "\ni32.const " + s/4 + "\n call $copyn\n";
-                    }
-                    case PUNTERO -> {
-                        Tipo tBas = ((Puntero)((TipoParam)((Parametro) designador.getDef()).getTipo()).getTipoParam()).getTipoPointer();
-                        return designador.codeDesig() + "\n" + expresion.code() + "\n" + tBas.getTipo().alias() + ".store\n";
-                    }
-                }
-            }
-            default -> {}
-        }
-        */
-
         if (tipoAsig.getTipo().equals(TipoEnum.STRUCT)) {
             int s = tipoAsig.size();
             return expresion.codeDesig() + "\n" + designador.codeDesig() + "\ni32.const " + s/4 + "\n call $copyn\n";

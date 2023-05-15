@@ -45,9 +45,9 @@ public class TipoStruct extends Tipo implements ASTNode, Designador{
         return def;
     }
 
-    public int size(){ //Solo
+    public int size(){
         int s = 0;
-        for(ASTNode atr : ((Struct)def).getAtt().getList()){ //El tamaño del array, las funciones no ocupan espacio
+        for(ASTNode atr : ((Struct)def).getAtt().getList()){ //El tamaño del struct, las funciones no ocupan espacio
             switch(atr.nodeKind()){
                 case DEC:
                     s += ((Dec)atr).getTipo().size();

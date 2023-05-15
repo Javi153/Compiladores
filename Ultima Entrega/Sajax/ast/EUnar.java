@@ -103,7 +103,7 @@ public class EUnar extends E { //Clase de expresiones formadas con un operador u
             case ASTERISCO -> {
                 Tipo t = ((Puntero) tipoOp).getTipoPointer();
                 return opnd.code() + "\n" + t.getTipo().alias() + ".load";
-            } //TODO aqui deberia llamar al code siempre que el operando tenga tipo basico
+            }
             case NOT -> {return opnd.code() + "\ni32.eqz"; }
         }
         return null;

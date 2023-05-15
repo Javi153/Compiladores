@@ -1,13 +1,11 @@
 package ast;
 
-import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Stack;
 
 public interface ASTNode {
     public static Stack<HashMap<String, ASTNode>> s = new Stack<>(); //Pila de tablas de simbolos para la vinculacion
     public static Stack<HashMap<String, Tipo>> sTipo = new Stack<>(); //Pila de tablas de simbolos para el tipado
-    //public static Stack<HashMap<String, Integer>> sDelta = new Stack<>();
     public static Stack<Integer> sDeltaCont = new Stack<>(); //Pila de ambitos con el ultimo delta asignado en el ambito
 
     public default void insertaId(String id, ASTNode nodo){ //Inserta un nodo en la tabla de simbolos
@@ -56,9 +54,7 @@ public interface ASTNode {
         return result;
     }
     public boolean bind();
-    //public default void setDelta() {}
     public default void setDelta(int prof) {}
-    //public default int getDelta(String iden) {return -1;}
     public default int getDelta() {return -1;}
     public default String code() { //Elegimos estos default para no implementar funciones vacias
         return "";

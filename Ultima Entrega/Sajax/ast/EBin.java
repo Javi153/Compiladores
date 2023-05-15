@@ -1,7 +1,4 @@
 package ast;
-
-import org.w3c.dom.Node;
-
 public class EBin extends E{ //Superclase de las expresiones que usan operadores binarios
     private E opnd1;
     private E opnd2;
@@ -285,39 +282,6 @@ public class EBin extends E{ //Superclase de las expresiones que usan operadores
         return new Tipo(TipoEnum.VOID);
     }
 
-    /*@Override
-    public boolean isBound() {
-        switch(k){
-            case PUNTO, FLECHA -> {
-                if(opnd2.kind().equals(KindE.CALLFUN)){
-                    boolean res = opnd1.isBound();
-                    return res & (new LlamadaFuncion("."+((LlamadaFuncion)opnd2).getName(), ((LlamadaFuncion)opnd2).getParlist()).isBound());
-
-                }
-                else if(opnd2.kind().equals(KindE.IDEN)){
-                    boolean res = opnd1.isBound();
-                    ASTNode aux = buscaId("."+opnd2.num());
-                    if(aux == null){
-                        System.out.println("Error: el identificador " + opnd2.num() + " no está definido en el struct " + opnd1.num());
-                        return false;
-                    } else{
-                        return res;
-                    }
-                }
-                else if(opnd2.kind() == KindE.CORCHETES){
-                    return (new EBin(opnd1, opnd2.opnd1(), KindE.PUNTO)).isBound() & opnd2.opnd2().isBound();
-                }
-                else{
-                    System.out.println("Error: el operando derecho de un punto o flecha debe ser un identificador o un array");
-                    return false;
-                }
-            }
-            default ->{
-                return opnd1.isBound() & opnd2.isBound();
-            }
-        }
-    }*/
-
     @Override
     public boolean bind() {
         switch(k){
@@ -483,10 +447,6 @@ public class EBin extends E{ //Superclase de las expresiones que usan operadores
                     }
                     offset = ((Struct) ((TipoStruct) auxt).getDef()).getOffset((Ident) opnd2);
                 }
-                /*else{
-                    offset = ((Struct) ((TipoStruct) ((DecArray) opnd1.getDef()).getTipo()).getDef()).getOffset((Ident) opnd2);
-                }*/
-                //int offset = ((Struct)opnd1.getDef()).getOffset((Ident)opnd2);
                 return opnd1.codeDesig() + "\ni32.load\ni32.const " + offset + "\ni32.add\n";
             }
             case CORCHETES -> {

@@ -1,0 +1,20 @@
+float suma(float* v, int ini, int fin){
+	float res;
+	if(ini == fin - 1){
+		res = v[ini];
+	}
+	else{
+		int m = (ini + fin)/2;
+		res = suma(v, ini, m) + suma(v, m, fin); //Ejemplo con doble llamada recursiva
+	}
+return res;
+}
+
+int main(){
+float* a = memspace(9);
+for(int i = 0; 9){
+	input(a[i]);
+}
+print(suma(a, 0, 9));
+return 0;
+}

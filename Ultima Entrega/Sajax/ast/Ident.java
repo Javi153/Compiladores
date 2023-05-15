@@ -1,7 +1,5 @@
 package ast;
 
-import java.util.HashMap;
-
 public class Ident extends E implements ASTNode, Designador {
     private String v;
     private ASTNode def; //Declaracion asociada al identificador
@@ -91,8 +89,6 @@ public class Ident extends E implements ASTNode, Designador {
         if(def.nodeKind().equals(NodeKind.PARAM) && ((TipoParam)((Parametro) def).getTipo()).isRef()){ //Tambien debemos hacer una segunda carga si es un parametro pasado por referencia
             s = s.concat("i32.load\n"); //Esto es asi porque un parametro por referencia es una direccion que apunta a otra direccion donde esta el contenido real de las varibales, asiq cargamos y tenemos la direccion real
         }
-        //if (def.nodeKind().equals(NodeKind.DEC) && ((Dec) def).getTipo().getTipo().equals(TipoEnum.PUNTERO))
-        //    s = s.concat("\ni32.load aqui no entro oke");
         return s;
     }
 

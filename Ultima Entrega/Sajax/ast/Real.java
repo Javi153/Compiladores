@@ -9,11 +9,6 @@ public class Real extends E {
     public KindE kind() {return KindE.REAL;}
     //Clase asociada a los floats del programa
 
-    /*@Override
-    public boolean isBound() {
-        return true;
-    }*/
-
     @Override
     public Tipo isType() {
         return new Tipo(TipoEnum.FLOAT);

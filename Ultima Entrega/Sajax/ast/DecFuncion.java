@@ -229,12 +229,7 @@ public class DecFuncion extends Definicion implements ASTNode{
                     "   i32.add\n" +
                     "   set_local $localsStart\n"); //Mismo codigo que en el main para inicializar localsStart
 
-            /*
-            s = s.concat("i32.const "+(size+8)+"\n");
-            s = s.concat("call $reserveStack\n");
-            s = s.concat("i32.const 8\ni32.add\n");
-            s = s.concat("set_local $localsStart\n");
-            */
+
 
 
 

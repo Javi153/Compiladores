@@ -17,9 +17,6 @@ public class VarGlobal extends Definicion implements ASTNode{ //Wrapper de una d
         return var.bind();
     }
 
-    //@Override
-    //public String code() { return  }
-
     @Override
     public NodeKind nodeKind() {
         return NodeKind.GLOBVAR;

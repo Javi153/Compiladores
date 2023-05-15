@@ -58,9 +58,6 @@ public class For extends Statement implements ASTNode{
     @Override
     public String code() {
         String c = "";
-        //sDelta.push(new HashMap<>());
-        //sDeltaCont.push(0);
-        //inicio.setDelta();
 
         // Importante:
         // Primero se hace inicio.code() para que se genere el código de la asigación del valor a la variable inicio,

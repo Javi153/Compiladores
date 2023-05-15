@@ -12,11 +12,6 @@ public class False extends E { //Clase del literal false
         return "false";
     }
 
-    /*@Override
-    public boolean isBound() {
-        return true;
-    }*/
-
     @Override
     public Tipo isType() {
         return new Tipo(TipoEnum.BOOL);

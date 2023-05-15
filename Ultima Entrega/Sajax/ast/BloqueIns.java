@@ -1,7 +1,6 @@
 package ast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class BloqueIns extends Bloque<Statement> implements ASTNode {
     public BloqueIns(ArrayList<Statement> stlist) { //Este bloque contiene un conjunto de instrucciones que pueden estar en el main

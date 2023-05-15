@@ -48,7 +48,6 @@ public class Memspace extends LlamadaFuncion implements ASTNode{
         if(tipoDatos.getTipo().equals(TipoEnum.VOID)){
             return "";
         }
-        //return "get_global $NP\n" + sizeCode() + "\ncall $reserveHeap";
         return sizeCode() + "\ncall $reserveHeap\nget_global $NP"; // Le asigna al puntero la dirección de memoria de la
                                                                     // última posición del heap
     }

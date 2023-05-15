@@ -28,7 +28,7 @@ public enum KindE { //Clases para las expresiones, con valores predeterminados y
       case AND -> {return "and";}
       case OR -> {return "or";}
     }
-    return null; //Te lo he cambiado porq daba fallo de compilacion
+    return null;
   }
 
   public String toString(){

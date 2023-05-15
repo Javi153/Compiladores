@@ -22,28 +22,6 @@ public class LlamadaFuncion extends E implements ASTNode{
         return KindE.CALLFUN;
     }
 
-    /*@Override
-    public boolean isBound() {
-        boolean res = true;
-        ASTNode aux = buscaId(name);
-        if(aux == null){
-            res = false;
-            System.out.println("Error: Función " + name + " no está definida");
-        }
-        else if(aux.nodeKind() != NodeKind.FUNCIONDEC){
-            res = false;
-            System.out.println("Error: " + name + " no es una función");
-        }
-        else if(((DecFuncion)aux).numParams() != parlist.size()){
-            res = false;
-            System.out.println("Error: Función " + name + " no tiene el número de parámetros correcto");
-        }
-        for(E elem : parlist){
-            res = res & elem.isBound();
-        }
-        return res;
-    }*/
-
     @Override
     public Tipo isType() { //Busca el tipo de la funcion en la tabla
         return buscaTipo(name);
@@ -147,9 +125,6 @@ public class LlamadaFuncion extends E implements ASTNode{
         String s = "";
         DecFuncion dec = (DecFuncion) def; // Con esto se puede acceder a los deltas de los parámetros del marco nuevo
         for(int i = 0; i < parlist.size(); i++) {
-            //s = s.concat("get_global $MP\ncall $print\n"); //TODO QUITAR
-            //s = s.concat("get_global $SP\ni32.const 8\ni32.add\n"); // pila <- SP + 8
-            //s = s.concat("i32.const " + dec.getParams().get(i).getDelta() + "\ni32.add\n"); // pila <- delta(param, marco nuevo) + SP + 8
 
             TipoParam t = ((TipoParam)dec.getParams().get(i).getTipo());
             if(t.isRef()) {
@@ -172,9 +147,7 @@ public class LlamadaFuncion extends E implements ASTNode{
                         s = s.concat("get_global $SP\ni32.const 8\ni32.add\n"); // pila <- SP + 8
                         s = s.concat("i32.const " + dec.getParams().get(i).getDelta() + "\ni32.add\n"); // pila <- delta(param, marco nuevo) + SP + 8
                         s = s.concat("i32.const " + ((TipoStruct)t.getTipoParam()).size()/4 + "\n");
-                        //s = s.concat("get_global $SP\ni32.const " + (dec.getSize() + 8) +"\ni32.add\nset_global $SP\n");
                         s = s.concat("call $copyn\n");
-                        //s = s.concat("get_global $SP\ni32.const " + (dec.getSize() + 8) +"\ni32.sub\nset_global $SP\n");
                     }
                     default -> {}
                 }

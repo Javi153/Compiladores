@@ -1,12 +1,8 @@
 package ast;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class MainFun implements ASTNode {
-
-    // private ArrayList<Parametro> args;
-    // En principio el main no tiene argumentos no?
     private BloqueIns bloque;
 
     private Return ret;
@@ -46,12 +42,6 @@ public class MainFun implements ASTNode {
     public String toString(){
         String s;
         s = "main(";
-        /*if(!args.isEmpty()) {
-            s = s.concat(args.get(0).toString());
-            for (int i = 1; i < args.size(); ++i) {
-                s = s.concat("," + args.get(i).toString());
-            }
-        }*/
         s = s.concat(bloque.toString() + "," + ret.toString());
         s = s.concat(")");
         return s;

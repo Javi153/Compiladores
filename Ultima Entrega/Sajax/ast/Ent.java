@@ -8,11 +8,6 @@ public class Ent extends E { //Clase de los numeros enteros
   public String num() {return v;}
   public KindE kind() {return KindE.ENT;}
 
-  /*@Override
-  public boolean isBound() {
-    return true;
-  }*/
-
   @Override
   public Tipo isType() {
     return new Tipo(TipoEnum.INT);

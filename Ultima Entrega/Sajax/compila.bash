@@ -1,11 +1,11 @@
 #!/bin/bash
 cd sajax_lex/
-java -cp jflex.jar jflex.Main ejemplo.l
+java -cp jflex.jar jflex.Main lexico.l
 cd ..
 cd constructorast/
 java -cp cup.jar java_cup.Main -parser ConstructorASTExp -symbols ClaseLexica -nopositions ConstructorAST.cup
 cd ..
 javac -cp "cup.jar:." */*.java
-java -cp "cup.jar:." constructorast.Main input9.txt
+java -cp "cup.jar:." constructorast.Main input3.txt
 ./wat2wasm result.wat
-node main-memory.js
+node SAJAX.js

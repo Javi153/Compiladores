@@ -1,6 +1,5 @@
 package ast;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Programa implements ASTNode{
@@ -56,9 +55,6 @@ public class Programa implements ASTNode{
             "   (param $src i32)\n" +
             "   (param $dest i32)\n" +
             "   (param $n i32)\n" +
-          //  "   (local $localsStart i32)\n" +
-          //  "   i32.const 16\ncall $reserveStack\n" +
-          //  "   set_local $localsStart\n" +
             "   block\n" +
             "     loop\n" +
             "       get_local $n\n" +
@@ -83,7 +79,6 @@ public class Programa implements ASTNode{
             "       br 0\n" +
             "     end\n" +
             "   end\n" +
-           // "   call $freeStack\n" +
             ")\n" +
             "(func $potInt ;; para calcular potencias de base entera\n" +
             "   (param $base i32)\n" +

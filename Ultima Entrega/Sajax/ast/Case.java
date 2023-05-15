@@ -1,7 +1,6 @@
 package ast;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 public class Case extends DefaultCase implements ASTNode { //Vemos que funciona como un caso especifico del default
 
