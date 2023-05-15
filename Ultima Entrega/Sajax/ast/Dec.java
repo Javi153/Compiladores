@@ -126,6 +126,12 @@ public class Dec extends Statement implements ASTNode{
     public String code(){
         String s = "";
         if(exp == null){
+            if(tipo.isPointer()){
+                s = iden.codeDesig() + "\n";
+                s = s.concat(new Null().code()) + "\n";
+                s = s.concat("i32.store\n");
+                return s;
+            }
             return "";
         }
         else{
