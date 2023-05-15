@@ -170,7 +170,7 @@ public class Programa implements ASTNode{
         boolean aux = defs.bind() & main.bind();
         for(String name : s.peek().keySet()){
             if(s.peek().get(name).nodeKind() == NodeKind.FUNCIONDEC && ((DecFuncion)s.peek().get(name)).sinCuerpo()){
-                System.out.println("Funcion declarada pero cuerpo no definido: " + name);
+                System.out.println("Error: Funcion declarada pero cuerpo no definido: " + name);
                 aux = false;
             }
         }

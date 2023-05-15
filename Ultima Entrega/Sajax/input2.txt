@@ -1,63 +1,64 @@
-bool persona(bool algo){
-int a = b->c[6];
-return a;
-}
-
-int a[5][g];
-
-struct Persona{
-int a;
-
-void algo(){
-int a;
-}
-
-int algo(){
-return algo;
-}
-}
-
-
 int main(){
-a[9] = 7;
-switch(tonto) {
+int a = 2;
+switch(a){ //Como vemos el orden de los cases no tiene que ser ascendente
 	case 0:
-	javi = tonto;
-	javi = javi - 7;
-case 1: 
-default: break;
+	print(0);
+	case 2:
+	print(2);
+	case 1:
+	print(1);
+	case 4:
+	print(4);
+	break;
+	case 3:
+	print(3);
+	break;
+	case 5:
+	print(5);
+	break;
 }
-
-switch(otro) {
-default :
-	if (1 == 0) {}
+a = 5;
+switch(a){ //Ahora veamos lo que pasa con break;
+	case 5:
+	print(5);
+	break;	
+	case 0:
+	print(0);
+	case 1:
+	print(1);
+	case 2:
+	print(2);
+	case 3:
+	print(3);
+	break;
+	case 4:
+	print(4);
+	break;
 }
-
-while(true){
-if(3 - mitula_5 + 7 / 4 == false){
-	if(false){
-		int** a = 78.9367;
-	}
-	else{
-		break;
-	}
+a = -1;
+/*Ahora
+vamos a
+poner
+un
+default*/
+switch(a){
+	case 0:
+	print(0);
+	case 1:
+	print(1);
+	case 2:
+	print(2);
+	case 3:
+	print(3);
+	break;
+	case 4:
+	print(4);
+	break;
+	case 5:
+	print(5);
+	break;
+	default:
+	print(-100);
 }
-elsif(true){
-	memspace(klasjfl);
-}
-elsif(verga){
-	println(comida);
-}
-else{
-	free(lksm_987);
-}
-}
-
-pito* coso = 7 - false;
-
-break;
-int b = sara[879][9879].luego->javi;
-bool arr[3][8];
-int a = true + true;
 return 0;
 }

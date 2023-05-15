@@ -1,0 +1,19 @@
+//Vamos a hacer un programa que provoque fallos a nivel de binding
+int fun(int a, float b);
+
+void fun2(){
+	a = b;
+}
+
+float fun2(int a){
+	return true;
+}
+
+int main(){
+int a = 8.968;
+/*En la instruccion anterior hay error de tipo pero no va
+a mostrarse porque para ello binding debe ser exitoso*/
+persona[algo].despues = otracosa;
+int v = fun(javi, sara, alguienmas);
+return vino;
+}

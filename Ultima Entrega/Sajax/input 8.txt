@@ -1,0 +1,18 @@
+int fun(float a, int& b){
+	return false;
+}
+
+struct Persona{
+	int DNI;
+}
+
+int main(){
+int a = 0.9867;
+a.DNI = false;
+float c = fun(true, 8);
+fun(8, 9) = 8;
+int w[7];
+w = 9;
+w->DNI = -1.0;
+return 0.5;
+}

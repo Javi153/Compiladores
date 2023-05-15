@@ -41,4 +41,8 @@ public class Null extends E {
     public ASTNode getDef() {
         return null;
     }
+
+    public String code(){
+        return "i32.const 131072000"; //Null sera simplemente una direccion de memoria mas alla del limite del heap, que no se puede acceder
+    }
 }

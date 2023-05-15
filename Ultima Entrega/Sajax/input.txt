@@ -1,4 +1,4 @@
-//ATENCION: recuerda poner el readInput(8) en el archivo .js para que funciones
+//ATENCION: recuerda poner el readInput(8) en el archivo .js para que funcione
 
 int main(){
 int a[6];

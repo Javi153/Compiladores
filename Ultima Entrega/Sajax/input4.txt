@@ -1,0 +1,37 @@
+int busqueda_binaria(int* & v, int ini, int fin, int buscado){
+int res;
+if(ini == fin - 1){
+	if(v[ini] == buscado){
+		res = ini;
+	}
+	else{
+		res = -1;
+	}
+}
+else{
+	int m = (ini + fin) / 2;
+	if(v[m] > buscado){
+		res = busqueda_binaria(v, ini, m, buscado);
+	}
+	elsif(v[m] < buscado){
+		res = busqueda_binaria(v, ini, m, buscado);
+	}
+	else{
+		res = m;
+	}
+}
+return res;
+}
+
+int main(){
+int* v = memspace(7);
+int i = 0;
+while(i < 7){
+v[i] = 2 ^ i;
+i = i + 1;
+}
+int aux = busqueda_binaria(v, 0, 7, 8); //Buscamos el valor 8
+print(aux);
+print(v[aux]);
+return 0;
+}

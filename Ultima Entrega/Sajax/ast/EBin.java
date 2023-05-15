@@ -145,7 +145,7 @@ public class EBin extends E{ //Superclase de las expresiones que usan operadores
                 }
                 Tipo t = opnd1.isType();
                 if(t == null || t.getTipo() != TipoEnum.STRUCT){
-                    System.out.println("Error: el operando izquierdo de un punto debe ser un struct");
+                    System.out.println("Error: el operando izquierdo de un punto debe ser un struct: " + opnd1.num());
                     return false;
                 }
                 String auxname;

@@ -1,0 +1,8 @@
+int main(){ //Este programa dara excepcion al intentar acceder a un puntero null
+float* a = memspace(1);
+*a = 8.976;
+print(*a);
+a = null;
+print(*a);
+return 0;
+}

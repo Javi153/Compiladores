@@ -18,11 +18,11 @@ public class Asign extends Statement implements ASTNode {
         if (tExp.isParam()) tExp = ((TipoParam) tExp).getTipoParam();
         tipoAsig = tDesig;
         if(tDesig.getTipo().equals(TipoEnum.ARRAY)){ //No permitimos copia de arrays
-            System.out.println("Error: No se puede asignar a un array");
+            System.out.println("Error: No se puede asignar a un array: " + designador.num());
             return false;
         }
-        if(designador.getDef() != null && designador.getDef().nodeKind().equals(NodeKind.FUNCIONDEC)){ //No puede haber una llamada a funcion a la izquierda de la asignacion
-            System.out.println("Error: No se puede asignar valores a una funcion");
+        if(designador.getDef() != null && (designador.nodeKind().equals(NodeKind.FUNCIONCALL) || designador.getDef().nodeKind().equals(NodeKind.FUNCIONDEC))){ //No puede haber una llamada a funcion a la izquierda de la asignacion
+            System.out.println("Error: No se puede asignar valores a una funcion: " + designador.num());
             return false;
         }
         boolean aux = expresion.type() & designador.type(); //Comprobamos que los tipos de ambos terminos son correctos con su definicion

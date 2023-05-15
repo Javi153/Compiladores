@@ -13,15 +13,6 @@ int aux;
 	}
 }
 
-struct Persona{
-int DNI;
-}
-
-struct Otro{
-float DNI;
-}
-
-
 int main() {
 int* a = memspace(9);
 a[0] = 7;
@@ -35,11 +26,6 @@ a[7] = -1;
 a[8] = 34;
 
 insertion_sort(a);
-
-int * b = memspace(1);
-b[0] = 2000;
-print(b[0]);
-print(80);
 
 for (int i = 0; 9) {
 	print(a[i]);
