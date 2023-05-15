@@ -17,9 +17,10 @@ Persona graduado(Estudiante& e){
 	return p;
 }
 
+Estudiante e[3];
+
 int main(){
 Persona p[3][3]; //Array multidimensional de structs
-Estudiante e[3];
 e[0].DNI = 98697;
 e[0].carneEstudiante = 865876;
 e[0].notaMedia = 4.9;

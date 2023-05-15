@@ -1,5 +1,6 @@
-int main(){
 int a = 2;
+
+int main(){
 switch(a){ //Como vemos el orden de los cases no tiene que ser ascendente
 	case 0:
 	print(0);

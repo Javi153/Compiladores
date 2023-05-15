@@ -1,0 +1,14 @@
+int fun(){
+	return 5;
+}
+
+int fun2(int a){
+	return a - 20 + fun();
+}
+
+int main(){
+int a;
+a = fun2(fun()) + fun2(fun());
+print(a);
+return 0;
+}
