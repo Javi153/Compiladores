@@ -156,7 +156,6 @@ public class Dec extends Statement implements ASTNode{
         if(exp != null) {
             exp.setDelta(prof);
         }
-        System.out.println("Soy la expresion " + iden.num() + " y mi delta es " + delta);
     }
 
     public int size(){
